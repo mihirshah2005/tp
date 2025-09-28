@@ -442,24 +442,3 @@ An organisation member filters the contacts to find the relevant tutors or tutee
 A tuition manager searches for a tutor or tutee who has graduated or left, selects the profile, chooses the “Archive/Remove” option, and confirms the action to move them out of the active list.
 5.	Filter tutors by subject and availability:
 A tutor manager opens the contact list, applies filters for subject expertise and time availability, reviews the filtered results, and selects the best-matched tutor for a new tutee.
-
-### Non-Functional Requirements
-
-- The limit for the number of contacts in the address book should not be less than 100.
-- The system should work on 64-bit environments.
-- The system should work on Windows and MacOS.
-- The system should respond within two seconds.
-- The system should be usable by a novice who has never used an address book before.
-- The project is expected to adhere to a schedule that delivers a feature set weekly.
-- The product is not required to be used by multiple people simultaneously.
-- The product is not required to be usable online.
-
-### Glossary
-
-- Contact: An entry in the address book.
-- Tuition manager: The person that manages tutors.
-- Official representative of an organisation: The person who documents the tutor's volunteer work for the organisation (school, company, etc.)
-- Changelog: A log of edits made (e.g. changes to contact info).
-- Status flags: Flags assigned to a tutor / tutee (e.g. Active / On leave / Alumni)
-- Summary reports: A summary of important statistics (e.g. the overall progress and time given by the tutors)
-- Map GUI: A map that can be displayed graphically in the UI.
