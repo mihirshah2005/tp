@@ -386,23 +386,23 @@ testers are expected to do more *exploratory* testing.
 
 ## Non-Functional Requirements
 
-Non-functional requirements: List whichever NFRs you think are reasonable for your product e.g. performance requirements, usability requirements, scalability requirements, etc.
-Some of the given project constraints can be framed as NFRs (e.g. Constraint-Portable) while others are purely for pedagogical/course-admin purposes (e.g., Constraint-Incremental).
-
-Problems in NFRs. Examples:
-
-Not really a Non-Functional Requirement
-Not scoped clearly (i.e., hard to decide when it has been met)
-Not reasonably achievable
-Highly relevant NFRs missing
-
-
+- The limit for the number of contacts in the address book should not be less than 100.
+- The system should work on 64-bit environments.
+- The system should work on Windows and MacOS.
+- The system should respond within two seconds.
+- The system should be usable by a novice who has never used an address book before.
+- The project is expected to adhere to a schedule that delivers a feature set weekly.
+- The product is not required to be used by multiple people simultaneously.
+- The product is not required to be usable online.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Glossary
 
-Glossary: Define terms that are worth recording.
-
-Unnecessary terms included
-Important terms missing
+- Contact: An entry in the address book.
+- Tuition manager: The person that manages tutors.
+- Official representative of an organisation: The person who documents the tutor's volunteer work for the organisation (school, company, etc.)
+- Changelog: A log of edits made (e.g. changes to contact info).
+- Status flags: Flags assigned to a tutor / tutee (e.g. Active / On leave / Alumni)
+- Summary reports: A summary of important statistics (e.g. the overall progress and time given by the tutors)
+- Map GUI: A map that can be displayed graphically in the UI.
