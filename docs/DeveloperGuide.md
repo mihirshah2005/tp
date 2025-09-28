@@ -381,3 +381,28 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Non-Functional Requirements
+
+Non-functional requirements: List whichever NFRs you think are reasonable for your product e.g. performance requirements, usability requirements, scalability requirements, etc.
+Some of the given project constraints can be framed as NFRs (e.g. Constraint-Portable) while others are purely for pedagogical/course-admin purposes (e.g., Constraint-Incremental).
+
+Problems in NFRs. Examples:
+
+Not really a Non-Functional Requirement
+Not scoped clearly (i.e., hard to decide when it has been met)
+Not reasonably achievable
+Highly relevant NFRs missing
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Glossary
+
+Glossary: Define terms that are worth recording.
+
+Unnecessary terms included
+Important terms missing
