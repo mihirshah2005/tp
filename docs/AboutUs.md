@@ -57,3 +57,13 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: UI
+
+### Labdh Sharma
+
+<img src="images/labdhh.png" width="200px">
+
+[[github](http://github.com/LABDHH)]
+[[portfolio](team/labdh.md)]
+
+* Role: Developer
+* Responsibilities: UI
