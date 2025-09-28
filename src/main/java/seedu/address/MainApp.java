@@ -48,10 +48,8 @@ public class MainApp extends Application {
 
     @Override
     public void init() throws Exception {
-        logger.info("=============================[ IIInitializing AddressBook ]===========================");
+        logger.info("=============================[ Initializing AddressBook ]===========================");
         super.init();
-
-        logger.info("\n\n\ntest\n\n\n");
 
         AppParameters appParameters = AppParameters.parse(getParameters());
         config = initConfig(appParameters.getConfigPath());
