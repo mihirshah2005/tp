@@ -393,36 +393,24 @@ CLI-based contact book to manage volunteer tutors. Tag people by skills, area, a
 
 
 ### User Stories
-## Highest priority (must-have / MVP-critical)
+#### Highest priority (must-have / MVP-critical)
 
 1) As a tuition manager, I can easily retrieve contact and next-of-kin information about a tutor or tutee so that I can quickly contact them for urgent matters or emergencies.
-
 2) As a tutor manager, I can add subjects that a tutor is good at or that a tutee needs help with so that I can easily pair up a tutee with a well-equipped tutor.
-
 3) As a member of an organisation, I can share relevant contact information for some or all tutors and tutees with my colleagues so that I can coordinate and collaborate effectively.
-
 4) As a tuition manager, I can remove or archive information about selected tutors or tutees so that my contact list is not cluttered with tutees who have graduated or tutors who have stopped volunteering.
 
-## Non-MVP
+#### Non-MVP
 
 1) As a tutor manager, I can see the tutors available in a particular area, with a map GUI, with tutors on the map color-coded by how well they match a new tutee so that I can plan tutor recruitment drives effectively.
-
 2) As a tutor manager, I can track subject demand trends over time so that I can plan tutor recruitment drives effectively.
-
 3) As a careless user, I can be reminded of duplicate names so that I don’t accidentally add the same person twice.
-
 4) As a careless user, I can autocomplete subjects with tab and highlight newly created subjects in case it is just a typo of an existing one so that I don’t accidentally spell or type the same subject differently (for example, “Computer science” and “computing studies”).
-
 5) As a careful user, I can see my edit history so that I can review edits at the end to make sure there are no typos.
-
 6) As a careful user, I can see my edit history so that if there are typos I can easily click to fix them (for example, 2h instead of 200h).
-
 7) As a tutor manager, I can see the tutors available in a particular area, with a map GUI so that I can plan tutor recruitment drives effectively.
-
 8) As a person interacting face-to-face with tutors and tutees, I can add and view images of tutors and tutees so that I can more easily recognise their faces.
-
 9) As an official representative of the organisation, I can generate a report about a selected tutor’s attendance and contribution so that I can prepare official documentation for the tutors’ school, company, or other stakeholders about their volunteer work.
-
 10) As a tutor manager, I can add custom notes for a tutor or tutee so that I can take note of relevant information to convey to other stakeholders (such as tutee’s parents or to replacement tutors during handover).
 11) As a tutor manager, I can filter tutors by both subject expertise and availability so that I can assign the most suitable tutor without manual cross-checking.
 12) As a tuition manager, I can bulk-import volunteer information from CSV or Google Sheets so that I can quickly onboard a large group of new tutors.
