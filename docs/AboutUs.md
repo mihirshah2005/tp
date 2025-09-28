@@ -11,9 +11,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Benedict
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/bentandj.png" width="200px">
 
-[[homepage](http://www.comp.nus.edu.sg/~bentandj)]
 [[github](https://github.com/bentandj)]
 [[portfolio](team/bentandj.md)]
 
