@@ -29,11 +29,11 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Team Lead
 * Responsibilities: UI
 
-### Johnny Doe
+### Shah Mihir Sunil
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/mihirshah2005.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/mihirshah2005)] [[portfolio](team/mihirshah2005.md)]
 
 * Role: Developer
 * Responsibilities: Data
