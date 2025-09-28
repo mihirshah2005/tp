@@ -381,3 +381,64 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+
+
+### Target User
+Volunteer agency coordinators running a social service organisation managing volunteers who provide free tuition to underprivileged teenagers. Target users are very efficient in using the CLI and hate using the mouse.
+
+
+### Value Proposition
+CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new tutees with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.
+
+
+### User Stories
+#### Highest priority (must-have / MVP-critical)
+
+1) As a tuition manager, I can easily retrieve contact and next-of-kin information about a tutor or tutee so that I can quickly contact them for urgent matters or emergencies.
+2) As a tutor manager, I can add subjects that a tutor is good at or that a tutee needs help with so that I can easily pair up a tutee with a well-equipped tutor.
+3) As a member of an organisation, I can share relevant contact information for some or all tutors and tutees with my colleagues so that I can coordinate and collaborate effectively.
+4) As a tuition manager, I can remove or archive information about selected tutors or tutees so that my contact list is not cluttered with tutees who have graduated or tutors who have stopped volunteering.
+
+#### Non-MVP
+
+1) As a tutor manager, I can see the tutors available in a particular area, with a map GUI, with tutors on the map color-coded by how well they match a new tutee so that I can plan tutor recruitment drives effectively.
+2) As a tutor manager, I can track subject demand trends over time so that I can plan tutor recruitment drives effectively.
+3) As a careless user, I can be reminded of duplicate names so that I don’t accidentally add the same person twice.
+4) As a careless user, I can autocomplete subjects with tab and highlight newly created subjects in case it is just a typo of an existing one so that I don’t accidentally spell or type the same subject differently (for example, “Computer science” and “computing studies”).
+5) As a careful user, I can see my edit history so that I can review edits at the end to make sure there are no typos.
+6) As a careful user, I can see my edit history so that if there are typos I can easily click to fix them (for example, 2h instead of 200h).
+7) As a tutor manager, I can see the tutors available in a particular area, with a map GUI so that I can plan tutor recruitment drives effectively.
+8) As a person interacting face-to-face with tutors and tutees, I can add and view images of tutors and tutees so that I can more easily recognise their faces.
+9) As an official representative of the organisation, I can generate a report about a selected tutor’s attendance and contribution so that I can prepare official documentation for the tutors’ school, company, or other stakeholders about their volunteer work.
+10) As a tutor manager, I can add custom notes for a tutor or tutee so that I can take note of relevant information to convey to other stakeholders (such as tutee’s parents or to replacement tutors during handover).
+11) As a tutor manager, I can filter tutors by both subject expertise and availability so that I can assign the most suitable tutor without manual cross-checking.
+12) As a tuition manager, I can bulk-import volunteer information from CSV or Google Sheets so that I can quickly onboard a large group of new tutors.
+13) As a tuition manager, I can generate summary reports so that I can monitor the overall progress and time given by my tutors.
+14) As a tuition manager, I can tag contacts with categories such as tutor, tutee, or parent so that I can easily filter or group them.
+15) As a tuition manager, I can sort contacts by location so that I can easily find nearby tutors.
+16) As a tuition manager, I can add status flags like Active, On-leave, or Alumni so that I know whether to assign them tasks.
+17) As a tutor manager, I can see all related contacts in one view so that I can navigate relationships easily.
+18) As a tuition manager, I can search a tutor with even his phone number so that I can easily search for him rather than going through the list.
+19) As a tutor manager, I can generate automatic pairing suggestions for new tutees so that I can quickly find a suitable tutor for them.
+20) As a tuition manager, I can maintain a changelog of all edits made to contact information so that I can trace who updated which details in case of mistakes or disputes.
+21) As a tuition manager, I can schedule reminders for upcoming sessions linked to tutors and tutees so that I can prevent no-shows and help everyone remember their commitments.
+22) As a careless user, I can enforce consistent tag formatting so that I don’t create duplicates like “math” and “Math.”
+23) As a careless user, I can get confirmation prompts before irreversible actions (for example, permanent delete) so that I don’t accidentally remove important data.
+24) As a careless user, I can have an undo function so that I can revert unintended changes.
+25) As a tutor manager, I can see the tutors available in a particular area so that I can find a tutor for a new tutee.
+26) As a careless user, I can get warnings when entering conflicting session times for the same tutor so that I don’t accidentally double-book someone.
+27) As a careful user, I can preview all my changes before saving them so that I can avoid mistakes or typos.
+
+### Use Cases
+
+1.	Retrieve contact and next-of-kin information:
+A tuition manager searches for a tutor or tutee in the contact list, selects their profile, and opens the details page to view their phone number and next-of-kin information for urgent communication.
+2.	Add subjects to a tutor or tutee profile:
+A tutor manager searches for the person’s profile, selects “Edit Subjects,” chooses the relevant subject tags or creates new ones, and saves the changes so the system updates pairing suggestions.
+3.	Share contact details with colleagues:
+An organisation member filters the contacts to find the relevant tutors or tutees, selects them, clicks “Share Contact Info,” enters the colleague’s details, and sends the selected information securely.
+4.	Archive inactive tutors or tutees:
+A tuition manager searches for a tutor or tutee who has graduated or left, selects the profile, chooses the “Archive/Remove” option, and confirms the action to move them out of the active list.
+5.	Filter tutors by subject and availability:
+A tutor manager opens the contact list, applies filters for subject expertise and time availability, reviews the filtered results, and selects the best-matched tutor for a new tutee.
