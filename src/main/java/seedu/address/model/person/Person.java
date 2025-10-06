@@ -2,11 +2,9 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -15,6 +13,8 @@ import seedu.address.model.tag.Tag;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Person {
+    public static final String SELF_PAIRING = "Person cannot be paired with themselves.";
+    public static final String REPEAT_PAIRING = "{} and {} already paired.";
 
     // Identity fields
     private final Name name;
@@ -24,7 +24,7 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
-
+    private final List<Person> personList = new ArrayList<>();
     /**
      * Every field must be present and not null.
      */
@@ -59,6 +59,24 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Adds a Person pair. Only call this once.
+     */
+    public void addPerson(Person otherPerson) throws IllegalValueException {
+        if (otherPerson == this) {
+            throw new IllegalValueException(SELF_PAIRING);
+        }
+        if (personList.contains(otherPerson)) {
+            throw new IllegalValueException(REPEAT_PAIRING.format(
+                    getName().toString(), otherPerson.getName().toString()
+            ));
+        }
+
+        personList.add(otherPerson);
+        otherPerson.personList.add(this);
+        personList.sort(Comparator.comparing(s -> s.getName().toString()));
     }
 
     /**

@@ -1,8 +1,6 @@
 package seedu.address.model.person;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
@@ -11,9 +9,11 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalPersons.CARL;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.testutil.PersonBuilder;
 
 public class PersonTest {
@@ -22,6 +22,14 @@ public class PersonTest {
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Person person = new PersonBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
+    }
+
+    @Test
+    public void addPerson() {
+        assertDoesNotThrow(() -> ALICE.addPerson(BOB));
+        assertThrows(IllegalValueException.class, () -> ALICE.addPerson(BOB));
+        assertThrows(IllegalValueException.class, () -> BOB.addPerson(ALICE));
+        assertDoesNotThrow(() -> ALICE.addPerson(CARL));
     }
 
     @Test
