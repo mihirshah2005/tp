@@ -80,6 +80,14 @@ public class Person {
     }
 
     /**
+     * Returns an immutable pairings list, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public List<Person> getPairings() {
+        return Collections.unmodifiableList(personList);
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */
