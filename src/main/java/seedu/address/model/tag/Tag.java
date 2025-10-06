@@ -44,12 +44,14 @@ public class Tag {
         }
 
         Tag otherTag = (Tag) other;
-        return tagName.equals(otherTag.tagName);
+        return tagName.equalsIgnoreCase(otherTag.tagName);
     }
 
     @Override
     public int hashCode() {
-        return tagName.hashCode();
+        return tagName.toLowerCase().hashCode();
+        // Converts tagName to lower case because Tag::equals() ignores case when comparing.
+        // This is to fulfil the hashCode() contract, where two equal objects must return the same hashCode.
     }
 
     /**
