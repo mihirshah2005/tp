@@ -10,6 +10,16 @@ import seedu.address.model.tag.Tag;
  */
 public class Volunteer extends Person {
 
+    /**
+     * Constructs a {@code Volunteer}.
+     * All fields must be present and not null.
+     *
+     * @param name    The volunteer's name.
+     * @param phone   The volunteer's phone number.
+     * @param email   The volunteer's email address.
+     * @param address The volunteer's home address.
+     * @param tags    The set of tags associated with the volunteer.
+     */
     public Volunteer(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         super(name, phone, email, address, tags);
     }
