@@ -23,6 +23,12 @@ public class FindByTagCommand extends Command {
 
     private final NameContainsTagPredicate predicate;
 
+    /**
+     * Creates a FindByTagCommand to search for {@code Person}s that fulfil the given
+     * {@code NameContainsTagPredicate}.
+     * @param predicate Tests if a given {@code Person} is tagged with the given tag.
+     * @throws NullPointerException If {@code predicate} is null.
+     */
     public FindByTagCommand(NameContainsTagPredicate predicate) {
         requireNonNull(predicate);
         this.predicate = predicate;
