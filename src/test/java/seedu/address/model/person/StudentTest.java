@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.testutil.StudentBuilder;
 
+/**
+ * Contains unit tests for {@link Student}.
+ */
 public class StudentTest {
 
     private static final Student ALICE = new StudentBuilder().withName("Alice Pauline").build();
