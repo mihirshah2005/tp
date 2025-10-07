@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.testutil.PersonBuilder;
 
+import java.util.stream.Collectors;
+
 public class PersonTest {
 
     @Test
@@ -100,8 +102,13 @@ public class PersonTest {
 
     @Test
     public void toStringMethod() {
+        String pairedNames = ALICE.getPersonList().stream()
+                .map(p -> p.getName().toString())
+                .collect(Collectors.toList())
+                .toString();
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags() + "}";
+                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
+                + ", pairings=" + pairedNames + "}";
         assertEquals(expected, ALICE.toString());
     }
 }

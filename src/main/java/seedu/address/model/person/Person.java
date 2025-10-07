@@ -3,6 +3,7 @@ package seedu.address.model.person;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.ToStringBuilder;
@@ -27,6 +28,20 @@ public class Person {
     private final List<Person> personList = new ArrayList<>();
     /**
      * Every field must be present and not null.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> personList) {
+        requireAllNonNull(name, phone, email, address, tags, personList);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        this.personList.addAll(personList);
+    }
+
+    /**
+     * Convenience constructor that defaults personList to empty list (no pairings yet).
+     * Maintains backward compatibility for code that previously did not supply pairings.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
@@ -62,6 +77,14 @@ public class Person {
     }
 
     /**
+     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public List<Person> getPersonList() {
+        return Collections.unmodifiableList(personList);
+    }
+
+    /**
      * Adds a Person pair. Only call this once.
      */
     public void addPerson(Person otherPerson) throws IllegalValueException {
@@ -69,9 +92,8 @@ public class Person {
             throw new IllegalValueException(SELF_PAIRING);
         }
         if (personList.contains(otherPerson)) {
-            throw new IllegalValueException(REPEAT_PAIRING.format(
-                    getName().toString(), otherPerson.getName().toString()
-            ));
+            throw new IllegalValueException(String.format(REPEAT_PAIRING,
+                getName().toString(), otherPerson.getName().toString()));
         }
 
         personList.add(otherPerson);
@@ -109,13 +131,11 @@ public class Person {
         if (other == this) {
             return true;
         }
-
-        // instanceof handles nulls
         if (!(other instanceof Person)) {
             return false;
         }
-
         Person otherPerson = (Person) other;
+        // Intentionally EXCLUDE personList to avoid deep / cyclic recursion when pairings are mutual.
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
@@ -125,19 +145,24 @@ public class Person {
 
     @Override
     public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
+        // Exclude personList for consistency with equals (prevents cyclic recursion / stack overflow)
         return Objects.hash(name, phone, email, address, tags);
     }
 
     @Override
     public String toString() {
+        // Avoid printing entire personList graph (can be cyclic). Show only paired names for debugging.
+        List<String> pairedNames = personList.stream()
+            .map(p -> p.getName().toString())
+            .collect(Collectors.toList());
         return new ToStringBuilder(this)
-                .add("name", name)
-                .add("phone", phone)
-                .add("email", email)
-                .add("address", address)
-                .add("tags", tags)
-                .toString();
+            .add("name", name)
+            .add("phone", phone)
+            .add("email", email)
+            .add("address", address)
+            .add("tags", tags)
+            .add("pairings", pairedNames)
+            .toString();
     }
 
 }
