@@ -2,8 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Objects;
-
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
@@ -50,7 +48,7 @@ public class FindByTagCommand extends Command {
         }
 
         FindByTagCommand otherFindByTagCommand = (FindByTagCommand) other;
-        return  predicate.equals(otherFindByTagCommand.predicate);
+        return predicate.equals(otherFindByTagCommand.predicate);
     }
 
     @Override
