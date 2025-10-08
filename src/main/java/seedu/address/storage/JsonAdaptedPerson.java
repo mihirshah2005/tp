@@ -38,9 +38,9 @@ class JsonAdaptedPerson {
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags,
-            @JsonProperty("pairings") List<JsonAdaptedPairingRef> pairings) {
+                             @JsonProperty("email") String email, @JsonProperty("address") String address,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags,
+                             @JsonProperty("pairings") List<JsonAdaptedPairingRef> pairings) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -64,9 +64,9 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-    pairings.addAll(source.getPairings().stream()
-        .map(JsonAdaptedPairingRef::new)
-        .collect(Collectors.toList()));
+        pairings.addAll(source.getPairings().stream()
+                .map(JsonAdaptedPairingRef::new)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -137,7 +137,7 @@ class JsonAdaptedPerson {
 
         @JsonCreator
         JsonAdaptedPairingRef(@JsonProperty("name") String name,
-                @JsonProperty("phone") String phone) {
+                              @JsonProperty("phone") String phone) {
             this.name = name;
             this.phone = phone;
         }

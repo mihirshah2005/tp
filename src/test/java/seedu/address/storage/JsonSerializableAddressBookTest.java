@@ -49,38 +49,38 @@ public class JsonSerializableAddressBookTest {
 
     @Test
     public void toModelType_pairingsRoundTrip_success() throws Exception {
-    Person alice = new PersonBuilder().withName("Alice Pauline").withPhone("94351253")
-        .withEmail("alice@example.com").withAddress("123, Jurong West Ave 6, #08-111")
-        .withTags("friends").build();
-    Person benson = new PersonBuilder().withName("Benson Meier").withPhone("98765432")
-        .withEmail("johnd@example.com").withAddress("311, Clementi Ave 2, #02-25")
-        .withTags("owesMoney", "friends").build();
-    Person carl = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
-        .withEmail("heinz@example.com").withAddress("wall street").build();
+        Person alice = new PersonBuilder().withName("Alice Pauline").withPhone("94351253")
+            .withEmail("alice@example.com").withAddress("123, Jurong West Ave 6, #08-111")
+            .withTags("friends").build();
+        Person benson = new PersonBuilder().withName("Benson Meier").withPhone("98765432")
+            .withEmail("johnd@example.com").withAddress("311, Clementi Ave 2, #02-25")
+            .withTags("owesMoney", "friends").build();
+        Person carl = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
+            .withEmail("heinz@example.com").withAddress("wall street").build();
 
-    alice.addPerson(benson);
+        alice.addPerson(benson);
 
-    AddressBook source = new AddressBook();
-    source.addPerson(alice);
-    source.addPerson(benson);
-    source.addPerson(carl);
+        AddressBook source = new AddressBook();
+        source.addPerson(alice);
+        source.addPerson(benson);
+        source.addPerson(carl);
 
-    JsonSerializableAddressBook jsonAddressBook = new JsonSerializableAddressBook(source);
-    AddressBook rebuilt = jsonAddressBook.toModelType();
+        JsonSerializableAddressBook jsonAddressBook = new JsonSerializableAddressBook(source);
+        AddressBook rebuilt = jsonAddressBook.toModelType();
 
-    Person rebuiltAlice = rebuilt.getPersonList().stream()
-        .filter(p -> p.isSamePerson(alice))
-        .findFirst()
-        .orElseThrow();
-    Person rebuiltBenson = rebuilt.getPersonList().stream()
-        .filter(p -> p.isSamePerson(benson))
-        .findFirst()
-        .orElseThrow();
+        Person rebuiltAlice = rebuilt.getPersonList().stream()
+            .filter(p -> p.isSamePerson(alice))
+            .findFirst()
+            .orElseThrow();
+        Person rebuiltBenson = rebuilt.getPersonList().stream()
+            .filter(p -> p.isSamePerson(benson))
+            .findFirst()
+            .orElseThrow();
 
-    assertEquals(1, rebuiltAlice.getPairings().size());
-    assertTrue(rebuiltAlice.getPairings().get(0).isSamePerson(benson));
-    assertEquals(1, rebuiltBenson.getPairings().size());
-    assertTrue(rebuiltBenson.getPairings().get(0).isSamePerson(alice));
+        assertEquals(1, rebuiltAlice.getPairings().size());
+        assertTrue(rebuiltAlice.getPairings().get(0).isSamePerson(benson));
+        assertEquals(1, rebuiltBenson.getPairings().size());
+        assertTrue(rebuiltBenson.getPairings().get(0).isSamePerson(alice));
     }
 
 }

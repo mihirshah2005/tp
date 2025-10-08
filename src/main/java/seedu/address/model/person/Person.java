@@ -2,7 +2,13 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -26,6 +32,7 @@ public class Person {
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
     private final List<Person> personList = new ArrayList<>();
+
     /**
      * Every field must be present and not null.
      */
@@ -93,12 +100,36 @@ public class Person {
         }
         if (personList.contains(otherPerson)) {
             throw new IllegalValueException(String.format(REPEAT_PAIRING,
-                getName().toString(), otherPerson.getName().toString()));
+                    getName().toString(), otherPerson.getName().toString()));
         }
 
         personList.add(otherPerson);
         otherPerson.personList.add(this);
         personList.sort(Comparator.comparing(s -> s.getName().toString()));
+        otherPerson.personList.sort(Comparator.comparing(s -> s.getName().toString()));
+    }
+
+    /**
+     * Adds a Person pair. Only call this once.
+     */
+    public void removePerson(Person otherPerson) throws IllegalValueException {
+        if (otherPerson == this) {
+            throw new IllegalValueException(SELF_PAIRING);
+        }
+        if (!personList.contains(otherPerson)) {
+            throw new IllegalValueException(String.format(REPEAT_PAIRING,
+                    getName().toString(), otherPerson.getName().toString()));
+        }
+
+        personList.remove(otherPerson);
+        otherPerson.personList.remove(this);
+
+        // force personList to update
+        personList.sort(Comparator.comparing(s -> s.getName().toString()));
+        otherPerson.personList.sort(Comparator.comparing(s -> s.getName().toString()));
+
+        System.out.println("personList: " + personList);
+        System.out.println("otherPerson.personList: " + otherPerson.personList);
     }
 
     /**
@@ -153,16 +184,16 @@ public class Person {
     public String toString() {
         // Avoid printing entire personList graph (can be cyclic). Show only paired names for debugging.
         List<String> pairedNames = personList.stream()
-            .map(p -> p.getName().toString())
-            .collect(Collectors.toList());
+                .map(p -> p.getName().toString())
+                .collect(Collectors.toList());
         return new ToStringBuilder(this)
-            .add("name", name)
-            .add("phone", phone)
-            .add("email", email)
-            .add("address", address)
-            .add("tags", tags)
-            .add("pairings", pairedNames)
-            .toString();
+                .add("name", name)
+                .add("phone", phone)
+                .add("email", email)
+                .add("address", address)
+                .add("tags", tags)
+                .add("pairings", pairedNames)
+                .toString();
     }
 
 }
