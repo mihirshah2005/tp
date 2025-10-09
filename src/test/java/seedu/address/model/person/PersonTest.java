@@ -30,7 +30,8 @@ public class PersonTest {
 
     @Test
     public void getPersonList_noPairings_returnsEmptyList() {
-        assertTrue(ALICE.getPersonList().isEmpty());
+        Person alice = new PersonBuilder(ALICE).build();
+        assertTrue(alice.getPersonList().isEmpty());
     }
 
     @Test
