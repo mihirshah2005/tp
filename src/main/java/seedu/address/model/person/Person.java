@@ -184,6 +184,9 @@ public class Person {
         return Objects.hash(name, phone, email, address, tags);
     }
 
+    /**
+     * Returns a string representation of the Person and not its subclasses for testing.
+     */
     public String originalToString() {
         // Avoid printing entire personList graph (can be cyclic). Show only paired names for debugging.
         List<String> pairedNames = personList.stream()
