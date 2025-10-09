@@ -24,6 +24,11 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
 
+    private static final String VALID_IDENTITY_NAME = "Valid Name";
+    private static final String VALID_IDENTITY_PHONE = "91234567";
+    private static final String INVALID_IDENTITY_NAME = "Invalid@Name";
+    private static final String INVALID_IDENTITY_PHONE = "+651234";
+
     private static final String VALID_NAME = BENSON.getName().toString();
     private static final String VALID_PHONE = BENSON.getPhone().toString();
     private static final String VALID_EMAIL = BENSON.getEmail().toString();
@@ -118,4 +123,42 @@ public class JsonAdaptedPersonTest {
         assertThrows(IllegalValueException.class, person::toModelType);
     }
 
+
+    @Test
+    public void createPersonIdentity_validFields_success() throws Exception {
+        JsonAdaptedPerson.PersonIdentity identity = new JsonAdaptedPerson.PersonIdentity(
+                VALID_IDENTITY_NAME, VALID_IDENTITY_PHONE);
+        assertEquals(VALID_IDENTITY_NAME, identity.getNameValue());
+        assertEquals(VALID_IDENTITY_PHONE, identity.getPhoneValue());
+    }
+
+    @Test
+    public void createPersonIdentity_invalidName_throwsIllegalValueException() {
+        assertThrows(IllegalValueException.class, () -> new JsonAdaptedPerson.PersonIdentity(
+                INVALID_IDENTITY_NAME, VALID_IDENTITY_PHONE));
+    }
+
+    @Test
+    public void createPersonIdentity_invalidPhone_throwsIllegalValueException() {
+        assertThrows(IllegalValueException.class, () -> new JsonAdaptedPerson.PersonIdentity(
+                VALID_IDENTITY_NAME, INVALID_IDENTITY_PHONE));
+    }
+
+    @Test
+    public void equals_sameValues_returnsTrue() throws Exception {
+        JsonAdaptedPerson.PersonIdentity identity1 = new JsonAdaptedPerson.PersonIdentity(
+                VALID_IDENTITY_NAME, VALID_IDENTITY_PHONE);
+        JsonAdaptedPerson.PersonIdentity identity2 = new JsonAdaptedPerson.PersonIdentity(
+                VALID_IDENTITY_NAME, VALID_IDENTITY_PHONE);
+        assertEquals(identity1, identity2);
+    }
+
+    @Test
+    public void hashCode_sameValues_returnsSameHashCode() throws Exception {
+        JsonAdaptedPerson.PersonIdentity identity1 = new JsonAdaptedPerson.PersonIdentity(
+                VALID_IDENTITY_NAME, VALID_IDENTITY_PHONE);
+        JsonAdaptedPerson.PersonIdentity identity2 = new JsonAdaptedPerson.PersonIdentity(
+                VALID_IDENTITY_NAME, VALID_IDENTITY_PHONE);
+        assertEquals(identity1.hashCode(), identity2.hashCode());
+    }
 }
