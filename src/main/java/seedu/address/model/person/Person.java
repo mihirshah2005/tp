@@ -34,7 +34,7 @@ public class Person {
     private final List<Person> personList = new ArrayList<>();
 
     /**
-     * Every field must be present and not null.
+     * Only name must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> personList) {
         requireAllNonNull(name, phone, email, address, tags, personList);
@@ -51,7 +51,7 @@ public class Person {
      * Maintains backward compatibility for code that previously did not supply pairings.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name);
         this.name = name;
         this.phone = phone;
         this.email = email;

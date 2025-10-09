@@ -22,7 +22,14 @@ public class FindCommand extends Command {
 
     private final NameContainsKeywordsPredicate predicate;
 
+    /**
+     * Creates a FindCommand to search for {@code Person}s that fulfil the given
+     * {@code NameContainsKeywordsPredicate}.
+     * @param predicate Tests if a given {@code Person} has any of the argument keywords.
+     * @throws NullPointerException If {@code predicate} is null.
+     */
     public FindCommand(NameContainsKeywordsPredicate predicate) {
+        requireNonNull(predicate);
         this.predicate = predicate;
     }
 
