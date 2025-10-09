@@ -52,7 +52,10 @@ public class PersonBuilder {
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
-        personList = new ArrayList<>(personToCopy.getPersonList());
+
+        // IMPORTANT: deep copy pairings as empty by default, unless your design requires cloning them.
+        // Usually for tests we start with no pairings.
+        this.personList = new ArrayList<>();
     }
 
     /**
