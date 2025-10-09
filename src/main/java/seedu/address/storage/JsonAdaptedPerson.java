@@ -38,9 +38,24 @@ class JsonAdaptedPerson {
             @JsonProperty("email") String email, @JsonProperty("address") String address,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
+        if (phone != null) {
+            this.phone = phone;
+        } else {
+            this.phone = "";
+        }
+
+        if (email != null) {
+            this.email = email;
+        } else {
+            this.email = "";
+        }
+
+        if (address != null) {
+            this.address = address;
+        } else {
+            this.address = "";
+        }
+
         if (tags != null) {
             this.tags.addAll(tags);
         }
