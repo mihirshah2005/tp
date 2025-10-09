@@ -8,19 +8,20 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.stream.Collectors;
+
 
 public class PairCommandTest {
 
@@ -54,14 +55,17 @@ public class PairCommandTest {
 
     @Test
     public void equals() {
-        PairCommand pairFirstCommand = new PairCommand(INDEX_FIRST_PERSON, Collections.singletonList(INDEX_SECOND_PERSON));
-        PairCommand pairSecondCommand = new PairCommand(INDEX_SECOND_PERSON, Collections.singletonList(INDEX_FIRST_PERSON));
+        PairCommand pairFirstCommand = new PairCommand(INDEX_FIRST_PERSON,
+                Collections.singletonList(INDEX_SECOND_PERSON));
+        PairCommand pairSecondCommand = new PairCommand(INDEX_SECOND_PERSON,
+                Collections.singletonList(INDEX_FIRST_PERSON));
 
         // same object -> returns true
         assertTrue(pairFirstCommand.equals(pairFirstCommand));
 
         // same values -> returns true
-        PairCommand pairFirstCommandCopy = new PairCommand(INDEX_FIRST_PERSON, Collections.singletonList(INDEX_SECOND_PERSON));
+        PairCommand pairFirstCommandCopy = new PairCommand(INDEX_FIRST_PERSON,
+                Collections.singletonList(INDEX_SECOND_PERSON));
         assertTrue(pairFirstCommand.equals(pairFirstCommandCopy));
 
         // different types -> returns false
