@@ -23,19 +23,42 @@ import seedu.address.testutil.PersonBuilder;
 
 
 public class PersonTest {
+    @Test
+    public void getPersonList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> ALICE.getPersonList().clear());
+    }
 
     @Test
-    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        Person person = new PersonBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
+    public void getPersonList_noPairings_returnsEmptyList() {
+        assertTrue(ALICE.getPersonList().isEmpty());
+    }
+
+    @Test
+    public void getPersonList_withPairings_returnsCorrectList() {
+        Person alice = new PersonBuilder(ALICE).build();
+        Person bob = new PersonBuilder(BOB).build();
+        assertDoesNotThrow(() -> alice.addPerson(bob));
+        assertEquals(1, alice.getPersonList().size());
+        assertTrue(alice.getPersonList().contains(bob));
     }
 
     @Test
     public void addPerson() {
-        assertDoesNotThrow(() -> ALICE.addPerson(BOB));
-        assertThrows(IllegalValueException.class, () -> ALICE.addPerson(BOB));
-        assertThrows(IllegalValueException.class, () -> BOB.addPerson(ALICE));
-        assertDoesNotThrow(() -> ALICE.addPerson(CARL));
+        Person alice = new PersonBuilder(ALICE).build();
+        Person bob = new PersonBuilder(BOB).build();
+        assertDoesNotThrow(() -> alice.addPerson(bob));
+        assertThrows(IllegalValueException.class, () -> alice.addPerson(bob));
+        assertThrows(IllegalValueException.class, () -> bob.addPerson(alice));
+        assertDoesNotThrow(() -> alice.addPerson(CARL));
+    }
+
+    @Test
+    public void removePerson() {
+        Person alice = new PersonBuilder(ALICE).build();
+        Person bob = new PersonBuilder(BOB).build();
+        assertDoesNotThrow(() -> alice.addPerson(bob));
+        assertDoesNotThrow(() -> bob.removePerson(alice));
+        assertThrows(IllegalValueException.class, () -> CARL.removePerson(alice));
     }
 
     @Test

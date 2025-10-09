@@ -6,11 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPersons.getFreshTypicalAddressBook;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -20,12 +21,18 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
-
+import seedu.address.testutil.PersonBuilder;
 
 
 public class PairCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getFreshTypicalAddressBook(), new UserPrefs());
+
+    @BeforeEach
+    void setUp() {
+        // Fresh model EVERY test run
+        model = new ModelManager(getFreshTypicalAddressBook(), new UserPrefs());
+    }
 
     @Test
     public void execute_validIndexes_success() throws Exception {
@@ -33,8 +40,8 @@ public class PairCommandTest {
         Index tuteeIndex = INDEX_SECOND_PERSON;
         PairCommand pairCommand = new PairCommand(tutorIndex, Collections.singletonList(tuteeIndex));
 
-        Person tutor = model.getFilteredPersonList().get(tutorIndex.getZeroBased());
-        Person tutee = model.getFilteredPersonList().get(tuteeIndex.getZeroBased());
+        Person tutor = (new PersonBuilder(model.getFilteredPersonList().get(tutorIndex.getZeroBased()))).build();
+        Person tutee = (new PersonBuilder(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()))).build();
         String expectedMessage = String.format(PairCommand.MESSAGE_EDIT_PERSON_SUCCESS, tutor.getName().toString(),
                 "{" + tutee.getName().toString() + "}");
 

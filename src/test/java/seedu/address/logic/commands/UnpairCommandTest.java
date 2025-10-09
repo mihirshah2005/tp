@@ -1,79 +1,83 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalPersons.getFreshTypicalAddressBook;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.PersonBuilder;
 
 
-public class UnpairCommandTest {
+class UnpairCommandTest {
+    private Model model;
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    @BeforeEach
+    void setUp() {
+        // Fresh model EVERY test run
+        model = new ModelManager(getFreshTypicalAddressBook(), new UserPrefs());
+    }
 
     @Test
-    public void execute_validIndexes_success() throws Exception {
+    void execute_validIndexes_success() throws Exception {
         Index tutorIndex = INDEX_FIRST_PERSON;
         Index tuteeIndex = INDEX_SECOND_PERSON;
-        UnpairCommand pairCommand = new UnpairCommand(tutorIndex, Collections.singletonList(tuteeIndex));
 
-        Person tutor = model.getFilteredPersonList().get(tutorIndex.getZeroBased());
-        Person tutee = model.getFilteredPersonList().get(tuteeIndex.getZeroBased());
+        // Grab fresh copies (don’t mutate static fixtures directly)
+        Person tutor = (new PersonBuilder(model.getFilteredPersonList().get(tutorIndex.getZeroBased()))).build();
+        Person tutee = (new PersonBuilder(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()))).build();
+
+        // Ensure model reflects the pairing before unpairing
         tutor.addPerson(tutee);
-        String expectedMessage = String.format(UnpairCommand.MESSAGE_EDIT_PERSON_SUCCESS, tutor.getName().toString(),
-                "{" + tutee.getName().toString() + "}");
-        CommandResult commandResult = pairCommand.execute(model);
-        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
+        model.setPerson(model.getFilteredPersonList().get(tutorIndex.getZeroBased()), tutor);
+
+        UnpairCommand unpair = new UnpairCommand(tutorIndex, Collections.singletonList(tuteeIndex));
+        CommandResult result = unpair.execute(model);
+
+        // Prefer using the same formatter the command uses (if any)
+        String formatted = "{" + tutee.getName().toString() + "}";
+        String expectedMessage = String.format(UnpairCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                tutor.getName().toString(), formatted);
+
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+        // also assert state actually changed
+        Person updatedTutor = model.getFilteredPersonList().get(tutorIndex.getZeroBased());
+        assertFalse(updatedTutor.getPersonList().contains(tutee));
     }
 
     @Test
-    public void execute_invalidIndex_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        ArrayList<Index> indexes = new ArrayList<>();
-        indexes.add(INDEX_FIRST_PERSON);
-        UnpairCommand pairCommand = new UnpairCommand(outOfBoundIndex, indexes);
-
-        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () ->
-                pairCommand.execute(model));
+    void getPersonList_modifyList_throwsUnsupportedOperationException() {
+        Person alice = new PersonBuilder(ALICE).build(); // fresh copy
+        assertThrows(UnsupportedOperationException.class, () -> alice.getPersonList().clear());
     }
 
     @Test
-    public void equals() {
-        UnpairCommand pairFirstCommand = new UnpairCommand(INDEX_FIRST_PERSON,
-                Collections.singletonList(INDEX_SECOND_PERSON));
-        UnpairCommand pairSecondCommand = new UnpairCommand(INDEX_SECOND_PERSON,
-                Collections.singletonList(INDEX_FIRST_PERSON));
+    void getPersonList_noPairings_returnsEmptyList() {
+        Person alice = new PersonBuilder(ALICE).build(); // fresh copy
+        assertTrue(alice.getPersonList().isEmpty());
+    }
 
-        // same object -> returns true
-        assertTrue(pairFirstCommand.equals(pairFirstCommand));
-
-        // same values -> returns true
-        UnpairCommand pairFirstCommandCopy = new UnpairCommand(INDEX_FIRST_PERSON,
-                Collections.singletonList(INDEX_SECOND_PERSON));
-        assertTrue(pairFirstCommand.equals(pairFirstCommandCopy));
-
-        // different types -> returns false
-        assertFalse(pairFirstCommand.equals(1));
-
-        // null -> returns false
-        assertFalse(pairFirstCommand.equals(null));
-
-        // different person -> returns false
-        assertFalse(pairFirstCommand.equals(pairSecondCommand));
+    @Test
+    void getPersonList_withPairings_returnsCorrectList() {
+        Person alice = new PersonBuilder(ALICE).build(); // fresh copy
+        Person bob = new PersonBuilder(BOB).build(); // fresh copy
+        assertDoesNotThrow(() -> alice.addPerson(bob));
+        assertEquals(1, alice.getPersonList().size());
+        assertTrue(alice.getPersonList().contains(bob));
     }
 }

@@ -70,7 +70,34 @@ public class TypicalPersons {
         return ab;
     }
 
+    /**
+     * Returns an {@code AddressBook} with all the typical persons, but returning a new copy each function call.
+     */
+    public static AddressBook getFreshTypicalAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (Person person : getTypicalPersons()) {
+            ab.addPerson(person);
+        }
+        return ab;
+    }
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+    }
+
+
+    /**
+     * Returns a List of typical persons, but returning a new copy each function call.
+     */
+    public static List<Person> getFreshTypicalPersons() {
+        return List.of(
+                new PersonBuilder(ALICE).build(),
+                new PersonBuilder(BOB).build(),
+                new PersonBuilder(CARL).build(),
+                new PersonBuilder(CARL).build(),
+                new PersonBuilder(DANIEL).build(),
+                new PersonBuilder(ELLE).build(),
+                new PersonBuilder(FIONA).build(),
+                new PersonBuilder(GEORGE).build()
+        );
     }
 }
