@@ -184,8 +184,7 @@ public class Person {
         return Objects.hash(name, phone, email, address, tags);
     }
 
-    @Override
-    public String toString() {
+    public String originalToString() {
         // Avoid printing entire personList graph (can be cyclic). Show only paired names for debugging.
         List<String> pairedNames = personList.stream()
                 .map(p -> p.getName().toString())
@@ -198,6 +197,11 @@ public class Person {
                 .add("tags", tags)
                 .add("pairings", pairedNames)
                 .toString();
+    }
+
+    @Override
+    public String toString() {
+        return originalToString();
     }
 
 }

@@ -100,12 +100,7 @@ public class VolunteerTest {
     @Test
     public void toStringMethod() {
         Volunteer alice = new VolunteerBuilder(ALICE).build();
-        String expected = "[Volunteer] " + Volunteer.class.getCanonicalName()
-                + "{name=" + alice.getName()
-                + ", phone=" + alice.getPhone()
-                + ", email=" + alice.getEmail()
-                + ", address=" + alice.getAddress()
-                + ", tags=" + alice.getTags() + "}";
+        String expected = "[Volunteer] " + alice.originalToString();
         assertEquals(expected, alice.toString());
     }
 }

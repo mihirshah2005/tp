@@ -76,9 +76,7 @@ public class StudentTest {
 
     @Test
     public void toStringMethod() {
-        String expected = "[Student] " + Student.class.getCanonicalName() + "{name=" + ALICE.getName()
-                + ", phone=" + ALICE.getPhone() + ", email=" + ALICE.getEmail()
-                + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags() + "}";
+        String expected = "[Student] " + ALICE.originalToString();
         assertEquals(expected, ALICE.toString());
     }
 
