@@ -92,7 +92,9 @@ public class Person {
     }
 
     /**
-     * Adds a Person pair. Only call this once.
+     * Adds a Person pair. Only call this on one of the two partners in each pair.
+     * For example, after running {@code person1.addPerson(person2)},
+     * you should not then run {@code `person2.addPerson(person1)}.
      */
     public void addPerson(Person otherPerson) throws IllegalValueException {
         if (otherPerson == this) {
@@ -110,7 +112,9 @@ public class Person {
     }
 
     /**
-     * Adds a Person pair. Only call this once.
+     * Adds a Person pair. Only call this on one of the two partners in each pair.
+     * For example, after running {@code person1.addPerson(person2)},
+     * you should not then run {@code `person2.addPerson(person1)}.
      */
     public void removePerson(Person otherPerson) throws IllegalValueException {
         if (otherPerson == this) {
