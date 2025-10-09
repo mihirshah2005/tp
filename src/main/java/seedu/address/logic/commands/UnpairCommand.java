@@ -83,7 +83,7 @@ public class UnpairCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof PairCommand)) {
+        if (!(other instanceof UnpairCommand)) {
             return false;
         }
 
