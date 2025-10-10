@@ -24,6 +24,8 @@ import seedu.address.logic.commands.FindByTagCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.PairCommand;
+import seedu.address.logic.commands.UnpairCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsTagPredicate;
@@ -98,6 +100,16 @@ public class AddressBookParserTest {
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
+    }
+
+    @Test
+    public void parseCommand_pair() throws Exception {
+        assertTrue(parser.parseCommand(PairCommand.COMMAND_WORD + " 1 2") instanceof PairCommand);
+    }
+
+    @Test
+    public void parseCommand_unpair() throws Exception {
+        assertTrue(parser.parseCommand(UnpairCommand.COMMAND_WORD + " 1 2") instanceof UnpairCommand);
     }
 
     @Test

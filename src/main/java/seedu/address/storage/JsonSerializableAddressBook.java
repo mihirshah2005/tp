@@ -1,7 +1,11 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -47,14 +51,72 @@ class JsonSerializableAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
+        Map<String, Person> identityMap = new HashMap<>();
+        List<PendingPairing> pendingPairings = new ArrayList<>();
+
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
             Person person = jsonAdaptedPerson.toModelType();
             if (addressBook.hasPerson(person)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
             addressBook.addPerson(person);
+
+            String identityKey = toLookupKey(person);
+            identityMap.put(identityKey, person);
+            pendingPairings.add(new PendingPairing(person, jsonAdaptedPerson.getPairingIdentities()));
         }
+
+        linkPairings(pendingPairings, identityMap);
         return addressBook;
+    }
+
+    private void linkPairings(List<PendingPairing> pendingPairings, Map<String, Person> identityMap)
+            throws IllegalValueException {
+        Set<String> linkedEdges = new HashSet<>();
+
+        for (PendingPairing pending : pendingPairings) {
+            Person owner = pending.owner;
+            for (JsonAdaptedPerson.PersonIdentity targetIdentity : pending.pairingIdentities) {
+                Person target = identityMap.get(targetIdentity.toLookupKey());
+                if (target == null || target == owner) {
+                    continue;
+                }
+
+                String edgeKey = toEdgeKey(owner, target);
+                if (!linkedEdges.add(edgeKey)) {
+                    continue; // already linked in opposite direction
+                }
+
+                try {
+                    owner.addPerson(target);
+                } catch (IllegalValueException ive) {
+                    throw new IllegalValueException(String.format("Invalid pairing between %s and %s: %s",
+                            owner.getName(), target.getName(), ive.getMessage()), ive);
+                }
+            }
+        }
+    }
+
+    private String toLookupKey(Person person) {
+        return person.getName().fullName + "|" + person.getPhone().value;
+    }
+
+    private String toEdgeKey(Person first, Person second) {
+        String firstKey = toLookupKey(first);
+        String secondKey = toLookupKey(second);
+        return firstKey.compareTo(secondKey) <= 0
+                ? firstKey + "->" + secondKey
+                : secondKey + "->" + firstKey;
+    }
+
+    private static class PendingPairing {
+        private final Person owner;
+        private final List<JsonAdaptedPerson.PersonIdentity> pairingIdentities;
+
+        private PendingPairing(Person owner, List<JsonAdaptedPerson.PersonIdentity> pairingIdentities) {
+            this.owner = owner;
+            this.pairingIdentities = pairingIdentities;
+        }
     }
 
 }

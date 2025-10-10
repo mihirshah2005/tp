@@ -2,11 +2,16 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -15,6 +20,8 @@ import seedu.address.model.tag.Tag;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Person {
+    public static final String SELF_PAIRING = "Person cannot be paired with themselves.";
+    public static final String REPEAT_PAIRING = "{} and {} already paired.";
 
     // Identity fields
     private final Name name;
@@ -24,9 +31,24 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private final List<Person> personList = new ArrayList<>();
 
     /**
      * Only name must be present and not null.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> personList) {
+        requireAllNonNull(name, phone, email, address, tags, personList);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        this.personList.addAll(personList);
+    }
+
+    /**
+     * Convenience constructor that defaults personList to empty list (no pairings yet).
+     * Maintains backward compatibility for code that previously did not supply pairings.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name);
@@ -62,6 +84,67 @@ public class Person {
     }
 
     /**
+     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public List<Person> getPersonList() {
+        return Collections.unmodifiableList(personList);
+    }
+
+    /**
+     * Adds a Person pair. Only call this on one of the two partners in each pair.
+     * For example, after running {@code person1.addPerson(person2)},
+     * you should not then run {@code `person2.addPerson(person1)}.
+     */
+    public void addPerson(Person otherPerson) throws IllegalValueException {
+        if (otherPerson == this) {
+            throw new IllegalValueException(SELF_PAIRING);
+        }
+        if (personList.contains(otherPerson)) {
+            throw new IllegalValueException(String.format(REPEAT_PAIRING,
+                    getName().toString(), otherPerson.getName().toString()));
+        }
+
+        personList.add(otherPerson);
+        otherPerson.personList.add(this);
+        personList.sort(Comparator.comparing(s -> s.getName().toString()));
+        otherPerson.personList.sort(Comparator.comparing(s -> s.getName().toString()));
+    }
+
+    /**
+     * Adds a Person pair. Only call this on one of the two partners in each pair.
+     * For example, after running {@code person1.addPerson(person2)},
+     * you should not then run {@code `person2.addPerson(person1)}.
+     */
+    public void removePerson(Person otherPerson) throws IllegalValueException {
+        if (otherPerson == this) {
+            throw new IllegalValueException(SELF_PAIRING);
+        }
+        if (!personList.contains(otherPerson)) {
+            throw new IllegalValueException(String.format(REPEAT_PAIRING,
+                    getName().toString(), otherPerson.getName().toString()));
+        }
+
+        personList.remove(otherPerson);
+        otherPerson.personList.remove(this);
+
+        // force personList to update
+        personList.sort(Comparator.comparing(s -> s.getName().toString()));
+        otherPerson.personList.sort(Comparator.comparing(s -> s.getName().toString()));
+
+        System.out.println("personList: " + personList);
+        System.out.println("otherPerson.personList: " + otherPerson.personList);
+    }
+
+    /**
+     * Returns an immutable pairings list, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public List<Person> getPairings() {
+        return Collections.unmodifiableList(personList);
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */
@@ -83,13 +166,11 @@ public class Person {
         if (other == this) {
             return true;
         }
-
-        // instanceof handles nulls
         if (!(other instanceof Person)) {
             return false;
         }
-
         Person otherPerson = (Person) other;
+        // Intentionally EXCLUDE personList to avoid deep / cyclic recursion when pairings are mutual.
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
@@ -99,19 +180,31 @@ public class Person {
 
     @Override
     public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
+        // Exclude personList for consistency with equals (prevents cyclic recursion / stack overflow)
         return Objects.hash(name, phone, email, address, tags);
     }
 
-    @Override
-    public String toString() {
+    /**
+     * Returns a string representation of the Person and not its subclasses for testing.
+     */
+    public String originalToString() {
+        // Avoid printing entire personList graph (can be cyclic). Show only paired names for debugging.
+        List<String> pairedNames = personList.stream()
+                .map(p -> p.getName().toString())
+                .collect(Collectors.toList());
         return new ToStringBuilder(this)
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("pairings", pairedNames)
                 .toString();
+    }
+
+    @Override
+    public String toString() {
+        return originalToString();
     }
 
 }

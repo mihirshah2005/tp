@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,17 +12,54 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalPersons.CARL;
+
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.testutil.PersonBuilder;
 
+
 public class PersonTest {
+    @Test
+    public void getPersonList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> ALICE.getPersonList().clear());
+    }
 
     @Test
-    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        Person person = new PersonBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
+    public void getPersonList_noPairings_returnsEmptyList() {
+        Person alice = new PersonBuilder(ALICE).build();
+        assertTrue(alice.getPersonList().isEmpty());
+    }
+
+    @Test
+    public void getPersonList_withPairings_returnsCorrectList() {
+        Person alice = new PersonBuilder(ALICE).build();
+        Person bob = new PersonBuilder(BOB).build();
+        assertDoesNotThrow(() -> alice.addPerson(bob));
+        assertEquals(1, alice.getPersonList().size());
+        assertTrue(alice.getPersonList().contains(bob));
+    }
+
+    @Test
+    public void addPerson() {
+        Person alice = new PersonBuilder(ALICE).build();
+        Person bob = new PersonBuilder(BOB).build();
+        assertDoesNotThrow(() -> alice.addPerson(bob));
+        assertThrows(IllegalValueException.class, () -> alice.addPerson(bob));
+        assertThrows(IllegalValueException.class, () -> bob.addPerson(alice));
+        assertDoesNotThrow(() -> alice.addPerson(CARL));
+    }
+
+    @Test
+    public void removePerson() {
+        Person alice = new PersonBuilder(ALICE).build();
+        Person bob = new PersonBuilder(BOB).build();
+        assertDoesNotThrow(() -> alice.addPerson(bob));
+        assertDoesNotThrow(() -> bob.removePerson(alice));
+        assertThrows(IllegalValueException.class, () -> CARL.removePerson(alice));
     }
 
     @Test
@@ -92,8 +130,13 @@ public class PersonTest {
 
     @Test
     public void toStringMethod() {
+        String pairedNames = ALICE.getPersonList().stream()
+                .map(p -> p.getName().toString())
+                .collect(Collectors.toList())
+                .toString();
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags() + "}";
+                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
+                + ", pairings=" + pairedNames + "}";
         assertEquals(expected, ALICE.toString());
     }
 }
