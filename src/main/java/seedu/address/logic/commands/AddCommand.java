@@ -47,6 +47,10 @@ public class AddCommand extends Command {
      */
     public AddCommand(Person person) {
         requireNonNull(person);
+        if (!(person instanceof Student) && !(person instanceof Volunteer)) {
+            throw new IllegalArgumentException(
+                    "AddCommand only accepts Student or Volunteer instances");
+        }
         toAdd = person;
     }
 
