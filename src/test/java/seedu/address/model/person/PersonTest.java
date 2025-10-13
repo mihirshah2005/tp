@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.StudentBuilder;
 
 
 public class PersonTest {
@@ -64,6 +65,13 @@ public class PersonTest {
 
     @Test
     public void isSamePerson() {
+
+        Student aliceCopy = new StudentBuilder().withName("Alice Pauline")
+                .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
+                .withPhone("94351253")
+                .withTags("friends").build();
+        assertTrue(ALICE.equals(aliceCopy));
+
         // same object -> returns true
         assertTrue(ALICE.isSamePerson(ALICE));
 
@@ -93,7 +101,6 @@ public class PersonTest {
     public void equals() {
         // same values -> returns true
         Person aliceCopy = new PersonBuilder(ALICE).build();
-
 
         // same object -> returns true
         assertTrue(ALICE.equals(ALICE));
