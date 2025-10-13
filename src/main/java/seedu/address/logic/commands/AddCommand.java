@@ -1,11 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -23,7 +18,8 @@ public class AddCommand extends Command {
     public static final String COMMAND_WORD_STUDENT = "addstu";
     public static final String COMMAND_WORD_VOLUNTEER = "addvol";
 
-    public static final String MESSAGE_USAGE_STUDENT = COMMAND_WORD_STUDENT + ": Adds a student to the address book. "
+    public static final String MESSAGE_USAGE_STUDENT = COMMAND_WORD_STUDENT
+            + ": Adds a student to the address book. "
             + "Example: " + COMMAND_WORD_STUDENT + " "
             + "n/Alex Yeoh "
             + "p/87438807 "
@@ -31,7 +27,8 @@ public class AddCommand extends Command {
             + "a/Blk 30 Geylang Street 29, #06-40 "
             + "t/math";
 
-    public static final String MESSAGE_USAGE_VOLUNTEER = COMMAND_WORD_VOLUNTEER + ": Adds a volunteer to the address book. "
+    public static final String MESSAGE_USAGE_VOLUNTEER = COMMAND_WORD_VOLUNTEER
+            + ": Adds a volunteer to the address book. "
             + "Example: " + COMMAND_WORD_VOLUNTEER + " "
             + "n/Bernice Yu "
             + "p/99272758 "

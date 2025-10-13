@@ -134,8 +134,9 @@ public class PersonTest {
                 .map(p -> p.getName().toString())
                 .collect(Collectors.toList())
                 .toString();
-        String expected = "[Student] seedu.address.model.person.Student{name=Alice Pauline, phone=94351253," +
-            " email=alice@example.com, address=123, Jurong West Ave 6, #08-111, tags=[[friends]], pairings="+ pairedNames + "}";
+        String expected = "[Student] seedu.address.model.person.Student{name=Alice Pauline, phone=94351253,"
+                + " email=alice@example.com, address=123, Jurong West Ave 6, #08-111, tags=[[friends]], "
+                + "pairings=" + pairedNames + "}";
         assertEquals(expected, ALICE.toString());
     }
 }

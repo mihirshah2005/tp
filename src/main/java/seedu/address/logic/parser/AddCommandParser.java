@@ -17,7 +17,6 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EntryType;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Volunteer;
@@ -35,7 +34,8 @@ public class AddCommandParser implements Parser<AddCommand> {
     /**
      * Constructs a parser that always produces an {@link AddCommand} for the given type.
      *
-     * @param fixedType the concrete entry type to create (must be {@link EntryType#STUDENT} or {@link EntryType#VOLUNTEER})
+     * @param fixedType the concrete entry type to create (must be {@link EntryType#STUDENT}
+     *                  or {@link EntryType#VOLUNTEER})
      * @param messageUsage the usage string to surface on invalid input (e.g., the addstu/addvol usage text)
      */
     public AddCommandParser(EntryType fixedType, String messageUsage) {

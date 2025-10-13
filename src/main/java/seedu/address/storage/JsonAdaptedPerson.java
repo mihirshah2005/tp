@@ -3,7 +3,6 @@ package seedu.address.storage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,8 +25,8 @@ import seedu.address.model.tag.Tag;
 class JsonAdaptedPerson {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
-    private static final String UNSUPPORTED_TYPE_MESSAGE = "Unsupported or missing entry type: " +
-            "%s (expected 'student' or 'volunteer')";
+    private static final String UNSUPPORTED_TYPE_MESSAGE = "Unsupported or missing entry type: "
+            + "%s (expected 'student' or 'volunteer')";
 
 
     private final String name;
