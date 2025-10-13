@@ -12,13 +12,15 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 
 /**
  * Adds a person to the address book.
  */
 public class AddCommand extends Command {
 
-    public static final String COMMAND_WORD = "add";
+    /*public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
             + "Parameters: "
@@ -33,9 +35,9 @@ public class AddCommand extends Command {
             + PREFIX_EMAIL + "johnd@example.com "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+            + PREFIX_TAG + "owesMoney";*/
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
+    //public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
 
     private final Person toAdd;
@@ -57,7 +59,7 @@ public class AddCommand extends Command {
         }
 
         model.addPerson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        return new CommandResult(String.format("New %s added: %s", noun(toAdd), Messages.format(toAdd)));
     }
 
     @Override
@@ -81,4 +83,9 @@ public class AddCommand extends Command {
                 .add("toAdd", toAdd)
                 .toString();
     }
+
+    private static String noun(Person p) {
+        return (p instanceof Student) ? "student" : "volunteer";
+    }
+
 }

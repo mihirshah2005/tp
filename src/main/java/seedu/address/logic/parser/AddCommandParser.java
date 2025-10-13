@@ -15,15 +15,33 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EntryType;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddCommand object
  */
 public class AddCommandParser implements Parser<AddCommand> {
+
+
+    private final EntryType fixedType;
+    private final String messageUsage;
+
+    /**
+     * Constructs a parser that always produces an {@link AddCommand} for the given type.
+     *
+     * @param fixedType the concrete entry type to create (must be {@link EntryType#STUDENT} or {@link EntryType#VOLUNTEER})
+     * @param messageUsage the usage string to surface on invalid input (e.g., the addstu/addvol usage text)
+     */
+    public AddCommandParser(EntryType fixedType, String messageUsage) {
+        this.fixedType = java.util.Objects.requireNonNull(fixedType);
+        this.messageUsage = java.util.Objects.requireNonNull(messageUsage);
+    }
 
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand
@@ -36,7 +54,7 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, messageUsage));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
@@ -65,9 +83,16 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Person person = new Person(name, phone, email, address, tagList, new ArrayList<>());
+        switch (fixedType) {
 
-        return new AddCommand(person);
+        case STUDENT:
+            return new AddCommand(new Student(name, phone, email, address, tagList));
+        case VOLUNTEER:
+            return new AddCommand(new Volunteer(name, phone, email, address, tagList));
+        default:
+            // Should never happen since we removed PERSON
+            throw new ParseException("Unsupported type: " + fixedType);
+        }
     }
 
     /**
