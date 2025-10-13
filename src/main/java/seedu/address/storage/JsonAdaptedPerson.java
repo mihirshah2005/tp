@@ -3,6 +3,7 @@ package seedu.address.storage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -74,12 +75,13 @@ class JsonAdaptedPerson {
         pairings.addAll(source.getPairings().stream()
                 .map(JsonAdaptedPairingRef::new)
                 .toList());
+
         if (source instanceof Student) {
             type = "student";
         } else if (source instanceof Volunteer) {
             type = "volunteer";
         } else {
-            throw new IllegalArgumentException("Only Student or Volunteer can be persisted");
+            type = "person";
         }
     }
 
@@ -129,15 +131,22 @@ class JsonAdaptedPerson {
         if (type == null || type.isBlank()) {
             throw new IllegalValueException(String.format(UNSUPPORTED_TYPE_MESSAGE, type));
         }
-        final String normalized = type.toLowerCase();
+
         final Set<Tag> modelTags = new HashSet<>(personTags);
+        final List<Person> modelPairings = new ArrayList<>();
+
+        final String normalized = (type == null || type.isBlank())
+                ? "person"
+                : type.trim().toLowerCase();
 
         switch (normalized) {
-
         case "student":
-            return new Student(modelName, modelPhone, modelEmail, modelAddress, modelTags);
+            return new Student(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPairings);
         case "volunteer":
-            return new Volunteer(modelName, modelPhone, modelEmail, modelAddress, modelTags);
+            return new Volunteer(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPairings);
+        // optionally allow "person"
+        case "person":
+            return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPairings);
         default:
             throw new IllegalValueException(String.format(UNSUPPORTED_TYPE_MESSAGE, type));
         }

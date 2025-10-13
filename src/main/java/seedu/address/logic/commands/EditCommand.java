@@ -105,12 +105,12 @@ public class EditCommand extends Command {
         List<Person> personList = personToEdit.getPersonList();
 
         if (personToEdit instanceof Student) {
-            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
         } else if (personToEdit instanceof Volunteer) {
-            return new Volunteer(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+            return new Volunteer(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
         } else {
             // temporary fallback during migration of Person class (only for MVP)
-            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
         }
     }
 

@@ -57,17 +57,11 @@ public class AddressBookParser {
 
         switch (commandWord) {
 
-        case "addstu":
-            return new AddCommandParser(
-                    EntryType.STUDENT,
-                    "addstu: Adds a student. Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS [t/TAG]..."
-            ).parse(arguments);
+        case AddCommand.COMMAND_WORD_STUDENT:
+            return new AddCommandParser(EntryType.STUDENT, AddCommand.MESSAGE_USAGE_STUDENT).parse(arguments);
 
-        case "addvol":
-            return new AddCommandParser(
-                    EntryType.VOLUNTEER,
-                    "addvol: Adds a volunteer. Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS [t/TAG]..."
-            ).parse(arguments);
+        case AddCommand.COMMAND_WORD_VOLUNTEER:
+            return new AddCommandParser(EntryType.VOLUNTEER, AddCommand.MESSAGE_USAGE_VOLUNTEER).parse(arguments);
 
         case EditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);

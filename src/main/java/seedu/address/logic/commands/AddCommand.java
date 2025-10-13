@@ -20,6 +20,25 @@ import seedu.address.model.person.Volunteer;
  */
 public class AddCommand extends Command {
 
+    public static final String COMMAND_WORD_STUDENT = "addstu";
+    public static final String COMMAND_WORD_VOLUNTEER = "addvol";
+
+    public static final String MESSAGE_USAGE_STUDENT = COMMAND_WORD_STUDENT + ": Adds a student to the address book. "
+            + "Example: " + COMMAND_WORD_STUDENT + " "
+            + "n/Alex Yeoh "
+            + "p/87438807 "
+            + "e/alexyeoh@example.com "
+            + "a/Blk 30 Geylang Street 29, #06-40 "
+            + "t/math";
+
+    public static final String MESSAGE_USAGE_VOLUNTEER = COMMAND_WORD_VOLUNTEER + ": Adds a volunteer to the address book. "
+            + "Example: " + COMMAND_WORD_VOLUNTEER + " "
+            + "n/Bernice Yu "
+            + "p/99272758 "
+            + "e/berniceyu@example.com "
+            + "a/Blk 30 Lorong 3 Serangoon Gardens, #07-18 "
+            + "t/physics";
+
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
 
     private final Person toAdd;

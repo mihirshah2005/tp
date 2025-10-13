@@ -86,9 +86,9 @@ public class AddCommandParser implements Parser<AddCommand> {
         switch (fixedType) {
 
         case STUDENT:
-            return new AddCommand(new Student(name, phone, email, address, tagList));
+            return new AddCommand(new Student(name, phone, email, address, tagList, new ArrayList<>()));
         case VOLUNTEER:
-            return new AddCommand(new Volunteer(name, phone, email, address, tagList));
+            return new AddCommand(new Volunteer(name, phone, email, address, tagList, new ArrayList<>()));
         default:
             // Should never happen since we removed PERSON
             throw new ParseException("Unsupported type: " + fixedType);
