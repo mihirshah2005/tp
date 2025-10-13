@@ -2,7 +2,6 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -11,6 +10,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -24,14 +25,17 @@ public class Person {
     public static final String REPEAT_PAIRING = "{} and {} already paired.";
 
     // Identity fields
-    private final Name name;
-    private final Phone phone;
-    private final Email email;
+    private Name name;
+    private Phone phone;
+    private Email email;
 
     // Data fields
-    private final Address address;
-    private final Set<Tag> tags = new HashSet<>();
-    private final List<Person> personList = new ArrayList<>();
+    private Address address;
+    private Set<Tag> tags = new HashSet<>();
+    private final ObservableList<Person> personList = FXCollections.observableArrayList();
+    private final ObservableList<Person> unmodifiablePersonList =
+        FXCollections.unmodifiableObservableList(personList);
+    private final List<Person> unmodifiablePairingsView = Collections.unmodifiableList(personList);
 
     /**
      * Only name must be present and not null.
@@ -43,7 +47,8 @@ public class Person {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
-        this.personList.addAll(personList);
+        this.personList.setAll(personList);
+        FXCollections.sort(this.personList, Comparator.comparing(p -> p.getName().toString()));
     }
 
     /**
@@ -88,7 +93,28 @@ public class Person {
      * if modification is attempted.
      */
     public List<Person> getPersonList() {
-        return Collections.unmodifiableList(personList);
+        return unmodifiablePairingsView;
+    }
+
+    // Setters. Relevant checks are in EditCommandParser and other relevant commands.
+    public void setName(Name name) {
+        this.name = name;
+    }
+
+    public void setPhone(Phone phone) {
+        this.phone = phone;
+    }
+
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     /**
@@ -107,8 +133,8 @@ public class Person {
 
         personList.add(otherPerson);
         otherPerson.personList.add(this);
-        personList.sort(Comparator.comparing(s -> s.getName().toString()));
-        otherPerson.personList.sort(Comparator.comparing(s -> s.getName().toString()));
+        FXCollections.sort(personList, Comparator.comparing(s -> s.getName().toString()));
+        FXCollections.sort(otherPerson.personList, Comparator.comparing(s -> s.getName().toString()));
     }
 
     /**
@@ -128,20 +154,16 @@ public class Person {
         personList.remove(otherPerson);
         otherPerson.personList.remove(this);
 
-        // force personList to update
-        personList.sort(Comparator.comparing(s -> s.getName().toString()));
-        otherPerson.personList.sort(Comparator.comparing(s -> s.getName().toString()));
-
-        System.out.println("personList: " + personList);
-        System.out.println("otherPerson.personList: " + otherPerson.personList);
+        FXCollections.sort(personList, Comparator.comparing(s -> s.getName().toString()));
+        FXCollections.sort(otherPerson.personList, Comparator.comparing(s -> s.getName().toString()));
     }
 
     /**
      * Returns an immutable pairings list, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public List<Person> getPairings() {
-        return Collections.unmodifiableList(personList);
+    public ObservableList<Person> getPairings() {
+        return unmodifiablePersonList;
     }
 
     /**

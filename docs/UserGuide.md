@@ -136,11 +136,34 @@ Format: `delete INDEX`
 
 * Deletes the person at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
+### Pairing a student to volunteers, or a volunteer to students : `pair`
+
+Pairs the specified person to other existing persons in the address book.
+
+Format: `pair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`
+
+* Pairs the person at the specified `INDEX` to the persons specified in `1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`.
+* The indices refer to the respective index number shown in the displayed person list.
+
+Examples:
+* `list` followed by `pair 2 1 3` pairs the 2nd person in the address book to the 1st and 3rd persons.
+
+### Unpairing a student from volunteers, or a volunteer from students : `unpair`
+
+Unpairs the specified person to other existing persons in the address book.
+
+Format: `unpair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`
+
+* Unpairs the person at the specified `INDEX` to the persons specified in `1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`.
+* The indices refer to the respective index number shown in the displayed person list.
+
+Examples:
+* `list` followed by `unpair 2 1 3` unpairs the 2nd person in the address book to the 1st and 3rd persons.
 
 ### Clearing all entries : `clear`
 
