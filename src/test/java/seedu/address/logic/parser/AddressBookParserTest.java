@@ -5,9 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -34,11 +38,14 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsTagPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
 import seedu.address.testutil.StudentBuilder;
+import seedu.address.testutil.VolunteerBuilder;
 
 public class AddressBookParserTest {
 
@@ -48,13 +55,12 @@ public class AddressBookParserTest {
     public void parseCommand_addStudent() throws Exception {
         AddressBookParser parser = new AddressBookParser();
 
-        // expected student matches the AMY descriptors below
         Person expected = new StudentBuilder()
                 .withName("Amy Bee")
                 .withPhone("11111111")
                 .withEmail("amy@example.com")
                 .withAddress("Block 312, Amy Street 1")
-                .withTags() // add tags if you include any tag descriptors
+                .withTags()
                 .build();
 
         AddCommand command = (AddCommand) parser.parseCommand(
@@ -139,6 +145,45 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_unknownCommand_throwsParseException() {
-        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
+        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, ()
+                -> parser.parseCommand("unknownCommand"));
     }
+
+    @Test
+    public void parseCommand_addStudent_success() throws Exception {
+        Student expected = new StudentBuilder()
+                .withName("Amy Bee")
+                .withPhone("11111111")
+                .withEmail("amy@example.com")
+                .withAddress("Block 312, Amy Street 1")
+                .withTags()
+                .build();
+
+        AddCommand command = (AddCommand) parser.parseCommand(
+                AddCommand.COMMAND_WORD_STUDENT + " "
+                        + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+        );
+
+        assertEquals(new AddCommand(expected), command);
+    }
+
+    @Test
+    public void parseCommand_addVolunteer_success() throws Exception {
+        Volunteer expected = new VolunteerBuilder()
+                .withName("Bob Choo")
+                .withPhone("22222222")
+                .withEmail("bob@example.com")
+                .withAddress("Block 123, Bobby Street 3")
+                .withTags()
+                .build();
+
+        AddCommand command = (AddCommand) parser.parseCommand(
+                AddCommand.COMMAND_WORD_VOLUNTEER + " "
+                        + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+        );
+
+        assertEquals(new AddCommand(expected), command);
+    }
+
+
 }

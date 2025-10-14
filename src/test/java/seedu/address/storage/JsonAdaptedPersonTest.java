@@ -1,12 +1,14 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.storage.JsonAdaptedPerson.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,9 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
+import seedu.address.model.tag.Tag;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
@@ -179,4 +184,44 @@ public class JsonAdaptedPersonTest {
                 VALID_IDENTITY_NAME, VALID_IDENTITY_PHONE);
         assertEquals(identity1.hashCode(), identity2.hashCode());
     }
+
+    @Test
+    public void roundTrip_fromStudent_preservesSubtype() throws Exception {
+        Student s = new Student(
+                BENSON.getName(), BENSON.getPhone(), BENSON.getEmail(), BENSON.getAddress(),
+                Set.of(new Tag("friends")), List.of()
+        );
+        JsonAdaptedPerson jap = new JsonAdaptedPerson(s);
+        assertTrue(jap.toModelType() instanceof Student);
+    }
+
+    @Test
+    public void roundTrip_fromVolunteer_preservesSubtype() throws Exception {
+        Volunteer v = new Volunteer(
+                BENSON.getName(), BENSON.getPhone(), BENSON.getEmail(), BENSON.getAddress(),
+                Set.of(new Tag("helpers")), List.of()
+        );
+        JsonAdaptedPerson jap = new JsonAdaptedPerson(v);
+        assertTrue(jap.toModelType() instanceof Volunteer);
+    }
+
+    @Test
+    public void toModelType_typeCaseVariants_studentAccepted() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(
+                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, EMPTY_PAIRINGS, "StuDent"
+        );
+        assertTrue(person.toModelType() instanceof Student);
+    }
+
+    @Test
+    public void toModelType_typeCaseVariants_volunteerAccepted() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(
+                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, EMPTY_PAIRINGS, "VOLUNTEER"
+        );
+        assertTrue(person.toModelType() instanceof Volunteer);
+    }
+
+
 }
