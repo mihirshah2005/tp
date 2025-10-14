@@ -128,6 +128,23 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
+### Locating persons by tag: `findtag`
+
+Finds persons who are tagged with the given tag.
+
+This can help you find volunteers who are equipped to teach a particular student with the subjects they struggle with, or vice versa.
+
+Format: `findtag TAG`
+
+* The search is case-insensitive. e.g `math` will match `Math` and `MATH`
+* Only tags are searched.
+* If a person has multiple tags, then they will be returned as long as one of their tags is the tag searched for.
+
+Examples:
+
+* `findtag math`
+* `findtag EnglishLiterature`
+
 ### Deleting a person : `delete`
 
 Deletes the specified person from the address book.
