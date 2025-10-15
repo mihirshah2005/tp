@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.testutil.PersonBuilder;
-import seedu.address.testutil.StudentBuilder;
 
 
 public class PersonTest {
