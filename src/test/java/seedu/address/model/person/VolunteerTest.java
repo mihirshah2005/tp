@@ -49,10 +49,39 @@ public class VolunteerTest {
         Volunteer editedBob = new VolunteerBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
         assertTrue(editedBob.isSamePerson(BOB));
 
+        // same phone, different email -> returns true
+        Volunteer samePhoneDifferentEmail = new VolunteerBuilder(ALICE)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        assertTrue(samePhoneDifferentEmail.isSamePerson(ALICE));
+
+        // both have different phone and email -> returns false
+        Volunteer completelyDifferent = new VolunteerBuilder(ALICE)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        assertFalse(alice.isSamePerson(completelyDifferent));
+
+        // same email, different phone -> returns true
+        Volunteer sameEmailDifferentPhone = new VolunteerBuilder(ALICE)
+                .withPhone(VALID_PHONE_BOB)
+                .build();
+        assertTrue(alice.isSamePerson(sameEmailDifferentPhone));
+
+        // one has default contact info, other has real contact info -> returns false
+        Volunteer realVolunteer = new VolunteerBuilder(BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        Volunteer defaultVolunteer = new VolunteerBuilder(BOB).withPhone("000").withEmail("default@email").build();
+        assertFalse(realVolunteer.isSamePerson(defaultVolunteer));
+
         // name has trailing spaces, all other attributes same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new VolunteerBuilder(BOB).withName(nameWithTrailingSpaces).build();
         assertTrue(editedBob.isSamePerson(BOB));
+
+
     }
 
     @Test
