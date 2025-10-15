@@ -15,6 +15,8 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -23,11 +25,15 @@ import seedu.address.model.tag.Tag;
 class JsonAdaptedPerson {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
+    private static final String UNSUPPORTED_TYPE_MESSAGE = "Unsupported or missing entry type: "
+            + "%s (expected 'student' or 'volunteer')";
+
 
     private final String name;
     private final String phone;
     private final String email;
     private final String address;
+    private final String type;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final List<JsonAdaptedPairingRef> pairings = new ArrayList<>();
 
@@ -38,11 +44,13 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email, @JsonProperty("address") String address,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags,
-                             @JsonProperty("pairings") List<JsonAdaptedPairingRef> pairings) {
+                             @JsonProperty("pairings") List<JsonAdaptedPairingRef> pairings,
+                             @JsonProperty("type") String type) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.type = type;
 
         if (tags != null) {
             this.tags.addAll(tags);
@@ -66,6 +74,14 @@ class JsonAdaptedPerson {
         pairings.addAll(source.getPairings().stream()
                 .map(JsonAdaptedPairingRef::new)
                 .toList());
+
+        if (source instanceof Student) {
+            type = "student";
+        } else if (source instanceof Volunteer) {
+            type = "volunteer";
+        } else {
+            type = "person";
+        }
     }
 
     /**
@@ -111,8 +127,28 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
+        if (type == null || type.isBlank()) {
+            throw new IllegalValueException(String.format(UNSUPPORTED_TYPE_MESSAGE, type));
+        }
+
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags);
+        final List<Person> modelPairings = new ArrayList<>();
+
+        final String normalized = (type == null || type.isBlank())
+                ? "person"
+                : type.trim().toLowerCase();
+
+        switch (normalized) {
+        case "student":
+            return new Student(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPairings);
+        case "volunteer":
+            return new Volunteer(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPairings);
+        // optionally allow "person"
+        case "person":
+            return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPairings);
+        default:
+            throw new IllegalValueException(String.format(UNSUPPORTED_TYPE_MESSAGE, type));
+        }
     }
 
     /**

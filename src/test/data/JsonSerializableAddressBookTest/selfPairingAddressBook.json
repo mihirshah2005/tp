@@ -12,7 +12,8 @@
     }, {
       "name" : "Benson Meier",
       "phone" : "98765432"
-    }]
+    }],
+    "type": "student"
   }, {
     "name" : "Benson Meier",
     "phone" : "98765432",

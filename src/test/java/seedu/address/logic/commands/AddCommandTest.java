@@ -23,6 +23,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -35,18 +36,22 @@ public class AddCommandTest {
     @Test
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Person validPerson = new PersonBuilder().build();
 
-        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
+        // Build a Student (or Volunteer) since AddCommand only accepts those now
+        Person validEntry = asStudent(new PersonBuilder().build());
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        CommandResult commandResult = new AddCommand(validEntry).execute(modelStub);
+
+        String expectedMessage = String.format("New %s added: %s",
+                noun(validEntry), Messages.format(validEntry));
+
+        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(validEntry), modelStub.personsAdded);
     }
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
-        Person validPerson = new PersonBuilder().build();
+        Person validPerson = asStudent(new PersonBuilder().build());
         AddCommand addCommand = new AddCommand(validPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
@@ -55,8 +60,8 @@ public class AddCommandTest {
 
     @Test
     public void equals() {
-        Person alice = new PersonBuilder().withName("Alice").build();
-        Person bob = new PersonBuilder().withName("Bob").build();
+        Person alice = asStudent(new PersonBuilder().withName("Alice").build());
+        Person bob = asStudent(new PersonBuilder().withName("Bob").build());
         AddCommand addAliceCommand = new AddCommand(alice);
         AddCommand addBobCommand = new AddCommand(bob);
 
@@ -79,7 +84,7 @@ public class AddCommandTest {
 
     @Test
     public void toStringMethod() {
-        AddCommand addCommand = new AddCommand(ALICE);
+        AddCommand addCommand = new AddCommand(asStudent(ALICE));
         String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
         assertEquals(expected, addCommand.toString());
     }
@@ -199,6 +204,15 @@ public class AddCommandTest {
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
         }
+    }
+
+    private static Student asStudent(Person p) {
+        return new Student(p.getName(), p.getPhone(), p.getEmail(), p.getAddress(), p.getTags(), p.getPairings());
+    }
+
+    /** Returns "student" when Student, otherwise "volunteer". */
+    private static String noun(Person p) {
+        return (p instanceof Student) ? "student" : "volunteer";
     }
 
 }

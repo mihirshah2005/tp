@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.model.tag.Tag;
@@ -20,8 +21,8 @@ public class Volunteer extends Person {
      * @param address The volunteer's home address.
      * @param tags    The set of tags associated with the volunteer.
      */
-    public Volunteer(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        super(name, phone, email, address, tags);
+    public Volunteer(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> volunteers) {
+        super(name, phone, email, address, tags, volunteers);
     }
 
     @Override

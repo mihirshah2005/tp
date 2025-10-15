@@ -1,5 +1,8 @@
 package seedu.address.testutil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -7,6 +10,7 @@ import java.util.stream.Stream;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Student;
 import seedu.address.model.tag.Tag;
@@ -27,6 +31,8 @@ public class StudentBuilder {
     private Email email;
     private Address address;
     private Set<Tag> tags;
+    private List<Person> pairings;
+
 
     /**
      * Creates a {@code StudentBuilder} with the default details.
@@ -37,6 +43,7 @@ public class StudentBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         tags = SampleDataUtil.getTagSet();
+        pairings = new ArrayList<>();
     }
 
     /**
@@ -50,6 +57,7 @@ public class StudentBuilder {
         email = studentToCopy.getEmail();
         address = studentToCopy.getAddress();
         tags = studentToCopy.getTags();
+        pairings = new ArrayList<>(studentToCopy.getPairings());
     }
 
     /**
@@ -108,11 +116,43 @@ public class StudentBuilder {
     }
 
     /**
+     * Replaces the current pairings list with the given {@code persons}.
+     *
+     * @param persons The persons to pair this student with.
+     * @return This {@code StudentBuilder} instance, to allow method chaining.
+     */
+    public StudentBuilder withPairings(Person... persons) {
+        this.pairings = new ArrayList<>(Arrays.asList(persons));
+        return this;
+    }
+
+    /**
+     * Replaces the current pairings list with a defensive copy of {@code persons}.
+     *
+     * @param persons The persons to pair this student with.
+     * @return This {@code StudentBuilder} instance, to allow method chaining.
+     */
+    public StudentBuilder withPairings(List<Person> persons) {
+        this.pairings = new ArrayList<>(persons);
+        return this;
+    }
+
+    /**
+     * Clears all current pairings from the builder.
+     *
+     * @return This {@code StudentBuilder} instance, to allow method chaining.
+     */
+    public StudentBuilder withoutPairings() {
+        this.pairings = new ArrayList<>();
+        return this;
+    }
+
+    /**
      * Builds and returns a {@code Student} object with the current attributes set in this builder.
      *
      * @return A new {@code Student} object based on the builder’s current state.
      */
     public Student build() {
-        return new Student(name, phone, email, address, tags);
+        return new Student(name, phone, email, address, tags, pairings);
     }
 }

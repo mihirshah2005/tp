@@ -21,6 +21,7 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.PairCommand;
 import seedu.address.logic.commands.UnpairCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.EntryType;
 
 /**
  * Parses user input.
@@ -56,8 +57,11 @@ public class AddressBookParser {
 
         switch (commandWord) {
 
-        case AddCommand.COMMAND_WORD:
-            return new AddCommandParser().parse(arguments);
+        case AddCommand.COMMAND_WORD_STUDENT:
+            return new AddCommandParser(EntryType.STUDENT, AddCommand.MESSAGE_USAGE_STUDENT).parse(arguments);
+
+        case AddCommand.COMMAND_WORD_VOLUNTEER:
+            return new AddCommandParser(EntryType.VOLUNTEER, AddCommand.MESSAGE_USAGE_VOLUNTEER).parse(arguments);
 
         case EditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
