@@ -81,7 +81,7 @@ Format: `help`
 
 Adds a **student** to the address book.
 
-**Format:** `addstu n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
 A student can have any number of tags (including 0).
@@ -89,14 +89,14 @@ A student can have any number of tags (including 0).
 
 **Examples:**
 * `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `addstu n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `addstu n/Betsy Crowe t/friend a/Newgate Prison p/1234567 t/criminal`
 
 
 ### Adding a volunteer: `addvol`
 
 Adds a **volunteer** to the address book.
 
-**Format:** `addvol n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
 A volunteer can have any number of tags (including 0).
@@ -104,7 +104,7 @@ A volunteer can have any number of tags (including 0).
 
 **Examples:**
 * `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02`
-* `addvol n/Alex Yeoh t/mentor e/alex@example.com a/Somewhere p/98761234`
+* `addvol n/Alex Yeoh t/mentor e/alex@example.com a/Somewhere`
 
 ### Listing all persons : `list`
 
@@ -210,8 +210,8 @@ _Details coming soon ..._
 
 Action | Format, Examples                                                                                                                                                                    
 --------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add student** | `addstu [n/NAME] [p/PHONE NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…` <br> e.g., `addstu n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` 
-**Add volunteer** | `addvol [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…` <br> e.g., `addvol n/Jane Roe p/93334444 e/jane@example.com a/45, River Valley Rd, 238000 t/mentor`
+**Add student** | `addstu n/NAME [p/PHONE NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…` <br> e.g., `addstu n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` 
+**Add volunteer** | `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…` <br> e.g., `addvol n/Jane Roe p/93334444 e/jane@example.com a/45, River Valley Rd, 238000 t/mentor`
 **Clear**     | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                 
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                         
