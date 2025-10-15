@@ -32,23 +32,23 @@ public class Person {
     // Data fields
     private Address address;
     private Set<Tag> tags = new HashSet<>();
-    private final ObservableList<Person> personList = FXCollections.observableArrayList();
-    private final ObservableList<Person> unmodifiablePersonList =
-        FXCollections.unmodifiableObservableList(personList);
-    private final List<Person> unmodifiablePairingsView = Collections.unmodifiableList(personList);
+    private final ObservableList<Person> pairedPersons = FXCollections.observableArrayList();
+    private final ObservableList<Person> unmodifiablePairedPersons =
+        FXCollections.unmodifiableObservableList(pairedPersons);
+    private final List<Person> unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);
 
     /**
      * Only name must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> personList) {
-        requireAllNonNull(name, phone, email, address, tags, personList);
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
+        requireAllNonNull(name, phone, email, address, tags, pairedPersons);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
-        this.personList.setAll(personList);
-        FXCollections.sort(this.personList, Comparator.comparing(p -> p.getName().toString()));
+        this.pairedPersons.setAll(pairedPersons);
+        FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
     }
 
     /**
@@ -92,7 +92,7 @@ public class Person {
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public List<Person> getPersonList() {
+    public List<Person> getPairedPersons() {
         return unmodifiablePairingsView;
     }
 
@@ -126,15 +126,15 @@ public class Person {
         if (otherPerson == this) {
             throw new IllegalValueException(SELF_PAIRING);
         }
-        if (personList.contains(otherPerson)) {
+        if (pairedPersons.contains(otherPerson)) {
             throw new IllegalValueException(String.format(REPEAT_PAIRING,
                     getName().toString(), otherPerson.getName().toString()));
         }
 
-        personList.add(otherPerson);
-        otherPerson.personList.add(this);
-        FXCollections.sort(personList, Comparator.comparing(s -> s.getName().toString()));
-        FXCollections.sort(otherPerson.personList, Comparator.comparing(s -> s.getName().toString()));
+        pairedPersons.add(otherPerson);
+        otherPerson.pairedPersons.add(this);
+        FXCollections.sort(pairedPersons, Comparator.comparing(s -> s.getName().toString()));
+        FXCollections.sort(otherPerson.pairedPersons, Comparator.comparing(s -> s.getName().toString()));
     }
 
     /**
@@ -146,16 +146,16 @@ public class Person {
         if (otherPerson == this) {
             throw new IllegalValueException(SELF_PAIRING);
         }
-        if (!personList.contains(otherPerson)) {
+        if (!pairedPersons.contains(otherPerson)) {
             throw new IllegalValueException(String.format(REPEAT_PAIRING,
                     getName().toString(), otherPerson.getName().toString()));
         }
 
-        personList.remove(otherPerson);
-        otherPerson.personList.remove(this);
+        pairedPersons.remove(otherPerson);
+        otherPerson.pairedPersons.remove(this);
 
-        FXCollections.sort(personList, Comparator.comparing(s -> s.getName().toString()));
-        FXCollections.sort(otherPerson.personList, Comparator.comparing(s -> s.getName().toString()));
+        FXCollections.sort(pairedPersons, Comparator.comparing(s -> s.getName().toString()));
+        FXCollections.sort(otherPerson.pairedPersons, Comparator.comparing(s -> s.getName().toString()));
     }
 
     /**
@@ -163,7 +163,7 @@ public class Person {
      * if modification is attempted.
      */
     public ObservableList<Person> getPairings() {
-        return unmodifiablePersonList;
+        return unmodifiablePairedPersons;
     }
 
     /**
@@ -211,7 +211,7 @@ public class Person {
      */
     public String originalToString() {
         // Avoid printing entire personList graph (can be cyclic). Show only paired names for debugging.
-        List<String> pairedNames = personList.stream()
+        List<String> pairedNames = pairedPersons.stream()
                 .map(p -> p.getName().toString())
                 .collect(Collectors.toList());
         return new ToStringBuilder(this)
