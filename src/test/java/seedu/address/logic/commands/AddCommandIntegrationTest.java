@@ -45,9 +45,7 @@ public class AddCommandIntegrationTest {
     public void execute_duplicatePerson_throwsCommandException() {
         // Assumes TypicalPersons now returns only Student/Volunteer instances
         Person entryInList = model.getAddressBook().getPersonList().get(0);
-
-        String expectedMessage = "This person already exists in the address book";
-        assertCommandFailure(new AddCommand(entryInList), model, expectedMessage);
+        assertCommandFailure(new AddCommand(entryInList), model, AddCommand.MESSAGE_DUPLICATE_PERSON);
     }
 
     // ---- helpers ----
