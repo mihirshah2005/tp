@@ -170,14 +170,14 @@ public class Person {
         String otherEmail = otherPerson.getEmail().value.trim().toLowerCase();
 
         // define default placeholders
-        final String DEFAULT_PHONE = "000";
-        final String DEFAULT_EMAIL = "default@email";
+        final String defaultPhone = "000";
+        final String defaultEmail = "default@email";
 
         // identify real contacts
-        boolean thisHasRealPhone = !thisPhone.equals(DEFAULT_PHONE);
-        boolean otherHasRealPhone = !otherPhone.equals(DEFAULT_PHONE);
-        boolean thisHasRealEmail = !thisEmail.equals(DEFAULT_EMAIL);
-        boolean otherHasRealEmail = !otherEmail.equals(DEFAULT_EMAIL);
+        boolean thisHasRealPhone = !thisPhone.equals(defaultPhone);
+        boolean otherHasRealPhone = !otherPhone.equals(defaultPhone);
+        boolean thisHasRealEmail = !thisEmail.equals(defaultEmail);
+        boolean otherHasRealEmail = !otherEmail.equals(defaultEmail);
 
         // compare only when both sides have real data
         boolean samePhone = thisHasRealPhone && otherHasRealPhone && thisPhone.equals(otherPhone);
