@@ -53,21 +53,16 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_addStudent() throws Exception {
-        AddressBookParser parser = new AddressBookParser();
+        Person person = new StudentBuilder().build();
+        AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommandStudent(person));
+        assertEquals(new AddCommand(person), command);
+    }
 
-        Person expected = new StudentBuilder()
-                .withName("Amy Bee")
-                .withPhone("11111111")
-                .withEmail("amy@example.com")
-                .withAddress("Block 312, Amy Street 1")
-                .withTags()
-                .build();
-
-        AddCommand command = (AddCommand) parser.parseCommand(
-                AddCommand.COMMAND_WORD_STUDENT + " "
-                        + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY);
-
-        assertEquals(new AddCommand(expected), command);
+    @Test
+    public void parseCommand_addVolunteer() throws Exception {
+        Person person = new VolunteerBuilder().build();
+        AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommandVolunteer(person));
+        assertEquals(new AddCommand(person), command);
     }
 
 
