@@ -1,11 +1,15 @@
 package seedu.address.testutil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
@@ -26,6 +30,7 @@ public class VolunteerBuilder {
     private Email email;
     private Address address;
     private Set<Tag> tags;
+    private List<Person> pairings;
 
     /**
      * Constructs a {@code VolunteerBuilder} with default values.
@@ -36,6 +41,7 @@ public class VolunteerBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
+        pairings = new ArrayList<>();
     }
 
     /**
@@ -50,6 +56,7 @@ public class VolunteerBuilder {
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
+        pairings = new ArrayList<>(personToCopy.getPairings());
     }
 
     /**
@@ -108,12 +115,35 @@ public class VolunteerBuilder {
         return this;
     }
 
+
     /**
-     * Builds and returns a {@code Volunteer} object based on the data set in this builder.
-     *
-     * @return A new Volunteer object with the current data set in the builder.
+     * Replaces current pairings with the given persons.
+     */
+    public VolunteerBuilder withPairings(Person... persons) {
+        this.pairings = new ArrayList<>(Arrays.asList(persons));
+        return this;
+    }
+
+    /**
+     * Replaces current pairings with a defensive copy of the given list.
+     */
+    public VolunteerBuilder withPairings(List<Person> persons) {
+        this.pairings = new ArrayList<>(persons);
+        return this;
+    }
+
+    /**
+     * Removes all pairings.
+     */
+    public VolunteerBuilder withoutPairings() {
+        this.pairings = new ArrayList<>();
+        return this;
+    }
+
+    /**
+     * Builds and returns a {@code Volunteer} with the current builder state.
      */
     public Volunteer build() {
-        return new Volunteer(name, phone, email, address, tags);
+        return new Volunteer(name, phone, email, address, tags, pairings);
     }
 }

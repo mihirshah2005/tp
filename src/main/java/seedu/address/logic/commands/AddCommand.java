@@ -12,30 +12,47 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 
 /**
  * Adds a person to the address book.
  */
 public class AddCommand extends Command {
 
-    public static final String COMMAND_WORD = "add";
+    public static final String COMMAND_WORD_STUDENT = "addstu";
+    public static final String COMMAND_WORD_VOLUNTEER = "addvol";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
+    public static final String MESSAGE_USAGE_STUDENT = COMMAND_WORD_STUDENT
+            + ": Adds a student to the address book. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_ADDRESS + "ADDRESS "
             + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Doe "
-            + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+            + "Example: " + COMMAND_WORD_STUDENT + " "
+            + "n/Alex Yeoh "
+            + "p/87438807 "
+            + "e/alexyeoh@example.com "
+            + "a/Blk 30 Geylang Street 29, #06-40 "
+            + "t/math";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
+    public static final String MESSAGE_USAGE_VOLUNTEER = COMMAND_WORD_VOLUNTEER
+            + ": Adds a volunteer to the address book. "
+            + "Parameters: "
+            + PREFIX_NAME + "NAME "
+            + PREFIX_PHONE + "PHONE "
+            + PREFIX_EMAIL + "EMAIL "
+            + PREFIX_ADDRESS + "ADDRESS "
+            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "Example: " + COMMAND_WORD_VOLUNTEER + " "
+            + "n/Bernice Yu "
+            + "p/99272758 "
+            + "e/berniceyu@example.com "
+            + "a/Blk 30 Lorong 3 Serangoon Gardens, #07-18 "
+            + "t/physics";
+
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
 
     private final Person toAdd;
@@ -45,6 +62,10 @@ public class AddCommand extends Command {
      */
     public AddCommand(Person person) {
         requireNonNull(person);
+        if (!(person instanceof Student) && !(person instanceof Volunteer)) {
+            throw new IllegalArgumentException(
+                    "AddCommand only accepts Student or Volunteer instances");
+        }
         toAdd = person;
     }
 
@@ -57,7 +78,7 @@ public class AddCommand extends Command {
         }
 
         model.addPerson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        return new CommandResult(String.format("New %s added: %s", noun(toAdd), Messages.format(toAdd)));
     }
 
     @Override
@@ -81,4 +102,9 @@ public class AddCommand extends Command {
                 .add("toAdd", toAdd)
                 .toString();
     }
+
+    private static String noun(Person p) {
+        return (p instanceof Student) ? "student" : "volunteer";
+    }
+
 }

@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.StudentBuilder;
 
 
 public class PersonTest {
@@ -64,6 +65,13 @@ public class PersonTest {
 
     @Test
     public void isSamePerson() {
+
+        Student aliceCopy = new StudentBuilder().withName("Alice Pauline")
+                .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
+                .withPhone("94351253")
+                .withTags("friends").build();
+        assertTrue(ALICE.equals(aliceCopy));
+
         // same object -> returns true
         assertTrue(ALICE.isSamePerson(ALICE));
 
@@ -93,7 +101,6 @@ public class PersonTest {
     public void equals() {
         // same values -> returns true
         Person aliceCopy = new PersonBuilder(ALICE).build();
-        assertTrue(ALICE.equals(aliceCopy));
 
         // same object -> returns true
         assertTrue(ALICE.equals(ALICE));
@@ -134,9 +141,9 @@ public class PersonTest {
                 .map(p -> p.getName().toString())
                 .collect(Collectors.toList())
                 .toString();
-        String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
-                + ", pairings=" + pairedNames + "}";
+        String expected = "[Student] seedu.address.model.person.Student{name=Alice Pauline, phone=94351253,"
+                + " email=alice@example.com, address=123, Jurong West Ave 6, #08-111, tags=[[friends]], "
+                + "pairings=" + pairedNames + "}";
         assertEquals(expected, ALICE.toString());
     }
 }
