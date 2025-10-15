@@ -152,9 +152,46 @@ public class Person {
         if (otherPerson == this) {
             return true;
         }
+        if (otherPerson == null) {
+            return false;
+        }
 
-        return otherPerson != null
-                && otherPerson.getName().equals(getName());
+        // normalize names (case-insensitive, trimmed)
+        String thisName = getName().fullName.trim().toLowerCase();
+        String otherName = otherPerson.getName().fullName.trim().toLowerCase();
+        if (!thisName.equals(otherName)) {
+            return false;
+        }
+
+        // normalize contact values
+        String thisPhone = getPhone().value.trim();
+        String otherPhone = otherPerson.getPhone().value.trim();
+        String thisEmail = getEmail().value.trim().toLowerCase();
+        String otherEmail = otherPerson.getEmail().value.trim().toLowerCase();
+
+        // define default placeholders
+        final String DEFAULT_PHONE = "000";
+        final String DEFAULT_EMAIL = "default@email";
+
+        // identify real contacts
+        boolean thisHasRealPhone = !thisPhone.equals(DEFAULT_PHONE);
+        boolean otherHasRealPhone = !otherPhone.equals(DEFAULT_PHONE);
+        boolean thisHasRealEmail = !thisEmail.equals(DEFAULT_EMAIL);
+        boolean otherHasRealEmail = !otherEmail.equals(DEFAULT_EMAIL);
+
+        // compare only when both sides have real data
+        boolean samePhone = thisHasRealPhone && otherHasRealPhone && thisPhone.equals(otherPhone);
+        boolean sameEmail = thisHasRealEmail && otherHasRealEmail && thisEmail.equals(otherEmail);
+
+        // if both phones default & same; if both emails default → same
+        boolean bothPhonesDefault = !thisHasRealPhone && !otherHasRealPhone;
+        boolean bothEmailsDefault = !thisHasRealEmail && !otherHasRealEmail;
+        boolean bothDefault = bothPhonesDefault && bothEmailsDefault;
+
+        // same name AND (
+        //    same real phone OR same real email OR both phones default OR both emails default
+        // )
+        return samePhone || sameEmail || bothDefault;
     }
 
     /**

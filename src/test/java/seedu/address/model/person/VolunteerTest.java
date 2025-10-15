@@ -36,10 +36,10 @@ public class VolunteerTest {
         // null -> returns false
         assertFalse(alice.isSamePerson(null));
 
-        // same name, all other attributes different -> returns true
+        // same name, all other attributes different -> returns false
         Volunteer editedAlice = new VolunteerBuilder(ALICE).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(alice.isSamePerson(editedAlice));
+        assertFalse(alice.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
         editedAlice = new VolunteerBuilder(ALICE).withName(VALID_NAME_BOB).build();
@@ -47,12 +47,12 @@ public class VolunteerTest {
 
         // name differs in case, all other attributes same -> returns false
         Volunteer editedBob = new VolunteerBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(editedBob.isSamePerson(BOB));
+        assertTrue(editedBob.isSamePerson(BOB));
 
         // name has trailing spaces, all other attributes same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new VolunteerBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(editedBob.isSamePerson(BOB));
+        assertTrue(editedBob.isSamePerson(BOB));
     }
 
     @Test
