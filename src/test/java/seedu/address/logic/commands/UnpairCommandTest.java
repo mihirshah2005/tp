@@ -9,7 +9,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
-import static seedu.address.testutil.TypicalPersons.getFreshTypicalAddressBook;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Collections;
 
@@ -30,7 +30,7 @@ class UnpairCommandTest {
     @BeforeEach
     void setUp() {
         // Fresh model EVERY test run
-        model = new ModelManager(getFreshTypicalAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     }
 
     @Test
@@ -57,19 +57,19 @@ class UnpairCommandTest {
         assertEquals(expectedMessage, result.getFeedbackToUser());
         // also assert state actually changed
         Person updatedTutor = model.getFilteredPersonList().get(tutorIndex.getZeroBased());
-        assertFalse(updatedTutor.getPersonList().contains(tutee));
+        assertFalse(updatedTutor.getPairedPersons().contains(tutee));
     }
 
     @Test
     void getPersonList_modifyList_throwsUnsupportedOperationException() {
         Person alice = new PersonBuilder(ALICE).build(); // fresh copy
-        assertThrows(UnsupportedOperationException.class, () -> alice.getPersonList().clear());
+        assertThrows(UnsupportedOperationException.class, () -> alice.getPairedPersons().clear());
     }
 
     @Test
     void getPersonList_noPairings_returnsEmptyList() {
         Person alice = new PersonBuilder(ALICE).build(); // fresh copy
-        assertTrue(alice.getPersonList().isEmpty());
+        assertTrue(alice.getPairedPersons().isEmpty());
     }
 
     @Test
@@ -77,7 +77,7 @@ class UnpairCommandTest {
         Person alice = new PersonBuilder(ALICE).build(); // fresh copy
         Person bob = new PersonBuilder(BOB).build(); // fresh copy
         assertDoesNotThrow(() -> alice.addPerson(bob));
-        assertEquals(1, alice.getPersonList().size());
-        assertTrue(alice.getPersonList().contains(bob));
+        assertEquals(1, alice.getPairedPersons().size());
+        assertTrue(alice.getPairedPersons().contains(bob));
     }
 }

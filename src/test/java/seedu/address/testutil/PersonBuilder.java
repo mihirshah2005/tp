@@ -29,7 +29,7 @@ public class PersonBuilder {
     private Email email;
     private Address address;
     private Set<Tag> tags;
-    private List<Person> personList;
+    private List<Person> pairedPersons;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -40,7 +40,7 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
-        personList = new ArrayList<>();
+        pairedPersons = new ArrayList<>();
     }
 
     /**
@@ -55,7 +55,7 @@ public class PersonBuilder {
 
         // IMPORTANT: deep copy pairings as empty by default, unless your design requires cloning them.
         // Usually for tests we start with no pairings.
-        this.personList = new ArrayList<>();
+        this.pairedPersons = new ArrayList<>();
     }
 
     /**
@@ -101,13 +101,13 @@ public class PersonBuilder {
     /**
      * Sets the {@code Email} of the {@code Person} that we are building.
      */
-    public PersonBuilder withPersonList(Person... persons) {
-        this.personList = Arrays.asList(persons);
+    public PersonBuilder withPairedPersons(Person... persons) {
+        this.pairedPersons = Arrays.asList(persons);
         return this;
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, tags, personList);
+        return new Person(name, phone, email, address, tags, pairedPersons);
     }
 
 }

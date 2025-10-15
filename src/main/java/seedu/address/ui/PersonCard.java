@@ -2,6 +2,8 @@ package seedu.address.ui;
 
 import java.util.Comparator;
 
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -27,6 +29,7 @@ public class PersonCard extends UiPart<Region> {
      */
 
     public final Person person;
+    private final ObservableList<Person> observablePairings;
 
     @FXML
     private HBox cardPane;
@@ -53,6 +56,7 @@ public class PersonCard extends UiPart<Region> {
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
         this.person = person;
+        this.observablePairings = person.getPairings();
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
@@ -65,7 +69,13 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        person.getPairings().stream()
+        renderPairings();
+        observablePairings.addListener((ListChangeListener<Person>) change -> renderPairings());
+    }
+
+    private void renderPairings() {
+        pairings.getChildren().clear();
+        observablePairings.stream()
                 .sorted(Comparator.comparing(pairing -> pairing.getName().toString()))
                 .forEach(pairing -> pairings.getChildren().add(new Label(pairing.getName().toString())));
     }
