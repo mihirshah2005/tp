@@ -98,15 +98,18 @@ public class StudentTest {
                 .build();
         assertFalse(realAlice.isSamePerson(defaultAlices));
 
-        // this has default phone, other has real phone -> returns false
+        // this has default phone, other has real phone -> returns true
         Student thisDefaultPhone = new StudentBuilder()
                 .withName("Alice Pauline")
                 .withPhone("000")
                 .withEmail("alice@example.com")
                 .build();
-        Student otherRealPhone = new StudentBuilder(ALICE)
+        Student otherRealPhone = new StudentBuilder()
+                .withName("Alice Pauline")
+                .withPhone("94351253")
+                .withEmail("alice@example.com")
                 .build();
-        assertFalse(thisDefaultPhone.isSamePerson(otherRealPhone));
+        assertTrue(thisDefaultPhone.isSamePerson(otherRealPhone));
 
         // same phone, different email -> returns true
         Student samePhoneDifferentEmails = new StudentBuilder(ALICE)
