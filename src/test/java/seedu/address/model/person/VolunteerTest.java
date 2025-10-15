@@ -81,6 +81,19 @@ public class VolunteerTest {
         editedBob = new VolunteerBuilder(BOB).withName(nameWithTrailingSpaces).build();
         assertTrue(editedBob.isSamePerson(BOB));
 
+        // both have default phone and email -> returns true
+        Volunteer defaultVolunteer1 = new VolunteerBuilder()
+                .withName("Alice Pauline")
+                .withPhone("000")
+                .withEmail("default@email")
+                .build();
+        Volunteer defaultVolunteer2 = new VolunteerBuilder()
+                .withName("alice pauline")
+                .withPhone("000")
+                .withEmail("default@email")
+                .build();
+        assertTrue(defaultVolunteer1.isSamePerson(defaultVolunteer2));
+
 
     }
 

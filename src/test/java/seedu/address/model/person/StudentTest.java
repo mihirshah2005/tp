@@ -73,6 +73,74 @@ public class StudentTest {
                 .withEmail(VALID_EMAIL_BOB)
                 .build();
         assertFalse(ALICE.isSamePerson(mixedAlice));
+
+        // both have default phone and email -> returns true
+        Student defaultAlice = new StudentBuilder()
+                .withName("Alice Pauline")
+                .withPhone("000")
+                .withEmail("default@email")
+                .build();
+        Student anotherDefaultAlice = new StudentBuilder()
+                .withName("alice pauline")
+                .withPhone("000")
+                .withEmail("default@email")
+                .build();
+        assertTrue(defaultAlice.isSamePerson(anotherDefaultAlice));
+
+        // one has default contact info, other has real contact info -> returns false
+        Student realAlice = new StudentBuilder(ALICE)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        Student defaultAlices = new StudentBuilder(ALICE)
+                .withPhone("000")
+                .withEmail("default@email")
+                .build();
+        assertFalse(realAlice.isSamePerson(defaultAlices));
+
+        // this has default phone, other has real phone -> returns false
+        Student thisDefaultPhone = new StudentBuilder()
+                .withName("Alice Pauline")
+                .withPhone("000")
+                .withEmail("alice@example.com")
+                .build();
+        Student otherRealPhone = new StudentBuilder(ALICE)
+                .build();
+        assertFalse(thisDefaultPhone.isSamePerson(otherRealPhone));
+
+        // same phone, different email -> returns true
+        Student samePhoneDifferentEmails = new StudentBuilder(ALICE)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        assertTrue(ALICE.isSamePerson(samePhoneDifferentEmails));
+
+        // both default phones, but different emails -> returns false
+        Student bothDefaultPhonesDiffEmail = new StudentBuilder()
+                .withName("Alice Pauline")
+                .withPhone("000")
+                .withEmail("alice@example.com")
+                .build();
+        Student bothDefaultPhonesDiffEmail2 = new StudentBuilder()
+                .withName("Alice Pauline")
+                .withPhone("000")
+                .withEmail("bob@example.com")
+                .build();
+        assertFalse(bothDefaultPhonesDiffEmail.isSamePerson(bothDefaultPhonesDiffEmail2));
+
+        // both default emails, different real phones -> returns false
+        Student bothDefaultEmailsDiffPhones = new StudentBuilder()
+                .withName("Alice Pauline")
+                .withPhone("94351253")
+                .withEmail("default@email")
+                .build();
+        Student bothDefaultEmailsDiffPhones2 = new StudentBuilder()
+                .withName("Alice Pauline")
+                .withPhone("99999999")
+                .withEmail("default@email")
+                .build();
+        assertFalse(bothDefaultEmailsDiffPhones.isSamePerson(bothDefaultEmailsDiffPhones2));
+
+
     }
 
     @Test
