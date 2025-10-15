@@ -28,8 +28,12 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` :
+     Adds a **student** named `John Doe`.
 
+   * `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02` :
+     Adds a **volunteer** named `Jane Roe`.
+   
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
    * `clear` : Deletes all contacts.
@@ -73,19 +77,34 @@ Shows a message explaining how to access the help page.
 Format: `help`
 
 
-### Adding a person: `add`
+### Adding a student: `addstu`
 
-Adds a person to the address book.
+Adds a **student** to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
+A student can have any number of tags (including 0).
 </div>
 
-Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+**Examples:**
+* `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+* `addstu n/Betsy Crowe t/friend a/Newgate Prison p/1234567 t/criminal`
+
+
+### Adding a volunteer: `addvol`
+
+Adds a **volunteer** to the address book.
+
+Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
+A volunteer can have any number of tags (including 0).
+</div>
+
+**Examples:**
+* `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02`
+* `addvol n/Alex Yeoh t/mentor e/alex@example.com a/Somewhere`
 
 ### Listing all persons : `list`
 
@@ -206,13 +225,14 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**Find by tag** | `findtag TAG`<br> e.g., `findtag math`
-**List** | `list`
-**Help** | `help`
+Action | Format, Examples                                                                                                                                                                    
+--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Add student** | `addstu n/NAME [p/PHONE NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…` <br> e.g., `addstu n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` 
+**Add volunteer** | `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…` <br> e.g., `addvol n/Jane Roe p/93334444 e/jane@example.com a/45, River Valley Rd, 238000 t/mentor`
+**Clear**     | `clear`
+**Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                 
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                         
+**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`  
+**Find by tag** | `findtag TAG`<br> e.g., `findtag math`                                                                                                                        
+**List** | `list`                                                                                                                                                                              
+**Help** | `help`                                                                                                                                                                              
