@@ -147,6 +147,23 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
+### Locating persons by tag: `findtag`
+
+Finds persons who are tagged with the given tag.
+
+This can help you find volunteers who are equipped to teach a particular student with the subjects they struggle with, or vice versa.
+
+Format: `findtag TAG`
+
+* The search is case-insensitive. e.g `math` will match `Math` and `MATH`
+* Only tags are searched.
+* If a person has multiple tags, then they will be returned as long as one of their tags is the tag searched for.
+
+Examples:
+
+* `findtag math`
+* `findtag EnglishLiterature`
+
 ### Deleting a person : `delete`
 
 Deletes the specified person from the address book.
@@ -215,6 +232,7 @@ Action | Format, Examples
 **Clear**     | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                 
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                         
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                          
+**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`  
+**Find by tag** | `findtag TAG`<br> e.g., `findtag math`                                                                                                                        
 **List** | `list`                                                                                                                                                                              
 **Help** | `help`                                                                                                                                                                              

@@ -26,6 +26,8 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -102,7 +104,14 @@ public class EditCommand extends Command {
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
         List<Person> personList = personToEdit.getPersonList();
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
+        if (personToEdit instanceof Student) {
+            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
+        } else if (personToEdit instanceof Volunteer) {
+            return new Volunteer(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
+        } else {
+            // temporary fallback during migration of Person class (only for MVP)
+            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
+        }
     }
 
     @Override
