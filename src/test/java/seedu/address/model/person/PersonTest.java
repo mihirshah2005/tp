@@ -24,23 +24,23 @@ import seedu.address.testutil.PersonBuilder;
 
 public class PersonTest {
     @Test
-    public void getPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> ALICE.getPersonList().clear());
+    public void getPairedPersons_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> ALICE.getPairedPersons().clear());
     }
 
     @Test
-    public void getPersonList_noPairings_returnsEmptyList() {
+    public void getPairedPersons_noPairings_returnsEmptyList() {
         Person alice = new PersonBuilder(ALICE).build();
-        assertTrue(alice.getPersonList().isEmpty());
+        assertTrue(alice.getPairedPersons().isEmpty());
     }
 
     @Test
-    public void getPersonList_withPairings_returnsCorrectList() {
+    public void getPairedPersons_withPairings_returnsCorrectList() {
         Person alice = new PersonBuilder(ALICE).build();
         Person bob = new PersonBuilder(BOB).build();
         assertDoesNotThrow(() -> alice.addPerson(bob));
-        assertEquals(1, alice.getPersonList().size());
-        assertTrue(alice.getPersonList().contains(bob));
+        assertEquals(1, alice.getPairedPersons().size());
+        assertTrue(alice.getPairedPersons().contains(bob));
     }
 
     @Test
@@ -60,6 +60,7 @@ public class PersonTest {
         assertDoesNotThrow(() -> alice.addPerson(bob));
         assertDoesNotThrow(() -> bob.removePerson(alice));
         assertThrows(IllegalValueException.class, () -> CARL.removePerson(alice));
+        assertThrows(IllegalValueException.class, () -> CARL.removePerson(CARL));
     }
 
     @Test
@@ -145,7 +146,7 @@ public class PersonTest {
 
     @Test
     public void toStringMethod() {
-        String pairedNames = ALICE.getPersonList().stream()
+        String pairedNames = ALICE.getPairedPersons().stream()
                 .map(p -> p.getName().toString())
                 .collect(Collectors.toList())
                 .toString();

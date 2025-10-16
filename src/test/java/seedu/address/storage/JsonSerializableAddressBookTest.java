@@ -48,6 +48,7 @@ public class JsonSerializableAddressBookTest {
                 dataFromFile::toModelType);
     }
 
+
     @Test
     public void toModelType_pairingsRoundTrip_success() throws Exception {
         Person alice = new PersonBuilder().withName("Alice Pauline").withPhone("94351253")
