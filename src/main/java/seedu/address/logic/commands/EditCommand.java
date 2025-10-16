@@ -96,7 +96,6 @@ public class EditCommand extends Command {
         personToEdit.setEmail(updatedEmail);
         personToEdit.setAddress(updatedAddress);
         personToEdit.setTags(updatedTags);
-
         model.setPerson(personToEdit, personToEdit);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
@@ -117,12 +116,15 @@ public class EditCommand extends Command {
         List<Person> personList = personToEdit.getPairedPersons();
 
         if (personToEdit instanceof Student) {
-            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
+            return new Student.StudentBuild(updatedName).phone(updatedPhone).email(updatedEmail).address(updatedAddress)
+                    .tags(updatedTags).pairedPersons(personList).build();
         } else if (personToEdit instanceof Volunteer) {
-            return new Volunteer(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
+            return new Volunteer.VolunteerBuild(updatedName).phone(updatedPhone).email(updatedEmail)
+                    .address(updatedAddress).tags(updatedTags).pairedPersons(personList).build();
         } else {
             // temporary fallback during migration of Person class (only for MVP)
-            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, personList);
+            return new Person.PersonBuild<>(updatedName).phone(updatedPhone).email(updatedEmail).address(updatedAddress)
+                    .tags(updatedTags).pairedPersons(personList).build();
         }
     }
 
