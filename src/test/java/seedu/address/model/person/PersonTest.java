@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.testutil.PersonBuilder;
-import seedu.address.testutil.StudentBuilder;
 
 
 public class PersonTest {
@@ -67,35 +66,44 @@ public class PersonTest {
     @Test
     public void isSamePerson() {
 
-        Student aliceCopy = new StudentBuilder().withName("Alice Pauline")
-                .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
-                .withPhone("94351253")
-                .withTags("friends").build();
-        assertTrue(ALICE.equals(aliceCopy));
-
         // same object -> returns true
         assertTrue(ALICE.isSamePerson(ALICE));
 
-        // null -> returns false
-        assertFalse(ALICE.isSamePerson(null));
-
-        // same name, all other attributes different -> returns true
-        Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
-                .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
+        // same name and same phone -> returns true
+        Person editedAlice = new PersonBuilder(ALICE)
+                .withEmail(VALID_EMAIL_BOB) // different email, same name + phone
+                .build();
         assertTrue(ALICE.isSamePerson(editedAlice));
+
+        // same name and same email -> returns true
+        editedAlice = new PersonBuilder(ALICE)
+                .withPhone(VALID_PHONE_BOB) // different phone, same name + email
+                .build();
+        assertTrue(ALICE.isSamePerson(editedAlice));
+
+        // same name, different phone AND different email -> returns false
+        editedAlice = new PersonBuilder(ALICE)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        assertFalse(ALICE.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
         editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
         assertFalse(ALICE.isSamePerson(editedAlice));
 
-        // name differs in case, all other attributes same -> returns false
-        Person editedBob = new PersonBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        // same name but different case -> returns true (case-insensitive)
+        Person editedBob = new PersonBuilder(BOB)
+                .withName(VALID_NAME_BOB.toLowerCase())
+                .build();
+        assertTrue(BOB.isSamePerson(editedBob));
 
-        // name has trailing spaces, all other attributes same -> returns false
+        // same name but with trailing spaces -> returns true (trimmed)
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
-        editedBob = new PersonBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        editedBob = new PersonBuilder(BOB)
+                .withName(nameWithTrailingSpaces)
+                .build();
+        assertTrue(BOB.isSamePerson(editedBob));
     }
 
     @Test

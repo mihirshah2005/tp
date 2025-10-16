@@ -24,6 +24,9 @@ public class Person {
     public static final String SELF_PAIRING = "Person cannot be paired with themselves.";
     public static final String REPEAT_PAIRING = "{} and {} already paired.";
 
+    public static final String DEFAULT_PHONE = "000";
+    public static final String DEFAULT_EMAIL = "default@email";
+
     // Identity fields
     private Name name;
     private Phone phone;
@@ -197,6 +200,27 @@ public class Person {
     }
 
     /**
+     * Trims and converts the given name to lowercase for consistent comparison.
+     */
+    private String normalizeName(String name) {
+        return name.trim().toLowerCase();
+    }
+
+    /**
+     * Trims and converts the given email to lowercase for consistent comparison.
+     */
+    private String normalizeEmail(String email) {
+        return email.trim().toLowerCase();
+    }
+
+    /**
+     * Trims the given phone number for consistent comparison.
+     */
+    private String normalizePhone(String phone) {
+        return phone.trim();
+    }
+
+    /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
@@ -303,16 +327,51 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same name.
-     * This defines a weaker notion of equality between two persons.
+     * Returns true if this person and the given person are considered the same.
+     * Two persons are the same if they have the same name (case-insensitive),
+     * and either share the same real phone or email, or both have default contact details.
+     *
+     * @param otherPerson the other person to compare with
+     * @return true if both represent the same person, false otherwise
      */
     public boolean isSamePerson(Person otherPerson) {
+        Objects.requireNonNull(otherPerson);
         if (otherPerson == this) {
             return true;
         }
 
-        return otherPerson != null
-                && otherPerson.getName().equals(getName());
+        // normalize names (case-insensitive, trimmed)
+        String thisName = normalizeName(getName().fullName);
+        String otherName = normalizeName(otherPerson.getName().fullName);
+        if (!thisName.equals(otherName)) {
+            return false;
+        }
+
+        // normalize contact values
+        String thisPhone = normalizePhone(getPhone().value);
+        String otherPhone = normalizePhone(otherPerson.getPhone().value);
+        String thisEmail = normalizeEmail(getEmail().value);
+        String otherEmail = normalizeEmail(otherPerson.getEmail().value);
+
+
+        // identify real contacts
+        boolean thisHasRealPhone = !thisPhone.equals(DEFAULT_PHONE);
+        boolean otherHasRealPhone = !otherPhone.equals(DEFAULT_PHONE);
+        boolean thisHasRealEmail = !thisEmail.equals(DEFAULT_EMAIL);
+        boolean otherHasRealEmail = !otherEmail.equals(DEFAULT_EMAIL);
+
+        // compare only when both sides have real data
+        boolean isSamePhone = thisHasRealPhone && otherHasRealPhone && thisPhone.equals(otherPhone);
+        boolean isSameEmail = thisHasRealEmail && otherHasRealEmail && thisEmail.equals(otherEmail);
+
+        // if both phones default & same; if both emails default → same
+        boolean bothPhonesDefault = !thisHasRealPhone && !otherHasRealPhone;
+        boolean bothEmailsDefault = !thisHasRealEmail && !otherHasRealEmail;
+        boolean bothPhoneAndEmailDefault = bothPhonesDefault && bothEmailsDefault;
+        // same name AND (
+        //    same real phone OR same real email OR both phones default OR both emails default
+        // )
+        return isSamePhone || isSameEmail || bothPhoneAndEmailDefault;
     }
 
     /**
