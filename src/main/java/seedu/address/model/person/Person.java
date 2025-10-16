@@ -25,43 +25,104 @@ public class Person {
     public static final String REPEAT_PAIRING = "{} and {} already paired.";
 
     // Identity fields
-    private Name name;
-    private Phone phone;
-    private Email email;
+    private final Name name;
+    private final Phone phone;
+    private final Email email;
 
     // Data fields
-    private Address address;
-    private Set<Tag> tags = new HashSet<>();
-    private final ObservableList<Person> pairedPersons = FXCollections.observableArrayList();
-    private final ObservableList<Person> unmodifiablePairedPersons =
-        FXCollections.unmodifiableObservableList(pairedPersons);
-    private final List<Person> unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);
+    private final Address address;
+    private final Set<Tag> tags;
+    private final ObservableList<Person> pairedPersons;
+    private final ObservableList<Person> unmodifiablePairedPersons;
+    private final List<Person> unmodifiablePairingsView;
 
     /**
      * Only name must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
-        requireAllNonNull(name, phone, email, address, tags, pairedPersons);
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.tags.addAll(tags);
-        this.pairedPersons.setAll(pairedPersons);
-        FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
+
+    public static class PersonBuild<T extends PersonBuild<T>> {
+        // Required parameters
+        private final Name name;
+
+        // Optional parameters - initialized to default values
+        private Phone phone = new Phone("000");
+        private Email email = new Email("default@email");
+        private Address address = new Address("Default Address");
+        private Set<Tag> tags = new HashSet<>();
+        private ObservableList<Person> pairedPersons = FXCollections.observableArrayList();
+
+        public PersonBuild(Name name) {
+            requireAllNonNull(name);
+            this.name = name;
+        }
+
+        public PersonBuild<T> phone(Phone phone) {
+            if (phone != null) this.phone = phone;
+            return this;
+        }
+
+        public PersonBuild<T> email(Email email) {
+            if (email != null) this.email = email;
+            return this;
+        }
+
+        public PersonBuild<T> address(Address address) {
+            if (address != null) this.address = address;
+            return this;
+        }
+
+        public PersonBuild<T> tags(Set<Tag> tags) {
+            if (tags != null) this.tags = tags;
+            return this;
+        }
+
+        public PersonBuild<T> pairedPersons(List<Person> pairedPersons) {
+            this.pairedPersons.setAll(pairedPersons);
+            FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
+            return this;
+        }
+
+        public Person build() {
+            return new Person(this);
+        }
     }
 
-    /**
-     * Convenience constructor that defaults personList to empty list (no pairings yet).
-     * Maintains backward compatibility for code that previously did not supply pairings.
-     */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name);
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.tags.addAll(tags);
+    public Person(PersonBuild<? extends PersonBuild<?>> builder) {
+        requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,
+                builder.tags, builder.pairedPersons);
+        this.name = builder.name;
+        this.phone = builder.phone;
+        this.email = builder.email;
+        this.address = builder.address;
+        this.tags = builder.tags;
+        this.pairedPersons = builder.pairedPersons;
+        this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(pairedPersons);
+        this.unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);
+    }
+
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
+        PersonBuild<?> builder = new PersonBuild<>(name).phone(phone).email(email).address(address)
+                .tags(tags).pairedPersons(pairedPersons);
+        requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,
+                builder.tags, builder.pairedPersons);
+        this.name = builder.name;
+        this.phone = builder.phone;
+        this.email = builder.email;
+        this.address = builder.address;
+        this.tags = builder.tags;
+        this.pairedPersons = builder.pairedPersons;
+        this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(builder.pairedPersons);
+        this.unmodifiablePairingsView = Collections.unmodifiableList(builder.pairedPersons);
+    }
+
+    public PersonBuild<? extends PersonBuild<?>> toBuilder() {
+        return toBuilder(this.name);
+    }
+
+    public PersonBuild<? extends PersonBuild<?>> toBuilder(Name name) {
+        PersonBuild<? extends PersonBuild<?>> personBuild = new PersonBuild<>(name);
+        return personBuild.phone(this.phone).email(this.email).address(this.address)
+                .tags(this.tags).pairedPersons(this.pairedPersons);
     }
 
     public Name getName() {
@@ -97,24 +158,26 @@ public class Person {
     }
 
     // Setters. Relevant checks are in EditCommandParser and other relevant commands.
-    public void setName(Name name) {
-        this.name = name;
+    public Person setName(Name name) {
+        PersonBuild<? extends PersonBuild<?>> personBuild = new PersonBuild<>(name);
+        return personBuild.phone(this.phone).email(this.email).address(this.address)
+                .tags(this.tags).pairedPersons(this.pairedPersons).build();
     }
 
-    public void setPhone(Phone phone) {
-        this.phone = phone;
+    public Person setPhone(Phone phone) {
+        return this.toBuilder().phone(phone).build();
     }
 
-    public void setEmail(Email email) {
-        this.email = email;
+    public Person setEmail(Email email) {
+        return this.toBuilder().email(email).build();
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public Person setAddress(Address address) {
+        return this.toBuilder().address(address).build();
     }
 
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
+    public Person setTags(Set<Tag> tags) {
+        return this.toBuilder().tags(tags).build();
     }
 
     /**

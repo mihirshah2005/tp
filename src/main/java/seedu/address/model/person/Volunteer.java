@@ -11,18 +11,31 @@ import seedu.address.model.tag.Tag;
  */
 public class Volunteer extends Person {
 
-    /**
-     * Constructs a {@code Volunteer}.
-     * All fields must be present and not null.
-     *
-     * @param name    The volunteer's name.
-     * @param phone   The volunteer's phone number.
-     * @param email   The volunteer's email address.
-     * @param address The volunteer's home address.
-     * @param tags    The set of tags associated with the volunteer.
-     */
-    public Volunteer(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> volunteers) {
-        super(name, phone, email, address, tags, volunteers);
+    public static class VolunteerBuild extends PersonBuild<VolunteerBuild>{
+
+        public VolunteerBuild(Name name) {
+            super(name);
+        }
+
+        @Override
+        public Volunteer build() {
+            return new Volunteer(this);
+        }
+    }
+
+    private Volunteer(VolunteerBuild builder) {
+        super(builder);
+    }
+
+    public Volunteer(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
+        super(name, phone, email, address, tags, pairedPersons);
+    }
+
+    @Override
+    public VolunteerBuild toBuilder(Name name) {
+        VolunteerBuild volunteerBuild = new VolunteerBuild(name);
+        return (VolunteerBuild) volunteerBuild.phone(this.getPhone()).email(this.getEmail()).address(this.getAddress())
+                .tags(this.getTags()).pairedPersons(this.getPairedPersons());
     }
 
     @Override

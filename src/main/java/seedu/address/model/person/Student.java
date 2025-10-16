@@ -1,8 +1,12 @@
 package seedu.address.model.person;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javafx.collections.FXCollections;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -11,18 +15,31 @@ import seedu.address.model.tag.Tag;
  */
 public class Student extends Person {
 
-    /**
-     * Constructs a {@code Student}.
-     * All fields must be present and not null.
-     *
-     * @param name    The student's name.
-     * @param phone   The student's phone number.
-     * @param email   The student's email address.
-     * @param address The student's home address.
-     * @param tags    The set of tags associated with the student.
-     */
-    public Student(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> students) {
-        super(name, phone, email, address, tags, students);
+    public static class StudentBuild extends PersonBuild<StudentBuild> {
+
+        public StudentBuild(Name name) {
+            super(name);
+        }
+
+        @Override
+        public Student build() {
+            return new Student(this);
+        }
+    }
+
+    private Student(StudentBuild builder) {
+        super(builder);
+    }
+
+    public Student(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
+        super(name, phone, email, address, tags, pairedPersons);
+    }
+
+    @Override
+    public StudentBuild toBuilder(Name name) {
+        StudentBuild studentBuild = new StudentBuild(name);
+        return (StudentBuild) studentBuild.phone(this.getPhone()).email(this.getEmail()).address(this.getAddress())
+                .tags(this.getTags()).pairedPersons(this.getPairedPersons());
     }
 
     @Override
