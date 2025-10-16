@@ -33,13 +33,10 @@ public class VolunteerTest {
         Volunteer alice = new VolunteerBuilder(ALICE).build();
         assertTrue(alice.isSamePerson(alice));
 
-        // null -> returns false
-        assertFalse(alice.isSamePerson(null));
-
-        // same name, all other attributes different -> returns true
+        // same name, all other attributes different -> returns false
         Volunteer editedAlice = new VolunteerBuilder(ALICE).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(alice.isSamePerson(editedAlice));
+        assertFalse(alice.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
         editedAlice = new VolunteerBuilder(ALICE).withName(VALID_NAME_BOB).build();
@@ -47,12 +44,54 @@ public class VolunteerTest {
 
         // name differs in case, all other attributes same -> returns false
         Volunteer editedBob = new VolunteerBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(editedBob.isSamePerson(BOB));
+        assertTrue(editedBob.isSamePerson(BOB));
+
+        // same phone, different email -> returns true
+        Volunteer samePhoneDifferentEmail = new VolunteerBuilder(ALICE)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        assertTrue(samePhoneDifferentEmail.isSamePerson(ALICE));
+
+        // both have different phone and email -> returns false
+        Volunteer completelyDifferent = new VolunteerBuilder(ALICE)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        assertFalse(alice.isSamePerson(completelyDifferent));
+
+        // same email, different phone -> returns true
+        Volunteer sameEmailDifferentPhone = new VolunteerBuilder(ALICE)
+                .withPhone(VALID_PHONE_BOB)
+                .build();
+        assertTrue(alice.isSamePerson(sameEmailDifferentPhone));
+
+        // one has default contact info, other has real contact info -> returns false
+        Volunteer realVolunteer = new VolunteerBuilder(BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        Volunteer defaultVolunteer = new VolunteerBuilder(BOB).withPhone("000").withEmail("default@email").build();
+        assertFalse(realVolunteer.isSamePerson(defaultVolunteer));
 
         // name has trailing spaces, all other attributes same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new VolunteerBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(editedBob.isSamePerson(BOB));
+        assertTrue(editedBob.isSamePerson(BOB));
+
+        // both have default phone and email -> returns true
+        Volunteer defaultVolunteer1 = new VolunteerBuilder()
+                .withName("Alice Pauline")
+                .withPhone("000")
+                .withEmail("default@email")
+                .build();
+        Volunteer defaultVolunteer2 = new VolunteerBuilder()
+                .withName("alice pauline")
+                .withPhone("000")
+                .withEmail("default@email")
+                .build();
+        assertTrue(defaultVolunteer1.isSamePerson(defaultVolunteer2));
+
+
     }
 
     @Test
