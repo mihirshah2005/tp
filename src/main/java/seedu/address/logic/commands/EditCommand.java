@@ -91,8 +91,12 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        model.setPerson(personToEdit, personToEdit.toBuilder(updatedName).phone(updatedPhone).email(updatedEmail)
-                .address(updatedAddress).tags(updatedTags).build());
+        personToEdit.setName(updatedName);
+        personToEdit.setPhone(updatedPhone);
+        personToEdit.setEmail(updatedEmail);
+        personToEdit.setAddress(updatedAddress);
+        personToEdit.setTags(updatedTags);
+        model.setPerson(personToEdit, personToEdit);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }

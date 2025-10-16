@@ -25,13 +25,13 @@ public class Person {
     public static final String REPEAT_PAIRING = "{} and {} already paired.";
 
     // Identity fields
-    private final Name name;
-    private final Phone phone;
-    private final Email email;
+    private Name name;
+    private Phone phone;
+    private Email email;
 
     // Data fields
-    private final Address address;
-    private final Set<Tag> tags;
+    private Address address;
+    private Set<Tag> tags;
     private final ObservableList<Person> pairedPersons;
     private final ObservableList<Person> unmodifiablePairedPersons;
     private final List<Person> unmodifiablePairingsView;
@@ -39,7 +39,6 @@ public class Person {
     /**
      * The Builder for the Person class.
      */
-
     public static class PersonBuild<T extends PersonBuild<T>> {
         // Required parameters
         private final Name name;
@@ -54,7 +53,6 @@ public class Person {
         /**
          * Constructor for PersonBuild.
          */
-
         public PersonBuild(Name name) {
             requireAllNonNull(name);
             this.name = name;
@@ -63,7 +61,6 @@ public class Person {
         /**
          * Setter for the phone parameter.
          */
-
         public PersonBuild<T> phone(Phone phone) {
             if (phone != null) {
                 this.phone = phone;
@@ -74,7 +71,6 @@ public class Person {
         /**
          * Setter for the email parameter.
          */
-
         public PersonBuild<T> email(Email email) {
             if (email != null) {
                 this.email = email;
@@ -85,7 +81,6 @@ public class Person {
         /**
          * Setter for the address parameter.
          */
-
         public PersonBuild<T> address(Address address) {
             if (address != null) {
                 this.address = address;
@@ -96,7 +91,6 @@ public class Person {
         /**
          * Setter for the tags parameter.
          */
-
         public PersonBuild<T> tags(Set<Tag> tags) {
             if (tags != null) {
                 this.tags = tags;
@@ -107,7 +101,6 @@ public class Person {
         /**
          * Setter for the pairedPersons parameter.
          */
-
         public PersonBuild<T> pairedPersons(List<Person> pairedPersons) {
             this.pairedPersons.setAll(pairedPersons);
             FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
@@ -117,7 +110,6 @@ public class Person {
         /**
          * Returns a Person object with the parameter values of the Builder.
          */
-
         public Person build() {
             return new Person(this);
         }
@@ -127,7 +119,6 @@ public class Person {
      * Constructor for a Person object using the builder. This is the intended method of constructing
      * the person object via the Builder pattern.
      */
-
     public Person(PersonBuild<? extends PersonBuild<?>> builder) {
         requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,
                 builder.tags, builder.pairedPersons);
@@ -145,7 +136,6 @@ public class Person {
      * Constructor for a Person object. We can try removing this in future iterations as
      * it is not strictly necessary.
      */
-
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
         PersonBuild<?> builder = new PersonBuild<>(name).phone(phone).email(email).address(address)
                 .tags(tags).pairedPersons(pairedPersons);
@@ -164,7 +154,6 @@ public class Person {
     /**
      * Converts the Person back to Builder form so that it can be easily modified.
      */
-
     public PersonBuild<? extends PersonBuild<?>> toBuilder() {
         return toBuilder(this.name);
     }
@@ -173,7 +162,6 @@ public class Person {
      * Converts the Person back to Builder form so that it can be easily modified.
      * The name can be passed as a parameter as it is final and cannot be modified afterward.
      */
-
     public PersonBuild<? extends PersonBuild<?>> toBuilder(Name name) {
         PersonBuild<? extends PersonBuild<?>> personBuild = new PersonBuild<>(name);
         return personBuild.phone(this.phone).email(this.email).address(this.address)
@@ -183,7 +171,6 @@ public class Person {
     /**
      * Returns the name.
      */
-
     public Name getName() {
         return name;
     }
@@ -191,7 +178,6 @@ public class Person {
     /**
      * Returns the phone number.
      */
-
     public Phone getPhone() {
         return phone;
     }
@@ -199,7 +185,6 @@ public class Person {
     /**
      * Returns the email.
      */
-
     public Email getEmail() {
         return email;
     }
@@ -207,7 +192,6 @@ public class Person {
     /**
      * Returns the address.
      */
-
     public Address getAddress() {
         return address;
     }
@@ -233,37 +217,40 @@ public class Person {
      * Relevant checks are in EditCommandParser and other relevant commands.
      */
     public Person setName(Name name) {
-        PersonBuild<? extends PersonBuild<?>> personBuild = new PersonBuild<>(name);
-        return personBuild.phone(this.phone).email(this.email).address(this.address)
-                .tags(this.tags).pairedPersons(this.pairedPersons).build();
+        this.name = name;
+        return this;
     }
 
     /**
      * Returns a new Person object with the specified phone.
      */
     public Person setPhone(Phone phone) {
-        return this.toBuilder().phone(phone).build();
+        this.phone = phone;
+        return this;
     }
 
     /**
      * Returns a new Person object with the specified email.
      */
     public Person setEmail(Email email) {
-        return this.toBuilder().email(email).build();
+        this.email = email;
+        return this;
     }
 
     /**
      * Returns a new Person object with the specified address.
      */
     public Person setAddress(Address address) {
-        return this.toBuilder().address(address).build();
+        this.address = address;
+        return this;
     }
 
     /**
      * Returns a new Person object with the specified tags.
      */
     public Person setTags(Set<Tag> tags) {
-        return this.toBuilder().tags(tags).build();
+        this.tags = tags;
+        return this;
     }
 
     /**
