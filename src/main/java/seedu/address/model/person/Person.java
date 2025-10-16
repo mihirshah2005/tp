@@ -37,7 +37,7 @@ public class Person {
     private final List<Person> unmodifiablePairingsView;
 
     /**
-     * Only name must be present and not null.
+     * The Builder for the Person class.
      */
 
     public static class PersonBuild<T extends PersonBuild<T>> {
@@ -51,30 +51,62 @@ public class Person {
         private Set<Tag> tags = new HashSet<>();
         private ObservableList<Person> pairedPersons = FXCollections.observableArrayList();
 
+        /**
+         * Constructor for PersonBuild.
+         */
+
         public PersonBuild(Name name) {
             requireAllNonNull(name);
             this.name = name;
         }
 
+        /**
+         * Setter for the phone parameter.
+         */
+
         public PersonBuild<T> phone(Phone phone) {
-            if (phone != null) this.phone = phone;
+            if (phone != null) {
+                this.phone = phone;
+            }
             return this;
         }
+
+        /**
+         * Setter for the email parameter.
+         */
 
         public PersonBuild<T> email(Email email) {
-            if (email != null) this.email = email;
+            if (email != null) {
+                this.email = email;
+            }
             return this;
         }
+
+        /**
+         * Setter for the address parameter.
+         */
 
         public PersonBuild<T> address(Address address) {
-            if (address != null) this.address = address;
+            if (address != null) {
+                this.address = address;
+            }
             return this;
         }
 
+        /**
+         * Setter for the tags parameter.
+         */
+
         public PersonBuild<T> tags(Set<Tag> tags) {
-            if (tags != null) this.tags = tags;
+            if (tags != null) {
+                this.tags = tags;
+            }
             return this;
         }
+
+        /**
+         * Setter for the pairedPersons parameter.
+         */
 
         public PersonBuild<T> pairedPersons(List<Person> pairedPersons) {
             this.pairedPersons.setAll(pairedPersons);
@@ -82,10 +114,19 @@ public class Person {
             return this;
         }
 
+        /**
+         * Returns a Person object with the parameter values of the Builder.
+         */
+
         public Person build() {
             return new Person(this);
         }
     }
+
+    /**
+     * Constructor for a Person object using the builder. This is the intended method of constructing
+     * the person object via the Builder pattern.
+     */
 
     public Person(PersonBuild<? extends PersonBuild<?>> builder) {
         requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,
@@ -99,6 +140,11 @@ public class Person {
         this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(pairedPersons);
         this.unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);
     }
+
+    /**
+     * Constructor for a Person object. We can try removing this in future iterations as
+     * it is not strictly necessary.
+     */
 
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
         PersonBuild<?> builder = new PersonBuild<>(name).phone(phone).email(email).address(address)
@@ -115,9 +161,18 @@ public class Person {
         this.unmodifiablePairingsView = Collections.unmodifiableList(builder.pairedPersons);
     }
 
+    /**
+     * Converts the Person back to Builder form so that it can be easily modified.
+     */
+
     public PersonBuild<? extends PersonBuild<?>> toBuilder() {
         return toBuilder(this.name);
     }
+
+    /**
+     * Converts the Person back to Builder form so that it can be easily modified.
+     * The name can be passed as a parameter as it is final and cannot be modified afterward.
+     */
 
     public PersonBuild<? extends PersonBuild<?>> toBuilder(Name name) {
         PersonBuild<? extends PersonBuild<?>> personBuild = new PersonBuild<>(name);
@@ -125,17 +180,33 @@ public class Person {
                 .tags(this.tags).pairedPersons(this.pairedPersons);
     }
 
+    /**
+     * Returns the name.
+     */
+
     public Name getName() {
         return name;
     }
+
+    /**
+     * Returns the phone number.
+     */
 
     public Phone getPhone() {
         return phone;
     }
 
+    /**
+     * Returns the email.
+     */
+
     public Email getEmail() {
         return email;
     }
+
+    /**
+     * Returns the address.
+     */
 
     public Address getAddress() {
         return address;
@@ -157,25 +228,40 @@ public class Person {
         return unmodifiablePairingsView;
     }
 
-    // Setters. Relevant checks are in EditCommandParser and other relevant commands.
+    /**
+     * Returns a new Person object with the specified name.
+     * Relevant checks are in EditCommandParser and other relevant commands.
+     */
     public Person setName(Name name) {
         PersonBuild<? extends PersonBuild<?>> personBuild = new PersonBuild<>(name);
         return personBuild.phone(this.phone).email(this.email).address(this.address)
                 .tags(this.tags).pairedPersons(this.pairedPersons).build();
     }
 
+    /**
+     * Returns a new Person object with the specified phone.
+     */
     public Person setPhone(Phone phone) {
         return this.toBuilder().phone(phone).build();
     }
 
+    /**
+     * Returns a new Person object with the specified email.
+     */
     public Person setEmail(Email email) {
         return this.toBuilder().email(email).build();
     }
 
+    /**
+     * Returns a new Person object with the specified address.
+     */
     public Person setAddress(Address address) {
         return this.toBuilder().address(address).build();
     }
 
+    /**
+     * Returns a new Person object with the specified tags.
+     */
     public Person setTags(Set<Tag> tags) {
         return this.toBuilder().tags(tags).build();
     }

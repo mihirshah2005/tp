@@ -1,12 +1,8 @@
 package seedu.address.model.person;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import javafx.collections.FXCollections;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -14,6 +10,10 @@ import seedu.address.model.tag.Tag;
  * Same fields as Person; used to distinguish between Students and Volunteers.
  */
 public class Student extends Person {
+
+    /**
+     * The Builder for the Student class.
+     */
 
     public static class StudentBuild extends PersonBuild<StudentBuild> {
 

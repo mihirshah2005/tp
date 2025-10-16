@@ -91,8 +91,8 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        model.setPerson(personToEdit, personToEdit.toBuilder(updatedName).phone(updatedPhone).email(updatedEmail).address(updatedAddress)
-                .tags(updatedTags).build());
+        model.setPerson(personToEdit, personToEdit.toBuilder(updatedName).phone(updatedPhone).email(updatedEmail)
+                .address(updatedAddress).tags(updatedTags).build());
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
@@ -115,8 +115,8 @@ public class EditCommand extends Command {
             return new Student.StudentBuild(updatedName).phone(updatedPhone).email(updatedEmail).address(updatedAddress)
                     .tags(updatedTags).pairedPersons(personList).build();
         } else if (personToEdit instanceof Volunteer) {
-            return new Volunteer.VolunteerBuild(updatedName).phone(updatedPhone).email(updatedEmail).address(updatedAddress)
-                    .tags(updatedTags).pairedPersons(personList).build();
+            return new Volunteer.VolunteerBuild(updatedName).phone(updatedPhone).email(updatedEmail)
+                    .address(updatedAddress).tags(updatedTags).pairedPersons(personList).build();
         } else {
             // temporary fallback during migration of Person class (only for MVP)
             return new Person.PersonBuild<>(updatedName).phone(updatedPhone).email(updatedEmail).address(updatedAddress)

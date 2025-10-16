@@ -11,7 +11,11 @@ import seedu.address.model.tag.Tag;
  */
 public class Volunteer extends Person {
 
-    public static class VolunteerBuild extends PersonBuild<VolunteerBuild>{
+    /**
+     * The Builder for the Volunteer class.
+     */
+
+    public static class VolunteerBuild extends PersonBuild<VolunteerBuild> {
 
         public VolunteerBuild(Name name) {
             super(name);
