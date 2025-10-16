@@ -17,6 +17,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EntryType;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Volunteer;
@@ -60,41 +61,34 @@ public class AddCommandParser implements Parser<AddCommand> {
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
 
-        Phone phone;
-        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-        } else {
-            phone = new Phone("000");
-        }
-
-        Email email;
-        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
-        } else {
-            email = new Email("default@email");
-        }
-
-        Address address;
-        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
-        } else {
-            address = new Address("Default Address");
-        }
-
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-
+        Person.PersonBuild<?> builder;
         switch (fixedType) {
-
         case STUDENT:
-            return new AddCommand(new Student.StudentBuild(name).phone(phone).email(email).address(address)
-                    .tags(tagList).pairedPersons(new ArrayList<>()).build());
+            builder = new Student.StudentBuild(name);
+            break;
         case VOLUNTEER:
-            return new AddCommand(new Volunteer.VolunteerBuild(name).phone(phone).email(email).address(address)
-                    .tags(tagList).pairedPersons(new ArrayList<>()).build());
+            builder = new Volunteer.VolunteerBuild(name);
+            break;
         default:
             // Should never happen since we removed PERSON
             throw new ParseException("Unsupported type: " + fixedType);
         }
+
+        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) { // phone
+            builder.phone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
+        }
+
+        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) { // email
+            builder.email(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
+        }
+
+        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) { // address
+            builder.address(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
+        }
+
+        builder.tags(ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG))); // tagList
+        builder.pairedPersons(new ArrayList<>());
+        return new AddCommand(builder.build());
     }
 
     /**
