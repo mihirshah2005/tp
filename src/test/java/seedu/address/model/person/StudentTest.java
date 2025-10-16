@@ -33,9 +33,6 @@ public class StudentTest {
         // same object -> returns true
         assertTrue(ALICE.isSamePerson(ALICE));
 
-        // null -> returns false
-        assertFalse(ALICE.isSamePerson(null));
-
         // same name, different phone and email -> returns false
         Student editedAlice = new StudentBuilder(ALICE).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)

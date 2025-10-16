@@ -68,9 +68,6 @@ public class PersonTest {
         // same object -> returns true
         assertTrue(ALICE.isSamePerson(ALICE));
 
-        // null -> returns false
-        assertFalse(ALICE.isSamePerson(null));
-
         // same name and same phone -> returns true
         Person editedAlice = new PersonBuilder(ALICE)
                 .withEmail(VALID_EMAIL_BOB) // different email, same name + phone

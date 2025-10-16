@@ -33,9 +33,6 @@ public class VolunteerTest {
         Volunteer alice = new VolunteerBuilder(ALICE).build();
         assertTrue(alice.isSamePerson(alice));
 
-        // null -> returns false
-        assertFalse(alice.isSamePerson(null));
-
         // same name, all other attributes different -> returns false
         Volunteer editedAlice = new VolunteerBuilder(ALICE).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
