@@ -14,13 +14,18 @@ public class Volunteer extends Person {
     /**
      * The Builder for the Volunteer class.
      */
-
     public static class VolunteerBuild extends PersonBuild<VolunteerBuild> {
 
+        /**
+         * Constructor for a VolunteerBuild object.
+         */
         public VolunteerBuild(Name name) {
             super(name);
         }
 
+        /**
+         * Returns a Volunteer object with the parameter values of the Builder.
+         */
         @Override
         public Volunteer build() {
             return new Volunteer(this);
