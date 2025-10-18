@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.testutil.PersonBuilder;
 
 
 public class PersonTest {

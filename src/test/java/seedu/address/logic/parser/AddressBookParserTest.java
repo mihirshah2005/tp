@@ -42,10 +42,7 @@ import seedu.address.model.person.Student;
 import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
-import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
-import seedu.address.testutil.StudentBuilder;
-import seedu.address.testutil.VolunteerBuilder;
 
 public class AddressBookParserTest {
 

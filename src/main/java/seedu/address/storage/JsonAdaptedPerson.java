@@ -140,12 +140,30 @@ class JsonAdaptedPerson {
 
         switch (normalized) {
         case "student":
-            return new Student(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPairings);
+            return new Student.StudentBuilder(modelName)
+                    .phone(modelPhone)
+                    .email(modelEmail)
+                    .address(modelAddress)
+                    .tags(modelTags)
+                    .pairedPersons(modelPairings)
+                    .build();
         case "volunteer":
-            return new Volunteer(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPairings);
+            return new Volunteer.VolunteerBuilder(modelName)
+                    .phone(modelPhone)
+                    .email(modelEmail)
+                    .address(modelAddress)
+                    .tags(modelTags)
+                    .pairedPersons(modelPairings)
+                    .build();
         // optionally allow "person"
         case "person":
-            return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPairings);
+            return new Person.PersonBuilder(modelName)
+                    .phone(modelPhone)
+                    .email(modelEmail)
+                    .address(modelAddress)
+                    .tags(modelTags)
+                    .pairedPersons(modelPairings)
+                    .build();
         default:
             throw new IllegalValueException(String.format(UNSUPPORTED_TYPE_MESSAGE, type));
         }

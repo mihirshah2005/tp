@@ -14,12 +14,12 @@ public class Volunteer extends Person {
     /**
      * The Builder for the Volunteer class.
      */
-    public static class VolunteerBuild extends PersonBuild<VolunteerBuild> {
+    public static class VolunteerBuilder extends Person.PersonBuilder {
 
         /**
-         * Constructor for a VolunteerBuild object.
+         * Constructor for a VolunteerBuilder object.
          */
-        public VolunteerBuild(Name name) {
+        public VolunteerBuilder(Name name) {
             super(name);
         }
 
@@ -32,30 +32,19 @@ public class Volunteer extends Person {
         }
     }
 
-    private Volunteer(VolunteerBuild builder) {
+    private Volunteer(VolunteerBuilder builder) {
         super(builder);
     }
 
-    /**
-     * Constructs a {@code Volunteer}.
-     * All fields must be present and not null.
-     *
-     * @param name    The volunteer's name.
-     * @param phone   The volunteer's phone number.
-     * @param email   The volunteer's email address.
-     * @param address The volunteer's home address.
-     * @param tags    The set of tags associated with the volunteer.
-     * @param pairedPersons The list of persons paired with the volunteer.
-     */
-    public Volunteer(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
-        super(name, phone, email, address, tags, pairedPersons);
-    }
-
     @Override
-    public VolunteerBuild toBuilder(Name name) {
-        VolunteerBuild volunteerBuild = new VolunteerBuild(name);
-        return (VolunteerBuild) volunteerBuild.phone(this.getPhone()).email(this.getEmail()).address(this.getAddress())
-                .tags(this.getTags()).pairedPersons(this.getPairedPersons());
+    public VolunteerBuilder toBuilder(Name name) {
+        VolunteerBuilder volunteerBuild = new VolunteerBuilder(name);
+        return (VolunteerBuilder) volunteerBuild
+                .phone(this.getPhone())
+                .email(this.getEmail())
+                .address(this.getAddress())
+                .tags(this.getTags())
+                .pairedPersons(this.getPairedPersons());
     }
 
     @Override

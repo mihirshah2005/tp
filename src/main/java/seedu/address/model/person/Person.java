@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
@@ -28,13 +29,13 @@ public class Person {
     public static final String DEFAULT_EMAIL = "default@email";
 
     // Identity fields
-    private Name name;
-    private Phone phone;
-    private Email email;
+    private final Name name;
+    private final Phone phone;
+    private final Email email;
 
     // Data fields
-    private Address address;
-    private Set<Tag> tags;
+    private final Address address;
+    private final Set<Tag> tags;
     private final ObservableList<Person> pairedPersons;
     private final ObservableList<Person> unmodifiablePairedPersons;
     private final List<Person> unmodifiablePairingsView;
@@ -42,7 +43,7 @@ public class Person {
     /**
      * The Builder for the Person class.
      */
-    public static class PersonBuild<T extends PersonBuild<T>> {
+    public static class PersonBuilder extends Builder<PersonBuilder> {
         // Required parameters
         private final Name name;
 
@@ -54,17 +55,24 @@ public class Person {
         private ObservableList<Person> pairedPersons = FXCollections.observableArrayList();
 
         /**
-         * Constructor for PersonBuild.
+         * Constructor for PersonBuilder.
          */
-        public PersonBuild(Name name) {
-            requireAllNonNull(name);
+        public PersonBuilder(Name name) {
+            requireNonNull(name);
             this.name = name;
+        }
+
+        /**
+         * Constructor for PersonBuilder but with name in String format.
+         */
+        public PersonBuilder(String name) {
+            this(new Name(name));
         }
 
         /**
          * Setter for the phone parameter.
          */
-        public PersonBuild<T> phone(Phone phone) {
+        public PersonBuilder phone(Phone phone) {
             if (phone != null) {
                 this.phone = phone;
             }
@@ -72,9 +80,16 @@ public class Person {
         }
 
         /**
+         * Setter for the phone parameter but with String argument.
+         */
+        public PersonBuilder phone(String phone) {
+            return this.phone(new Phone(phone));
+        }
+
+        /**
          * Setter for the email parameter.
          */
-        public PersonBuild<T> email(Email email) {
+        public PersonBuilder email(Email email) {
             if (email != null) {
                 this.email = email;
             }
@@ -82,9 +97,16 @@ public class Person {
         }
 
         /**
+         * Setter for the email parameter but with String argument.
+         */
+        public PersonBuilder email(String email) {
+            return this.email(new Email(email));
+        }
+
+        /**
          * Setter for the address parameter.
          */
-        public PersonBuild<T> address(Address address) {
+        public PersonBuilder address(Address address) {
             if (address != null) {
                 this.address = address;
             }
@@ -92,9 +114,16 @@ public class Person {
         }
 
         /**
+         * Setter for the address parameter but with String argument.
+         */
+        public PersonBuilder address(String address) {
+            return this.address(new Address(address));
+        }
+
+        /**
          * Setter for the tags parameter.
          */
-        public PersonBuild<T> tags(Set<Tag> tags) {
+        public PersonBuilder tags(Set<Tag> tags) {
             if (tags != null) {
                 this.tags = tags;
             }
@@ -104,7 +133,7 @@ public class Person {
         /**
          * Setter for the pairedPersons parameter.
          */
-        public PersonBuild<T> pairedPersons(List<Person> pairedPersons) {
+        public PersonBuilder pairedPersons(List<Person> pairedPersons) {
             this.pairedPersons.setAll(pairedPersons);
             FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
             return this;
@@ -122,7 +151,7 @@ public class Person {
      * Constructor for a Person object using the builder. This is the intended method of constructing
      * the person object via the Builder pattern.
      */
-    public Person(PersonBuild<? extends PersonBuild<?>> builder) {
+    public Person(PersonBuilder builder) {
         requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,
                 builder.tags, builder.pairedPersons);
         this.name = builder.name;
@@ -136,28 +165,9 @@ public class Person {
     }
 
     /**
-     * Constructor for a Person object. We can try removing this in future iterations as
-     * it is not strictly necessary.
-     */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
-        PersonBuild<?> builder = new PersonBuild<>(name).phone(phone).email(email).address(address)
-                .tags(tags).pairedPersons(pairedPersons);
-        requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,
-                builder.tags, builder.pairedPersons);
-        this.name = builder.name;
-        this.phone = builder.phone;
-        this.email = builder.email;
-        this.address = builder.address;
-        this.tags = builder.tags;
-        this.pairedPersons = builder.pairedPersons;
-        this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(builder.pairedPersons);
-        this.unmodifiablePairingsView = Collections.unmodifiableList(builder.pairedPersons);
-    }
-
-    /**
      * Converts the Person back to Builder form so that it can be easily modified.
      */
-    public PersonBuild<? extends PersonBuild<?>> toBuilder() {
+    public PersonBuilder toBuilder() {
         return toBuilder(this.name);
     }
 
@@ -165,9 +175,9 @@ public class Person {
      * Converts the Person back to Builder form so that it can be easily modified.
      * The name can be passed as a parameter as it is final and cannot be modified afterward.
      */
-    public PersonBuild<? extends PersonBuild<?>> toBuilder(Name name) {
-        PersonBuild<? extends PersonBuild<?>> personBuild = new PersonBuild<>(name);
-        return personBuild.phone(this.phone).email(this.email).address(this.address)
+    public PersonBuilder toBuilder(Name name) {
+        PersonBuilder personBuilder = new PersonBuilder(name);
+        return personBuilder.phone(this.phone).email(this.email).address(this.address)
                 .tags(this.tags).pairedPersons(this.pairedPersons);
     }
 
@@ -241,40 +251,16 @@ public class Person {
      * Relevant checks are in EditCommandParser and other relevant commands.
      */
     public Person setName(Name name) {
-        this.name = name;
-        return this;
+        PersonBuilder personBuilder = new PersonBuilder(name);
+        return personBuilder.phone(this.phone).email(this.email).address(this.address)
+                .tags(this.tags).pairedPersons(this.pairedPersons).build();
     }
 
     /**
-     * Returns a new Person object with the specified phone.
+     * Returns a new Person object with the specified name in String format.
      */
-    public Person setPhone(Phone phone) {
-        this.phone = phone;
-        return this;
-    }
-
-    /**
-     * Returns a new Person object with the specified email.
-     */
-    public Person setEmail(Email email) {
-        this.email = email;
-        return this;
-    }
-
-    /**
-     * Returns a new Person object with the specified address.
-     */
-    public Person setAddress(Address address) {
-        this.address = address;
-        return this;
-    }
-
-    /**
-     * Returns a new Person object with the specified tags.
-     */
-    public Person setTags(Set<Tag> tags) {
-        this.tags = tags;
-        return this;
+    public Person setName(String name) {
+        return setName(new Name(name));
     }
 
     /**
@@ -335,7 +321,7 @@ public class Person {
      * @return true if both represent the same person, false otherwise
      */
     public boolean isSamePerson(Person otherPerson) {
-        Objects.requireNonNull(otherPerson);
+        requireNonNull(otherPerson);
         if (otherPerson == this) {
             return true;
         }
