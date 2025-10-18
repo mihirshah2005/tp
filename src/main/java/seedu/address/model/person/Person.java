@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class Person {
      */
     public static class PersonBuilder extends Builder<PersonBuilder> {
         // Required parameters
-        private final Name name;
+        private Name name;
 
         // Optional parameters - initialized to default values
         private Phone phone = new Phone("000");
@@ -57,16 +58,25 @@ public class Person {
         /**
          * Constructor for PersonBuilder.
          */
-        public PersonBuilder(Name name) {
-            requireNonNull(name);
-            this.name = name;
+        public PersonBuilder() {
+
         }
 
         /**
-         * Constructor for PersonBuilder but with name in String format.
+         * Setter for the name parameter.
          */
-        public PersonBuilder(String name) {
-            this(new Name(name));
+        public PersonBuilder name(Name name) {
+            if (name != null) {
+                this.name = name;
+            }
+            return this;
+        }
+
+        /**
+         * Setter for the name parameter but with String argument.
+         */
+        public PersonBuilder name(String name) {
+            return this.name(new Name(name));
         }
 
         /**
@@ -143,7 +153,76 @@ public class Person {
          * Returns a Person object with the parameter values of the Builder.
          */
         public Person build() {
+            requireNonNull(name);
             return new Person(this);
+        }
+
+        /**
+         * Copy constructor.
+         */
+        public PersonBuilder(PersonBuilder toCopy) {
+            this.name = toCopy.name;
+            this.phone = toCopy.phone;
+            this.email = toCopy.email;
+            this.address = toCopy.address;
+            this.tags = toCopy.tags;
+            this.pairedPersons = toCopy.pairedPersons;
+        }
+
+        public Name getName() {
+            return this.name;
+        }
+
+        public Phone getPhone() {
+            return this.phone;
+        }
+
+        public Email getEmail() {
+            return this.email;
+        }
+
+        public Address getAddress() {
+            return this.address;
+        }
+
+        public Set<Tag> getTags() {
+            return this.tags;
+        }
+
+        public ObservableList<Person> getPairedPersons() {
+            return this.pairedPersons;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == this) {
+                return true;
+            }
+
+            // instanceof handles nulls
+            if (!(other instanceof PersonBuilder)) {
+                return false;
+            }
+
+            PersonBuilder otherPersonBuilder = (PersonBuilder) other;
+            return Objects.equals(name, otherPersonBuilder.name)
+                    && Objects.equals(phone, otherPersonBuilder.phone)
+                    && Objects.equals(email, otherPersonBuilder.email)
+                    && Objects.equals(address, otherPersonBuilder.address)
+                    && Objects.equals(tags, otherPersonBuilder.tags)
+                    && Objects.equals(pairedPersons, otherPersonBuilder.pairedPersons);
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this)
+                    .add("name", name)
+                    .add("phone", phone)
+                    .add("email", email)
+                    .add("address", address)
+                    .add("tags", tags)
+                    .add("paired persons", pairedPersons)
+                    .toString();
         }
     }
 
@@ -168,17 +247,14 @@ public class Person {
      * Converts the Person back to Builder form so that it can be easily modified.
      */
     public PersonBuilder toBuilder() {
-        return toBuilder(this.name);
-    }
-
-    /**
-     * Converts the Person back to Builder form so that it can be easily modified.
-     * The name can be passed as a parameter as it is final and cannot be modified afterward.
-     */
-    public PersonBuilder toBuilder(Name name) {
-        PersonBuilder personBuilder = new PersonBuilder(name);
-        return personBuilder.phone(this.phone).email(this.email).address(this.address)
-                .tags(this.tags).pairedPersons(this.pairedPersons);
+        PersonBuilder personBuilder = new PersonBuilder();
+        return personBuilder
+                .name(this.name)
+                .phone(this.phone)
+                .email(this.email)
+                .address(this.address)
+                .tags(this.tags)
+                .pairedPersons(this.pairedPersons);
     }
 
     /**
@@ -244,23 +320,6 @@ public class Person {
      */
     public List<Person> getPairedPersons() {
         return unmodifiablePairingsView;
-    }
-
-    /**
-     * Returns a new Person object with the specified name.
-     * Relevant checks are in EditCommandParser and other relevant commands.
-     */
-    public Person setName(Name name) {
-        PersonBuilder personBuilder = new PersonBuilder(name);
-        return personBuilder.phone(this.phone).email(this.email).address(this.address)
-                .tags(this.tags).pairedPersons(this.pairedPersons).build();
-    }
-
-    /**
-     * Returns a new Person object with the specified name in String format.
-     */
-    public Person setName(String name) {
-        return setName(new Name(name));
     }
 
     /**

@@ -59,10 +59,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         Person.PersonBuilder builder;
         switch (fixedType) {
         case STUDENT:
-            builder = new Student.StudentBuilder(name);
+            builder = new Student.StudentBuilder().name(name);
             break;
         case VOLUNTEER:
-            builder = new Volunteer.VolunteerBuilder(name);
+            builder = new Volunteer.VolunteerBuilder().name(name);
             break;
         default:
             // Should never happen since we removed PERSON

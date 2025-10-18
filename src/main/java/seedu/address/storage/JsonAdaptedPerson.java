@@ -140,7 +140,8 @@ class JsonAdaptedPerson {
 
         switch (normalized) {
         case "student":
-            return new Student.StudentBuilder(modelName)
+            return new Student.StudentBuilder()
+                    .name(modelName)
                     .phone(modelPhone)
                     .email(modelEmail)
                     .address(modelAddress)
@@ -148,7 +149,8 @@ class JsonAdaptedPerson {
                     .pairedPersons(modelPairings)
                     .build();
         case "volunteer":
-            return new Volunteer.VolunteerBuilder(modelName)
+            return new Volunteer.VolunteerBuilder()
+                    .name(modelName)
                     .phone(modelPhone)
                     .email(modelEmail)
                     .address(modelAddress)
@@ -157,7 +159,8 @@ class JsonAdaptedPerson {
                     .build();
         // optionally allow "person"
         case "person":
-            return new Person.PersonBuilder(modelName)
+            return new Person.PersonBuilder()
+                    .name(modelName)
                     .phone(modelPhone)
                     .email(modelEmail)
                     .address(modelAddress)

@@ -1,10 +1,5 @@
 package seedu.address.model.person;
 
-import java.util.List;
-import java.util.Set;
-
-import seedu.address.model.tag.Tag;
-
 /**
  * Represents a Volunteer in the tutoring volunteer system.
  * Same fields as Person; used to distinguish between Students and Volunteers.
@@ -19,8 +14,8 @@ public class Volunteer extends Person {
         /**
          * Constructor for a VolunteerBuilder object.
          */
-        public VolunteerBuilder(Name name) {
-            super(name);
+        public VolunteerBuilder() {
+            super();
         }
 
         /**
@@ -37,14 +32,24 @@ public class Volunteer extends Person {
     }
 
     @Override
-    public VolunteerBuilder toBuilder(Name name) {
-        VolunteerBuilder volunteerBuild = new VolunteerBuilder(name);
-        return (VolunteerBuilder) volunteerBuild
+    public VolunteerBuilder toBuilder() {
+        return (VolunteerBuilder) new VolunteerBuilder()
+                .name(this.getName())
                 .phone(this.getPhone())
                 .email(this.getEmail())
                 .address(this.getAddress())
                 .tags(this.getTags())
                 .pairedPersons(this.getPairedPersons());
+    }
+
+    public static VolunteerBuilder toBuilder(PersonBuilder personBuilder) {
+        return (VolunteerBuilder) new VolunteerBuilder()
+                .name(personBuilder.getName())
+                .phone(personBuilder.getPhone())
+                .email(personBuilder.getEmail())
+                .address(personBuilder.getAddress())
+                .tags(personBuilder.getTags())
+                .pairedPersons(personBuilder.getPairedPersons());
     }
 
     @Override
