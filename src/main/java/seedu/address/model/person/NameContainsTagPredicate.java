@@ -2,28 +2,31 @@ package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
- * Tests that a {@code Person}'s tags includes the given tag.
+ * Tests that a {@code Person}'s tags includes the all the given tags.
  */
 public class NameContainsTagPredicate implements Predicate<Person> {
-    private final Tag tag;
+    private final List<Tag> tags;
 
     /**
      * Constructs a {@code NameContainsTagPredicate}
      */
-    public NameContainsTagPredicate(Tag tag) {
-        requireNonNull(tag);
-        this.tag = tag;
+    public NameContainsTagPredicate(List<Tag> tags) {
+        requireNonNull(tags);
+        this.tags = List.copyOf(tags);
+        // Make a copy to ensure that modifying object passed into parameter does not
+        // result in unexpected side effects in this predicate
     }
 
     @Override
     public boolean test(Person person) {
-        return person.getTags().contains(tag);
+        return person.getTags().containsAll(tags);
     }
 
     @Override
@@ -38,16 +41,16 @@ public class NameContainsTagPredicate implements Predicate<Person> {
         }
 
         NameContainsTagPredicate otherNameContainsTagPredicate = (NameContainsTagPredicate) other;
-        return tag.equals(otherNameContainsTagPredicate.tag);
+        return tags.equals(otherNameContainsTagPredicate.tags);
     }
 
     @Override
     public int hashCode() {
-        return tag.hashCode();
+        return tags.hashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).add("tag", tag).toString();
+        return new ToStringBuilder(this).add("tags", tags).toString();
     }
 }

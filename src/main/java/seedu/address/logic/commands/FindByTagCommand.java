@@ -8,7 +8,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsTagPredicate;
 
 /**
- * Finds and lists all the persons who are tagged with the given tag.
+ * Finds and lists all the persons who are tagged with all the given tags.
  * Tag searching is case insensitive.
  */
 public class FindByTagCommand extends Command {
@@ -17,9 +17,8 @@ public class FindByTagCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons who are tagged with"
             + "the specified tag (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: TAG_NAME\n"
-            + "Example: " + COMMAND_WORD + " mathematics\n"
-            + "Note that only one tag can be provided.";
+            + "Parameters: TAG_NAME [MORE_TAGS]...\n"
+            + "Example: " + COMMAND_WORD + " Maths Science\n";
 
     private final NameContainsTagPredicate predicate;
 

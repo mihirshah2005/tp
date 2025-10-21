@@ -2,6 +2,9 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.util.Arrays;
+import java.util.List;
+
 import seedu.address.logic.commands.FindByTagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsTagPredicate;
@@ -18,12 +21,23 @@ public class FindByTagCommandParser implements Parser<FindByTagCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     @Override
-    public FindByTagCommand parse(String userInput) throws ParseException {
-        String tagName = userInput.trim();
-        if (!Tag.isValidTagName(tagName)) {
+    public FindByTagCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindByTagCommand.MESSAGE_USAGE));
         }
-        return new FindByTagCommand(new NameContainsTagPredicate(new Tag(tagName)));
+
+        String[] tagNames = trimmedArgs.split("\\s+");
+        if (Arrays.stream(tagNames).anyMatch(tagName -> !Tag.isValidTagName(tagName))) {
+            // TODO: simplify condition above
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindByTagCommand.MESSAGE_USAGE));
+        }
+
+        List<Tag> tags = Arrays.stream(tagNames)
+                .map(Tag::new)
+                .toList();
+        return new FindByTagCommand(new NameContainsTagPredicate(tags));
     }
 }
