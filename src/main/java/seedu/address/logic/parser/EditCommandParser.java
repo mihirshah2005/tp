@@ -45,30 +45,24 @@ public class EditCommandParser implements Parser<EditCommand> {
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
 
         Person.PersonBuilder personBuilder = new Person.PersonBuilder();
-        boolean edited = false;
 
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            edited = true;
             personBuilder.name(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            edited = true;
             personBuilder.phone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
         }
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            edited = true;
             personBuilder.email(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            edited = true;
             personBuilder.address(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         if (parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).isPresent()) {
-            edited = true;
             personBuilder.tags(parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).get());
         };
 
-        if (!edited) {
+        if (!personBuilder.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 

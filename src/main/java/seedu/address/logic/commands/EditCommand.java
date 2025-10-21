@@ -87,6 +87,14 @@ public class EditCommand extends Command {
         assert personToEdit != null;
         assert personBuilder != null;
 
+        personBuilder
+                .nameIfNotPresent(personToEdit.getName())
+                .phoneIfNotPresent(personToEdit.getPhone())
+                .emailIfNotPresent(personToEdit.getEmail())
+                .addressIfNotPresent(personToEdit.getAddress())
+                .tagsIfNotPresent(personToEdit.getTags())
+                .pairedPersonsIfNotPresent(personToEdit.getPairedPersons());
+
         if (personToEdit instanceof Student) {
             return Student.toBuilder(personBuilder).build();
         } else if (personToEdit instanceof Volunteer) {
