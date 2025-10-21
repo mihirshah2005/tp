@@ -257,8 +257,8 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                         
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`  
 **Find by tag** | `findtag TAG`<br> e.g., `findtag math`     
-**Pair** | `pair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`<br> e.g., `pair 2 1 3`
-**Unpair** | `unpair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`<br> e.g., `unpair 2 1 3`
+**Pair** | `pair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `pair 2 1 3`
+**Unpair** | `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `unpair 2 1 3`
 **Exit** | `exit`                                                                                                                                                                             
 **List** | `list`                                                                                                                                                                              
 **Help** | `help`                                                                                                                                                                              
