@@ -70,7 +70,6 @@ public class PersonCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
         renderPairings();
-        observablePairings.addListener((ListChangeListener<Person>) change -> renderPairings());
     }
 
     private void renderPairings() {

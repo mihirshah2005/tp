@@ -98,6 +98,11 @@ public class EditCommand extends Command {
         personToEdit.setTags(updatedTags);
         model.setPerson(personToEdit, personToEdit);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        if (editPersonDescriptor.getName().isPresent()) {
+            for (Person pairedPerson : personToEdit.getPairedPersons()) {
+                model.setPerson(pairedPerson, pairedPerson);
+            }
+        }
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 
