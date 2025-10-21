@@ -181,9 +181,9 @@ Examples:
 
 Pairs the specified person to other existing persons in the address book.
 
-Format: `pair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`
+Format: `pair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`
 
-* Pairs the person at the specified `INDEX` to the persons specified in `1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`.
+* Pairs the person at the specified `INDEX` to the persons specified in `1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`.
 * The indices refer to the respective index number shown in the displayed person list.
 
 Examples:
@@ -193,9 +193,9 @@ Examples:
 
 Unpairs the specified person to other existing persons in the address book.
 
-Format: `unpair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`
+Format: `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`
 
-* Unpairs the person at the specified `INDEX` to the persons specified in `1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`.
+* Unpairs the person at the specified `INDEX` to the persons specified in `1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`.
 * The indices refer to the respective index number shown in the displayed person list.
 
 Examples:

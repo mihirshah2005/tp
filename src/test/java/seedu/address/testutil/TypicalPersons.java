@@ -120,20 +120,4 @@ public class TypicalPersons {
         return new ArrayList<>(Arrays.asList(alice, benson, CARL_SUPPLIER.get(), DANIEL_SUPPLIER.get(),
                 ELLE_SUPPLIER.get(), FIONA_SUPPLIER.get(), GEORGE_SUPPLIER.get()));
     }
-
-    /**
-     * Returns a List of typical persons, but returning a new copy each function call.
-     */
-    public static List<Person> getFreshTypicalPersons() {
-        return List.of(
-                new PersonBuilder(ALICE).build(),
-                new PersonBuilder(BOB).build(),
-                new PersonBuilder(CARL).build(),
-                new PersonBuilder(CARL).build(),
-                new PersonBuilder(DANIEL).build(),
-                new PersonBuilder(ELLE).build(),
-                new PersonBuilder(FIONA).build(),
-                new PersonBuilder(GEORGE).build()
-        );
-    }
 }
