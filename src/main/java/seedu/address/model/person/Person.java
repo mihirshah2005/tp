@@ -29,8 +29,8 @@ public class Person {
     public static final Phone DEFAULT_PHONE = new Phone("000");
     public static final Email DEFAULT_EMAIL = new Email("default@email");
     public static final Address DEFAULT_ADDRESS = new Address("Default Address");
-    public static final Set<Tag> DEFAULT_TAGS = new HashSet<>();
-    public static final ObservableList<Person> DEFAULT_PAIREDPERSONS = FXCollections.observableArrayList();
+    // public static final Set<Tag> DEFAULT_TAGS = new HashSet<>();
+    // public static final ObservableList<Person> DEFAULT_PAIREDPERSONS = FXCollections.observableArrayList();
 
     // Identity fields
     private final Name name;
@@ -212,7 +212,7 @@ public class Person {
          */
         public PersonBuilder pairedPersons(List<Person> pairedPersons) {
             if (pairedPersons != null) {
-                this.pairedPersons = DEFAULT_PAIREDPERSONS;
+                this.pairedPersons = FXCollections.observableArrayList();
                 this.pairedPersons.setAll(pairedPersons);
                 FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
             }
@@ -224,7 +224,7 @@ public class Person {
          */
         public PersonBuilder pairedPersonsIfNotPresent(List<Person> pairedPersons) {
             if (this.pairedPersons == null && pairedPersons != null) {
-                this.pairedPersons = DEFAULT_PAIREDPERSONS;
+                this.pairedPersons = FXCollections.observableArrayList();
                 this.pairedPersons.setAll(pairedPersons);
                 FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
             }
@@ -313,8 +313,8 @@ public class Person {
         this.phone = builder.phone != null ? builder.phone : DEFAULT_PHONE;
         this.email = builder.email != null ? builder.email : DEFAULT_EMAIL;
         this.address = builder.address != null ? builder.address : DEFAULT_ADDRESS;
-        this.tags = builder.tags != null ? builder.tags : DEFAULT_TAGS;
-        this.pairedPersons = builder.pairedPersons != null ? builder.pairedPersons : DEFAULT_PAIREDPERSONS;
+        this.tags = builder.tags != null ? builder.tags : new HashSet<>();
+        this.pairedPersons = builder.pairedPersons != null ? builder.pairedPersons : FXCollections.observableArrayList();;
         this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(pairedPersons);
         this.unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);
         this.personBuilder = builder;
