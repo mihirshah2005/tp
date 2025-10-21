@@ -78,6 +78,7 @@ public class NameContainsTagPredicateTest {
         assertTrue(predicateWithLowerCaseTag.test(personWithUppercaseTag));
     }
 
+    @Test
     public void test_nameDoesNotContainTag_returnsFalse() {
         Tag tag = new Tag(VALID_TAG_FRIEND);
         NameContainsTagPredicate predicate = new NameContainsTagPredicate(tag);
