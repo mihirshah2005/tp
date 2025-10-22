@@ -31,7 +31,7 @@ public class StudentTest {
         assertTrue(ALICE.isSamePerson(ALICE));
 
         // same name, different phone and email -> returns false
-        Student editedAlice =  (Student) Student.toBuilder(ALICE)
+        Student editedAlice = (Student) Student.toBuilder(ALICE)
                 .phone(VALID_PHONE_BOB)
                 .email(VALID_EMAIL_BOB)
                 .address(VALID_ADDRESS_BOB)
@@ -40,28 +40,28 @@ public class StudentTest {
         assertFalse(ALICE.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
-        editedAlice =  (Student) Student.toBuilder(ALICE).name(VALID_NAME_BOB).build();
+        editedAlice = (Student) Student.toBuilder(ALICE).name(VALID_NAME_BOB).build();
         assertFalse(ALICE.isSamePerson(editedAlice));
 
         // same name, different case -> returns true
-        Student editedBob =  (Student) Student.toBuilder(BOB).name(VALID_NAME_BOB.toLowerCase()).build();
+        Student editedBob = (Student) Student.toBuilder(BOB).name(VALID_NAME_BOB.toLowerCase()).build();
         assertTrue(BOB.isSamePerson(editedBob));
 
         // same name, trailing spaces -> returns true
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
-        editedBob =  (Student) Student.toBuilder(BOB).name(nameWithTrailingSpaces).build();
+        editedBob = (Student) Student.toBuilder(BOB).name(nameWithTrailingSpaces).build();
         assertTrue(BOB.isSamePerson(editedBob));
 
         // same email, different phone -> returns true
-        Student sameEmailDifferentPhone =  (Student) Student.toBuilder(ALICE).phone(VALID_PHONE_BOB).build();
+        Student sameEmailDifferentPhone = (Student) Student.toBuilder(ALICE).phone(VALID_PHONE_BOB).build();
         assertTrue(ALICE.isSamePerson(sameEmailDifferentPhone));
 
         // same phone, different email -> returns true
-        Student samePhoneDifferentEmail =  (Student) Student.toBuilder(ALICE).email(VALID_EMAIL_BOB).build();
+        Student samePhoneDifferentEmail = (Student) Student.toBuilder(ALICE).email(VALID_EMAIL_BOB).build();
         assertTrue(ALICE.isSamePerson(samePhoneDifferentEmail));
 
         // both different phone and email -> returns false
-        Student mixedAlice =  (Student) Student.toBuilder(ALICE)
+        Student mixedAlice = (Student) Student.toBuilder(ALICE)
                 .phone(VALID_PHONE_BOB)
                 .email(VALID_EMAIL_BOB)
                 .build();
@@ -81,11 +81,11 @@ public class StudentTest {
         assertTrue(defaultAlice.isSamePerson(anotherDefaultAlice));
 
         // one has default contact info, other has real contact info -> returns false
-        Student realAlice =  (Student) Student.toBuilder(ALICE)
+        Student realAlice = (Student) Student.toBuilder(ALICE)
                 .phone(VALID_PHONE_BOB)
                 .email(VALID_EMAIL_BOB)
                 .build();
-        Student defaultAlices =  (Student) Student.toBuilder(ALICE)
+        Student defaultAlices = (Student) Student.toBuilder(ALICE)
                 .phone("000")
                 .email("default@email")
                 .build();
@@ -105,7 +105,7 @@ public class StudentTest {
         assertTrue(thisDefaultPhone.isSamePerson(otherRealPhone));
 
         // same phone, different email -> returns true
-        Student samePhoneDifferentEmails =  (Student) Student.toBuilder(ALICE)
+        Student samePhoneDifferentEmails = (Student) Student.toBuilder(ALICE)
                 .email(VALID_EMAIL_BOB)
                 .build();
         assertTrue(ALICE.isSamePerson(samePhoneDifferentEmails));
@@ -141,26 +141,26 @@ public class StudentTest {
 
     @Test
     public void equals() {
-        Student aliceCopy = (Student) Student.toBuilder(ALICE).build();
+        Student aliceCopy = Student.toBuilder(ALICE).build();
         assertTrue(ALICE.equals(aliceCopy));
         assertTrue(ALICE.equals(ALICE));
         assertFalse(ALICE.equals(null));
         assertFalse(ALICE.equals(5));
         assertFalse(ALICE.equals(BOB));
 
-        Student editedAlice =  (Student) Student.toBuilder(ALICE).name(VALID_NAME_BOB).build();
+        Student editedAlice = (Student) Student.toBuilder(ALICE).name(VALID_NAME_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        editedAlice =  (Student) Student.toBuilder(ALICE).phone(VALID_PHONE_BOB).build();
+        editedAlice = (Student) Student.toBuilder(ALICE).phone(VALID_PHONE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        editedAlice =  (Student) Student.toBuilder(ALICE).email(VALID_EMAIL_BOB).build();
+        editedAlice = (Student) Student.toBuilder(ALICE).email(VALID_EMAIL_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        editedAlice =  (Student) Student.toBuilder(ALICE).address(VALID_ADDRESS_BOB).build();
+        editedAlice = (Student) Student.toBuilder(ALICE).address(VALID_ADDRESS_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        editedAlice =  (Student) Student.toBuilder(ALICE).tags(VALID_TAG_HUSBAND).build();
+        editedAlice = (Student) Student.toBuilder(ALICE).tags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
     }
 

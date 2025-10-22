@@ -60,7 +60,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         if (parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).isPresent()) {
             personBuilder.tags(parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).get());
-        };
+        }
 
         if (!personBuilder.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);

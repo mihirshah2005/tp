@@ -215,7 +215,7 @@ public class Person {
         public PersonBuilder tags(String... tags) {
             if (tags != null) {
                 this.tags = new HashSet<>();
-                for (int i=0; i<tags.length; i++) {
+                for (int i = 0; i < tags.length; i++) {
                     this.tags.add(new Tag(tags[i]));
                 }
             }
@@ -339,7 +339,8 @@ public class Person {
         this.email = builder.email != null ? builder.email : DEFAULT_EMAIL;
         this.address = builder.address != null ? builder.address : DEFAULT_ADDRESS;
         this.tags = builder.tags != null ? builder.tags : new HashSet<>();
-        this.pairedPersons = builder.pairedPersons != null ? builder.pairedPersons : FXCollections.observableArrayList();
+        this.pairedPersons = builder.pairedPersons != null
+                ? builder.pairedPersons : FXCollections.observableArrayList();
         this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(pairedPersons);
         this.unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);
         this.personBuilder = builder;

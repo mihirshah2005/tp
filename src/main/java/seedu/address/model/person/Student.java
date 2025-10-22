@@ -42,6 +42,9 @@ public class Student extends Person {
                 .pairedPersons(this.getPairedPersons());
     }
 
+    /**
+     * Converts the PersonBuilder object to a StudentBuilder object.
+     */
     public static StudentBuilder toBuilder(PersonBuilder personBuilder) {
         return (StudentBuilder) new StudentBuilder()
                 .name(personBuilder.getName())
@@ -52,6 +55,9 @@ public class Student extends Person {
                 .pairedPersons(personBuilder.getPairedPersons());
     }
 
+    /**
+     * Converts the Person object to a StudentBuilder object.
+     */
     public static StudentBuilder toBuilder(Person person) {
         return (StudentBuilder) new StudentBuilder()
                 .name(person.getName())

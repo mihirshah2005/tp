@@ -9,7 +9,6 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,6 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Volunteer;
-import seedu.address.model.tag.Tag;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";

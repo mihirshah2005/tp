@@ -42,6 +42,9 @@ public class Volunteer extends Person {
                 .pairedPersons(this.getPairedPersons());
     }
 
+    /**
+     * Converts the PersonBuilder object to a VolunteerBuilder object.
+     */
     public static VolunteerBuilder toBuilder(PersonBuilder personBuilder) {
         return (VolunteerBuilder) new VolunteerBuilder()
                 .name(personBuilder.getName())
@@ -52,6 +55,9 @@ public class Volunteer extends Person {
                 .pairedPersons(personBuilder.getPairedPersons());
     }
 
+    /**
+     * Converts the Person object to a VolunteerBuilder object.
+     */
     public static VolunteerBuilder toBuilder(Person person) {
         return (VolunteerBuilder) new VolunteerBuilder()
                 .name(person.getName())
