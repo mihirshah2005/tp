@@ -1,8 +1,8 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,10 +15,15 @@ public class HelpCommandTest {
 
     @Test
     public void execute_help_success() {
-        CommandResult actualCommandResult = new HelpCommand().execute(model);
-        assertTrue(actualCommandResult.getFeedbackToUser().startsWith("Here are some sample commands"));
-        assertFalse(actualCommandResult.isShowHelp());
-        assertFalse(actualCommandResult.isExit());
-        assertCommandSuccess(new HelpCommand(), model, actualCommandResult, expectedModel);
+        CommandResult result = new HelpCommand().execute(model);
+
+        assertTrue(result.getFeedbackToUser().startsWith("Here are some sample commands"),
+                "Help message should start with the expected prefix.");
+
+        assertTrue(result.isShowHelp(), "Help window flag should be true.");
+
+        assertFalse(result.isExit(), "Exit flag should be false.");
+
+        assertEquals(model, expectedModel, "Model state should remain unchanged after help command.");
     }
 }

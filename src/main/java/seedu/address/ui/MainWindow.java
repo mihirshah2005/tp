@@ -141,6 +141,21 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     public void handleHelp() {
         if (!helpWindow.isShowing()) {
+
+            helpWindow.show();
+        } else {
+            helpWindow.focus();
+        }
+    }
+    /**
+     * Opens the help window and displays the given message.
+     * If the help window is already open, brings it to focus instead.
+     *
+     * @param message The help message to display in the help window.
+     */
+    public void handleHelp(String message) {
+        if (!helpWindow.isShowing()) {
+            helpWindow.setHelpMessage(message);
             helpWindow.show();
         } else {
             helpWindow.focus();
@@ -179,7 +194,7 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
-                handleHelp();
+                handleHelp(commandResult.getFeedbackToUser());
             }
 
             if (commandResult.isExit()) {

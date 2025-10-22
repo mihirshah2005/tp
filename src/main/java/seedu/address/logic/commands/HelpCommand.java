@@ -48,11 +48,23 @@ public class HelpCommand extends Command {
                 .append("   Example: clear\n\n")
                 .append("8. exit\n")
                 .append("   → Exits the program.\n")
-                .append("   Example: exit\n");
+                .append("   Example: exit\n")
+                .append("9. findtag TAG\n")
+                .append("   → Finds persons with the specified tag.\n")
+                .append("   Format: findtag TAG\n")
+                .append("   Example: findtag Math\n")
+                .append("   (Case-insensitive; matches any person with that tag.)\n\n")
+                .append("10. pair INDEX PARTNER_INDEX...\n")
+                .append("   → Pairs a person (student or volunteer) with others by their indices.\n")
+                .append("   Format: pair INDEX PARTNER_INDEX...\n")
+                .append("   Example: pair 2 1 3\n\n")
+                .append("11. unpair INDEX PARTNER_INDEX...\n")
+                .append("   → Removes existing pairings between persons.\n")
+                .append("   Format: unpair INDEX PARTNER_INDEX...\n")
+                .append("   Example: unpair 2 1 3\n\n");
 
-        // Prints new help message for user
-        System.out.println(sb.toString());
 
-        return new CommandResult(sb.toString(), false, false);
+
+        return new CommandResult(sb.toString(), true, false);
     }
 }
