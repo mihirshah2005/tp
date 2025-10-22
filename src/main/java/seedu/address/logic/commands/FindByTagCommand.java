@@ -15,7 +15,7 @@ public class FindByTagCommand extends Command {
 
     public static final String COMMAND_WORD = "findtag";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons who are tagged with"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons who are tagged with "
             + "the specified tag (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: TAG_NAME [MORE_TAGS]...\n"
             + "Example: " + COMMAND_WORD + " Maths Science\n";
