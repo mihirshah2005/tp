@@ -156,6 +156,38 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Adding Students and Volunteers: `addstu` / `addvol`
+
+#### Overview
+We split the original `add` command into two explicit commands:
+- `addstu` — creates a **Student**
+- `addvol` — creates a **Volunteer**
+
+Both accept the same fields (`[n/] [p/] [e/] [a/] [t/TAG]…`) and share the same validation and duplicate checks. They differ only in the concrete subtype instantiated.
+
+Changes at a glance:
+- Introduced `Student` and `Volunteer` subtypes (extend `Person`).
+- Introduced `EntryType { STUDENT, VOLUNTEER }` held by `Person`.
+- `Person` now contains:
+    - `EntryType type`
+    - `List<Person> pairings` (symmetric links, rendered in the UI, serialized as identity refs)
+- Storage persists `type` and `pairings` via `JsonAdaptedPerson`.
+
+#### Parsing flow
+`AddressBookParser` routes by command word:
+- `addstu` → `AddCommandParser` (student mode) → `new Student(...)`
+- `addvol` → `AddCommandParser` (volunteer mode) → `new Volunteer(...)`
+
+<img src="images/addstu_addvol_parse-addstu_addvol_parse_flow.png" width="550" />
+
+#### Execution flow
+- `LogicManager#execute` runs AddCommand which:
+- `Model#hasPerson(toAdd)` duplicate check
+- `Model#addPerson(toAdd)` mutates `AddressBook`
+- UI auto-updates from observable lists
+
+<img src="images/addstu_addvol_execute.png" width="550" />
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
