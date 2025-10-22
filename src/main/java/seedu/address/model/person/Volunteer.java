@@ -52,6 +52,16 @@ public class Volunteer extends Person {
                 .pairedPersons(personBuilder.getPairedPersons());
     }
 
+    public static VolunteerBuilder toBuilder(Person person) {
+        return (VolunteerBuilder) new VolunteerBuilder()
+                .name(person.getName())
+                .phone(person.getPhone())
+                .email(person.getEmail())
+                .address(person.getAddress())
+                .tags(person.getTags())
+                .pairedPersons(person.getPairedPersons());
+    }
+
     @Override
     public String toString() {
         return "[Volunteer] " + super.toString();

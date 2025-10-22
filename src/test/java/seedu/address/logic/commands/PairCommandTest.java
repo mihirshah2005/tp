@@ -39,8 +39,8 @@ public class PairCommandTest {
         Index tuteeIndex = INDEX_SECOND_PERSON;
         PairCommand pairCommand = new PairCommand(tutorIndex, Collections.singletonList(tuteeIndex));
 
-        Person tutor = (new PersonBuilder(model.getFilteredPersonList().get(tutorIndex.getZeroBased()))).build();
-        Person tutee = (new PersonBuilder(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()))).build();
+        Person tutor = (new Person.PersonBuilder(model.getFilteredPersonList().get(tutorIndex.getZeroBased()))).build();
+        Person tutee = (new Person.PersonBuilder(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()))).build();
         String expectedMessage = String.format(PairCommand.MESSAGE_EDIT_PERSON_SUCCESS, tutor.getName().toString(),
                 "{" + tutee.getName().toString() + "}");
 

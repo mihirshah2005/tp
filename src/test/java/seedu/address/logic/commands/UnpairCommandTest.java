@@ -38,8 +38,8 @@ class UnpairCommandTest {
         Index tuteeIndex = INDEX_SECOND_PERSON;
 
         // Grab fresh copies (don’t mutate static fixtures directly)
-        Person tutor = (new PersonBuilder(model.getFilteredPersonList().get(tutorIndex.getZeroBased()))).build();
-        Person tutee = (new PersonBuilder(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()))).build();
+        Person tutor = (new Person.PersonBuilder(model.getFilteredPersonList().get(tutorIndex.getZeroBased()))).build();
+        Person tutee = (new Person.PersonBuilder(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()))).build();
 
         // Ensure model reflects the pairing before unpairing
         tutor.addPerson(tutee);
@@ -61,20 +61,20 @@ class UnpairCommandTest {
 
     @Test
     void getPersonList_modifyList_throwsUnsupportedOperationException() {
-        Person alice = new PersonBuilder(ALICE).build(); // fresh copy
+        Person alice = new Person.PersonBuilder(ALICE).build(); // fresh copy
         assertThrows(UnsupportedOperationException.class, () -> alice.getPairedPersons().clear());
     }
 
     @Test
     void getPersonList_noPairings_returnsEmptyList() {
-        Person alice = new PersonBuilder(ALICE).build(); // fresh copy
+        Person alice = new Person.PersonBuilder(ALICE).build(); // fresh copy
         assertTrue(alice.getPairedPersons().isEmpty());
     }
 
     @Test
     void getPersonList_withPairings_returnsCorrectList() {
-        Person alice = new PersonBuilder(ALICE).build(); // fresh copy
-        Person bob = new PersonBuilder(BOB).build(); // fresh copy
+        Person alice = new Person.PersonBuilder(ALICE).build(); // fresh copy
+        Person bob = new Person.PersonBuilder(BOB).build(); // fresh copy
         assertDoesNotThrow(() -> alice.addPerson(bob));
         assertEquals(1, alice.getPairedPersons().size());
         assertTrue(alice.getPairedPersons().contains(bob));

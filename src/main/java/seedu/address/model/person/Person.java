@@ -29,8 +29,6 @@ public class Person {
     public static final Phone DEFAULT_PHONE = new Phone("000");
     public static final Email DEFAULT_EMAIL = new Email("default@email");
     public static final Address DEFAULT_ADDRESS = new Address("Default Address");
-    // public static final Set<Tag> DEFAULT_TAGS = new HashSet<>();
-    // public static final ObservableList<Person> DEFAULT_PAIREDPERSONS = FXCollections.observableArrayList();
 
     // Identity fields
     private final Name name;
@@ -65,6 +63,18 @@ public class Person {
          */
         public PersonBuilder() {
 
+        }
+
+        /**
+         * Constructor for PersonBuilder with Person.
+         */
+        public PersonBuilder(Person p) {
+            this.name = p.getName();
+            this.phone = p.getPhone();
+            this.email = p.getEmail();
+            this.address = p.getAddress();
+            this.tags = p.getTags();
+            this.pairedPersons = p.getPairings();
         }
 
         /**
@@ -193,6 +203,21 @@ public class Person {
         public PersonBuilder tags(Set<Tag> tags) {
             if (tags != null) {
                 this.tags = tags;
+            }
+            return this;
+        }
+
+        /**
+         * Setter for the tags parameter but with tags in String format.
+         */
+        public PersonBuilder tags(String... tags) {
+            if (tags != null) {
+                if (this.tags == null) {
+                    this.tags = new HashSet<>();
+                }
+                for (int i=0; i<tags.length; i++) {
+                    this.tags.add(new Tag(tags[i]));
+                }
             }
             return this;
         }

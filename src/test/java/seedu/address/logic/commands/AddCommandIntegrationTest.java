@@ -29,7 +29,7 @@ public class AddCommandIntegrationTest {
     @Test
     public void execute_newPerson_success() {
         // Build a Student (or Volunteer) for the new “typed-only” add flow
-        Person validEntry = asStudent(new PersonBuilder().build());
+        Person validEntry = asStudent(new Person.PersonBuilder().build());
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.addPerson(validEntry);
@@ -51,7 +51,7 @@ public class AddCommandIntegrationTest {
 
     /** Convert a Person fixture to a Student with identical core fields (adjust ctor if yours differs). */
     private static Student asStudent(Person p) {
-        return new Student(p.getName(), p.getPhone(), p.getEmail(), p.getAddress(), p.getTags(), p.getPairings());
+        return Student.toBuilder(p).build();
     }
 
     /** Returns "student" if Student, otherwise "volunteer". */

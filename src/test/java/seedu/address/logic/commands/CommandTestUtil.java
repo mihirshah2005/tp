@@ -58,16 +58,23 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditCommand.EditPersonDescriptor DESC_AMY;
-    public static final EditCommand.EditPersonDescriptor DESC_BOB;
+
+    public static final Person.PersonBuilder DESC_AMY;
+    public static final Person.PersonBuilder DESC_BOB;
 
     static {
-        DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_FRIEND).build();
-        DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+        DESC_AMY = new Person.PersonBuilder()
+                .name(VALID_NAME_AMY)
+                .phone(VALID_PHONE_AMY)
+                .email(VALID_EMAIL_AMY)
+                .address(VALID_ADDRESS_AMY)
+                .tags(VALID_TAG_FRIEND);
+        DESC_BOB = new Person.PersonBuilder()
+                .name(VALID_NAME_BOB)
+                .phone(VALID_PHONE_BOB)
+                .email(VALID_EMAIL_BOB)
+                .address(VALID_ADDRESS_BOB)
+                .tags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND);
     }
 
     /**

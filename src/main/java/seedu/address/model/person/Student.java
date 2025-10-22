@@ -52,6 +52,16 @@ public class Student extends Person {
                 .pairedPersons(personBuilder.getPairedPersons());
     }
 
+    public static StudentBuilder toBuilder(Person person) {
+        return (StudentBuilder) new StudentBuilder()
+                .name(person.getName())
+                .phone(person.getPhone())
+                .email(person.getEmail())
+                .address(person.getAddress())
+                .tags(person.getTags())
+                .pairedPersons(person.getPairedPersons());
+    }
+
     @Override
     public String toString() {
         return "[Student] " + super.toString();

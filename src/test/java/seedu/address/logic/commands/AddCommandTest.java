@@ -37,7 +37,7 @@ public class AddCommandTest {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
 
         // Build a Student (or Volunteer) since AddCommand only accepts those now
-        Person validEntry = asStudent(new PersonBuilder().build());
+        Person validEntry = asStudent(new Person.PersonBuilder().build());
 
         CommandResult commandResult = new AddCommand(validEntry).execute(modelStub);
 
@@ -50,7 +50,7 @@ public class AddCommandTest {
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
-        Person validPerson = asStudent(new PersonBuilder().build());
+        Person validPerson = asStudent(new Person.PersonBuilder().build());
         AddCommand addCommand = new AddCommand(validPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
@@ -59,8 +59,8 @@ public class AddCommandTest {
 
     @Test
     public void equals() {
-        Person alice = asStudent(new PersonBuilder().withName("Alice").build());
-        Person bob = asStudent(new PersonBuilder().withName("Bob").build());
+        Person alice = asStudent(new Person.PersonBuilder().name("Alice").build());
+        Person bob = asStudent(new Person.PersonBuilder().name("Bob").build());
         AddCommand addAliceCommand = new AddCommand(alice);
         AddCommand addBobCommand = new AddCommand(bob);
 
@@ -206,7 +206,7 @@ public class AddCommandTest {
     }
 
     private static Student asStudent(Person p) {
-        return new Student(p.getName(), p.getPhone(), p.getEmail(), p.getAddress(), p.getTags(), p.getPairings());
+        return Student.toBuilder(p).build();
     }
 
     /** Returns "student" when Student, otherwise "volunteer". */
