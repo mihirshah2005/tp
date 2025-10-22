@@ -44,6 +44,7 @@ class UnpairCommandTest {
         // Ensure model reflects the pairing before unpairing
         tutor.addPerson(tutee);
         model.setPerson(model.getFilteredPersonList().get(tutorIndex.getZeroBased()), tutor);
+        model.setPerson(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()), tutee);
 
         UnpairCommand unpair = new UnpairCommand(tutorIndex, Collections.singletonList(tuteeIndex));
         CommandResult result = unpair.execute(model);

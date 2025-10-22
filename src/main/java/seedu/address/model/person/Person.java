@@ -74,7 +74,8 @@ public class Person {
             this.email = p.getEmail();
             this.address = p.getAddress();
             this.tags = p.getTags();
-            this.pairedPersons = p.getPairings();
+            this.pairedPersons = FXCollections.observableArrayList();
+            this.pairedPersons.setAll(p.getPairings());
         }
 
         /**
@@ -202,7 +203,8 @@ public class Person {
          */
         public PersonBuilder tags(Set<Tag> tags) {
             if (tags != null) {
-                this.tags = tags;
+                this.tags = new HashSet<>();
+                this.tags.addAll(tags);
             }
             return this;
         }
@@ -212,9 +214,7 @@ public class Person {
          */
         public PersonBuilder tags(String... tags) {
             if (tags != null) {
-                if (this.tags == null) {
-                    this.tags = new HashSet<>();
-                }
+                this.tags = new HashSet<>();
                 for (int i=0; i<tags.length; i++) {
                     this.tags.add(new Tag(tags[i]));
                 }
@@ -339,7 +339,7 @@ public class Person {
         this.email = builder.email != null ? builder.email : DEFAULT_EMAIL;
         this.address = builder.address != null ? builder.address : DEFAULT_ADDRESS;
         this.tags = builder.tags != null ? builder.tags : new HashSet<>();
-        this.pairedPersons = builder.pairedPersons != null ? builder.pairedPersons : FXCollections.observableArrayList();;
+        this.pairedPersons = builder.pairedPersons != null ? builder.pairedPersons : FXCollections.observableArrayList();
         this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(pairedPersons);
         this.unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);
         this.personBuilder = builder;
@@ -426,14 +426,14 @@ public class Person {
         if (otherPerson == this) {
             throw new IllegalValueException(SELF_PAIRING);
         }
-        if (pairedPersons.contains(otherPerson)) {
+        if (this.pairedPersons.contains(otherPerson)) {
             throw new IllegalValueException(String.format(REPEAT_PAIRING,
                     getName().toString(), otherPerson.getName().toString()));
         }
 
-        pairedPersons.add(otherPerson);
+        this.pairedPersons.add(otherPerson);
         otherPerson.pairedPersons.add(this);
-        FXCollections.sort(pairedPersons, Comparator.comparing(s -> s.getName().toString()));
+        FXCollections.sort(this.pairedPersons, Comparator.comparing(s -> s.getName().toString()));
         FXCollections.sort(otherPerson.pairedPersons, Comparator.comparing(s -> s.getName().toString()));
     }
 
@@ -495,10 +495,10 @@ public class Person {
 
 
         // identify real contacts
-        boolean thisHasRealPhone = !thisPhone.equals(DEFAULT_PHONE);
-        boolean otherHasRealPhone = !otherPhone.equals(DEFAULT_PHONE);
-        boolean thisHasRealEmail = !thisEmail.equals(DEFAULT_EMAIL);
-        boolean otherHasRealEmail = !otherEmail.equals(DEFAULT_EMAIL);
+        boolean thisHasRealPhone = !thisPhone.equals(DEFAULT_PHONE.value);
+        boolean otherHasRealPhone = !otherPhone.equals(DEFAULT_PHONE.value);
+        boolean thisHasRealEmail = !thisEmail.equals(DEFAULT_EMAIL.value);
+        boolean otherHasRealEmail = !otherEmail.equals(DEFAULT_EMAIL.value);
 
         // compare only when both sides have real data
         boolean isSamePhone = thisHasRealPhone && otherHasRealPhone && thisPhone.equals(otherPhone);
@@ -511,6 +511,8 @@ public class Person {
         // same name AND (
         //    same real phone OR same real email OR both phones default OR both emails default
         // )
+        System.out.println("email " + thisHasRealEmail + " " + otherHasRealEmail + " " + thisEmail.equals(otherEmail));
+        System.out.println(isSamePhone + " " + isSameEmail + " " + bothPhoneAndEmailDefault);
         return isSamePhone || isSameEmail || bothPhoneAndEmailDefault;
     }
 

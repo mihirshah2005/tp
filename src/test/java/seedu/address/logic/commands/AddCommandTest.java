@@ -37,7 +37,7 @@ public class AddCommandTest {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
 
         // Build a Student (or Volunteer) since AddCommand only accepts those now
-        Person validEntry = asStudent(new Person.PersonBuilder().build());
+        Person validEntry = asStudent(new Person.PersonBuilder().name("new").build());
 
         CommandResult commandResult = new AddCommand(validEntry).execute(modelStub);
 
@@ -50,7 +50,7 @@ public class AddCommandTest {
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
-        Person validPerson = asStudent(new Person.PersonBuilder().build());
+        Person validPerson = asStudent(new Person.PersonBuilder().name("new").build());
         AddCommand addCommand = new AddCommand(validPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
@@ -84,7 +84,8 @@ public class AddCommandTest {
     @Test
     public void toStringMethod() {
         AddCommand addCommand = new AddCommand(asStudent(ALICE));
-        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
+        String expected = AddCommand.class.getCanonicalName() + "{toAdd=[Student] " +
+                asStudent(ALICE).originalToString() + "}";
         assertEquals(expected, addCommand.toString());
     }
 

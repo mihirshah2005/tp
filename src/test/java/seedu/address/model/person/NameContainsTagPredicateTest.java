@@ -53,19 +53,24 @@ public class NameContainsTagPredicateTest {
 
         // Person has only one tag
         Person personWithOneTag = new Person.PersonBuilder()
-                .tags(tag.tagName).build();
+                .name("new")
+                .tags(tag.tagName)
+                .build();
         assertTrue(predicate.test(personWithOneTag));
 
         // Person has multiple tags
         Person personWithTwoTags = new Person.PersonBuilder()
+                .name("new")
                 .tags(tag.tagName, VALID_TAG_HUSBAND)
                 .build();
         assertTrue(predicate.test(personWithTwoTags));
         Person otherPersonWithTwoTags = new Person.PersonBuilder()
+                .name("new")
                 .tags(VALID_TAG_HUSBAND, tag.tagName)
                 .build();
         assertTrue(predicate.test(otherPersonWithTwoTags));
         Person personWithThreeTags = new Person.PersonBuilder()
+                .name("new")
                 .tags(VALID_TAG_HUSBAND, tag.tagName, VALID_TAG_ENGLISH)
                 .build();
         assertTrue(predicate.test(personWithThreeTags));
@@ -75,6 +80,7 @@ public class NameContainsTagPredicateTest {
         NameContainsTagPredicate predicateWithUpperCaseTag = new NameContainsTagPredicate(tagUppercase);
         assertTrue(predicateWithUpperCaseTag.test(personWithOneTag));
         Person personWithLowercaseTag = new Person.PersonBuilder()
+                .name("new")
                 .tags(VALID_TAG_FRIEND.toLowerCase())
                 .build();
         assertTrue(predicateWithUpperCaseTag.test(personWithLowercaseTag));
@@ -82,6 +88,7 @@ public class NameContainsTagPredicateTest {
         Tag tagLowercase = new Tag(VALID_TAG_FRIEND.toLowerCase());
         NameContainsTagPredicate predicateWithLowerCaseTag = new NameContainsTagPredicate(tagLowercase);
         Person personWithUppercaseTag = new Person.PersonBuilder()
+                .name("new")
                 .tags(VALID_TAG_FRIEND.toLowerCase())
                 .build();
         assertTrue(predicateWithLowerCaseTag.test(personWithUppercaseTag));

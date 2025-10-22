@@ -40,7 +40,6 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonUtil;
 
 public class AddressBookParserTest {
@@ -49,14 +48,14 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_addStudent() throws Exception {
-        Person person = new Student.StudentBuilder().build();
+        Person person = new Student.StudentBuilder().name("new").build();
         AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommandStudent(person));
         assertEquals(new AddCommand(person), command);
     }
 
     @Test
     public void parseCommand_addVolunteer() throws Exception {
-        Person person = new Volunteer.VolunteerBuilder().build();
+        Person person = new Volunteer.VolunteerBuilder().name("new").build();
         AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommandVolunteer(person));
         assertEquals(new AddCommand(person), command);
     }
@@ -77,10 +76,10 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_edit() throws Exception {
-        Person person = new Person.PersonBuilder().build();
-        Person.PersonBuilder descriptor = new Person.PersonBuilder(person);
+        Person.PersonBuilder descriptor = new Person.PersonBuilder().name("new");
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
+        System.out.println(command);
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
     }
 

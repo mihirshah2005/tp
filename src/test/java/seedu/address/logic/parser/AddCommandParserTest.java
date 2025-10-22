@@ -145,7 +145,7 @@ public class AddCommandParserTest {
                 .build()
         );
         assertParseSuccess(parser,
-                NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
+                NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + TAG_DESC_FRIEND,
                 new AddCommand(expectedStudent));
 
         // missing phone prefix -> default "000"

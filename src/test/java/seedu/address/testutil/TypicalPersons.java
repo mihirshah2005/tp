@@ -20,6 +20,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 
 /**
  * A utility class containing a list of {@code Person} objects to be used in tests.
@@ -36,7 +37,7 @@ public class TypicalPersons {
                     .build()
     );
     public static final Supplier<Person> BENSON_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Student.StudentBuilder()
                     .name("Benson Meier")
                     .address("311, Clementi Ave 2, #02-25")
                     .email("johnd@example.com")
@@ -45,7 +46,7 @@ public class TypicalPersons {
                     .build()
     );
     public static final Supplier<Person> CARL_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Student.StudentBuilder()
                     .name("Carl Kurz")
                     .phone("95352563")
                     .email("heinz@example.com")
@@ -53,7 +54,7 @@ public class TypicalPersons {
                     .build()
     );
     public static final Supplier<Person> DANIEL_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Student.StudentBuilder()
                     .name("Daniel Meier")
                     .phone("87652533")
                     .email("cornelia@example.com")
@@ -62,7 +63,7 @@ public class TypicalPersons {
                     .build()
     );
     public static final Supplier<Person> ELLE_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Volunteer.VolunteerBuilder()
                     .name("Elle Meyer")
                     .phone("9482224")
                     .email("werner@example.com")
@@ -70,7 +71,7 @@ public class TypicalPersons {
                     .build()
     );
     public static final Supplier<Person> FIONA_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Volunteer.VolunteerBuilder()
                     .name("Fiona Kunz")
                     .phone("9482427")
                     .email("lydia@example.com")
@@ -78,7 +79,7 @@ public class TypicalPersons {
                     .build()
     );
     public static final Supplier<Person> GEORGE_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Volunteer.VolunteerBuilder()
                     .name("George Best")
                     .phone("9482442")
                     .email("anna@example.com")
@@ -88,7 +89,7 @@ public class TypicalPersons {
 
     // Manually added
     public static final Supplier<Person> HOON_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Volunteer.VolunteerBuilder()
                     .name("Hoon Meier")
                     .phone("8482424")
                     .email("stefan@example.com")
@@ -96,7 +97,7 @@ public class TypicalPersons {
                     .build()
     );
     public static final Supplier<Person> IDA_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Volunteer.VolunteerBuilder()
                     .name("Ida Mueller")
                     .phone("8482131")
                     .email("hans@example.com")
@@ -106,7 +107,7 @@ public class TypicalPersons {
 
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final Supplier<Person> AMY_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Volunteer.VolunteerBuilder()
                     .name(VALID_NAME_AMY)
                     .phone(VALID_PHONE_AMY)
                     .email(VALID_EMAIL_AMY)
@@ -115,7 +116,7 @@ public class TypicalPersons {
                     .build()
     );
     public static final Supplier<Person> BOB_SUPPLIER = (() ->
-            new Person.PersonBuilder()
+            new Volunteer.VolunteerBuilder()
                     .name(VALID_NAME_BOB)
                     .phone(VALID_PHONE_BOB)
                     .email(VALID_EMAIL_BOB)
