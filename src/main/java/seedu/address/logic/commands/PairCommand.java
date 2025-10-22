@@ -63,7 +63,7 @@ public class PairCommand extends Command {
             }
             Person personToPair = lastShownList.get(indexToPair.getZeroBased());
             if ((personToPair == person) || person.getPairedPersons().contains(personToPair)) {
-                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+                assert false;  // should already have been caught by PairCommandParser
             }
             personsToPair.add(personToPair);
         }
@@ -102,7 +102,6 @@ public class PairCommand extends Command {
 
         // state check
         PairCommand e = (PairCommand) other;
-        return index.equals(e.index)
-                && indicesToPair.equals(e.indicesToPair);
+        return index.equals(e.index) && indicesToPair.equals(e.indicesToPair);
     }
 }

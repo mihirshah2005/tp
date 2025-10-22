@@ -61,6 +61,17 @@ public class PairCommandTest {
     }
 
     @Test
+    public void execute_invalidPartnerIndex_throwsCommandException() {
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        ArrayList<Index> indexes = new ArrayList<>();
+        indexes.add(outOfBoundIndex);
+        PairCommand pairCommand = new PairCommand(INDEX_FIRST_PERSON, indexes);
+
+        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () ->
+                pairCommand.execute(model));
+    }
+
+    @Test
     public void equals() {
         PairCommand pairFirstCommand = new PairCommand(INDEX_FIRST_PERSON,
                 Collections.singletonList(INDEX_SECOND_PERSON));
