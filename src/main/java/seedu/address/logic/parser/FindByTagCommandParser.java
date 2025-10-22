@@ -29,8 +29,9 @@ public class FindByTagCommandParser implements Parser<FindByTagCommand> {
         }
 
         String[] tagNames = trimmedArgs.split("\\s+");
-        if (Arrays.stream(tagNames).anyMatch(tagName -> !Tag.isValidTagName(tagName))) {
-            // TODO: simplify condition above
+        boolean hasAnyInvalidTagName = Arrays.stream(tagNames)
+                .anyMatch(tagName -> !Tag.isValidTagName(tagName));
+        if (hasAnyInvalidTagName) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindByTagCommand.MESSAGE_USAGE));
         }
