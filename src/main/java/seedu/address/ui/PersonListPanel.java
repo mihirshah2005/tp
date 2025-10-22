@@ -24,6 +24,7 @@ public class PersonListPanel extends UiPart<Region> {
     @FXML private ListView<Person> studentListView;
     @FXML private ListView<Person> volunteerListView;
 
+    /** List of all Persons, regardless of subtype */
     private final ObservableList<Person> masterList;
 
     /**
@@ -77,7 +78,8 @@ public class PersonListPanel extends UiPart<Region> {
      */
     static class PersonListViewCell extends ListCell<Person> {
         private final ObservableList<Person> masterList;
-        private final String lane; // "student" or "volunteer" for logs
+        /** "student" or "volunteer" for logs*/
+        private final String lane;
 
         PersonListViewCell(ObservableList<Person> masterList, String lane) {
             this.masterList = masterList;
@@ -105,7 +107,7 @@ public class PersonListPanel extends UiPart<Region> {
                 return;
             }
 
-            // indexes here are based on the master list so that I don't break the pair function
+            // indexes here are based on the master list to avoid breaking the pair function
             int globalIndex = masterList.indexOf(person) + 1;
             setGraphic(new PersonCard(person, globalIndex).getRoot());
         }
