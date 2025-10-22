@@ -63,7 +63,7 @@ public class PairCommand extends Command {
             }
             Person personToPair = lastShownList.get(indexToPair.getZeroBased());
             if ((personToPair == person) || person.getPairedPersons().contains(personToPair)) {
-                assert false;  // should already have been caught by PairCommandParser
+                assert false; // should already have been caught by PairCommandParser
             }
             personsToPair.add(personToPair);
         }
