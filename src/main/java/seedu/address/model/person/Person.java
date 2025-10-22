@@ -512,8 +512,6 @@ public class Person {
         // same name AND (
         //    same real phone OR same real email OR both phones default OR both emails default
         // )
-        System.out.println("email " + thisHasRealEmail + " " + otherHasRealEmail + " " + thisEmail.equals(otherEmail));
-        System.out.println(isSamePhone + " " + isSameEmail + " " + bothPhoneAndEmailDefault);
         return isSamePhone || isSameEmail || bothPhoneAndEmailDefault;
     }
 
