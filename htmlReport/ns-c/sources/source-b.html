@@ -1,0 +1,225 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Volunteer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.model.person</a>
+</div>
+
+<h1>Coverage Summary for Class: Volunteer (seedu.address.model.person)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Volunteer</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (6/10)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Volunteer$VolunteerBuild</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    69.2%
+  </span>
+  <span class="absValue">
+    (9/13)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.model.person;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import seedu.address.model.tag.Tag;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a Volunteer in the tutoring volunteer system.
+&nbsp; * Same fields as Person; used to distinguish between Students and Volunteers.
+&nbsp; */
+&nbsp;public class Volunteer extends Person {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The Builder for the Volunteer class.
+&nbsp;     */
+&nbsp;    public static class VolunteerBuild extends PersonBuild&lt;VolunteerBuild&gt; {
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Constructor for a VolunteerBuild object.
+&nbsp;         */
+&nbsp;        public VolunteerBuild(Name name) {
+<b class="fc">&nbsp;            super(name);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Returns a Volunteer object with the parameter values of the Builder.
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public Volunteer build() {
+<b class="fc">&nbsp;            return new Volunteer(this);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private Volunteer(VolunteerBuild builder) {
+<b class="fc">&nbsp;        super(builder);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a {@code Volunteer}.
+&nbsp;     * All fields must be present and not null.
+&nbsp;     *
+&nbsp;     * @param name    The volunteer&#39;s name.
+&nbsp;     * @param phone   The volunteer&#39;s phone number.
+&nbsp;     * @param email   The volunteer&#39;s email address.
+&nbsp;     * @param address The volunteer&#39;s home address.
+&nbsp;     * @param tags    The set of tags associated with the volunteer.
+&nbsp;     * @param pairedPersons The list of persons paired with the volunteer.
+&nbsp;     */
+&nbsp;    public Volunteer(Name name, Phone phone, Email email, Address address, Set&lt;Tag&gt; tags, List&lt;Person&gt; pairedPersons) {
+<b class="fc">&nbsp;        super(name, phone, email, address, tags, pairedPersons);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public VolunteerBuild toBuilder(Name name) {
+<b class="nc">&nbsp;        VolunteerBuild volunteerBuild = new VolunteerBuild(name);</b>
+<b class="nc">&nbsp;        return (VolunteerBuild) volunteerBuild.phone(this.getPhone()).email(this.getEmail()).address(this.getAddress())</b>
+<b class="nc">&nbsp;                .tags(this.getTags()).pairedPersons(this.getPairedPersons());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return &quot;[Volunteer] &quot; + super.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object other) {
+<b class="fc">&nbsp;        return other instanceof Volunteer &amp;&amp; super.equals(other);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return super.hashCode();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-10-21 17:11</div>
+</div>
+</body>
+</html>

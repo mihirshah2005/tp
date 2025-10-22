@@ -73,7 +73,9 @@ public class PairCommand extends Command {
                 person.addPerson(personToPair);
                 model.setPerson(personToPair, personToPair);
             } catch (IllegalValueException e) {
-                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+                assert false;
+                // should already have been caught by
+                // if ((personToPair == person) || person.getPairedPersons().contains(personToPair))
             }
         }
 

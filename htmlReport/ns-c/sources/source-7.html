@@ -1,0 +1,585 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Person</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.model.person</a>
+</div>
+
+<h1>Coverage Summary for Class: Person (seedu.address.model.person)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Person</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.3%
+  </span>
+  <span class="absValue">
+    (24/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.3%
+  </span>
+  <span class="absValue">
+    (61/64)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.6%
+  </span>
+  <span class="absValue">
+    (106/112)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Person$PersonBuild</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (4/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (25/25)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    93.9%
+  </span>
+  <span class="absValue">
+    (31/33)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.3%
+  </span>
+  <span class="absValue">
+    (65/72)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.6%
+  </span>
+  <span class="absValue">
+    (131/137)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.model.person;
+&nbsp;
+&nbsp;import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+&nbsp;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import javafx.collections.FXCollections;
+&nbsp;import javafx.collections.ObservableList;
+&nbsp;import seedu.address.commons.exceptions.IllegalValueException;
+&nbsp;import seedu.address.commons.util.ToStringBuilder;
+&nbsp;import seedu.address.model.tag.Tag;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a Person in the address book.
+&nbsp; * Guarantees: details are present and not null, field values are validated, immutable.
+&nbsp; */
+&nbsp;public class Person {
+&nbsp;    public static final String SELF_PAIRING = &quot;Person cannot be paired with themselves.&quot;;
+&nbsp;    public static final String REPEAT_PAIRING = &quot;{} and {} already paired.&quot;;
+&nbsp;
+&nbsp;    public static final String DEFAULT_PHONE = &quot;000&quot;;
+&nbsp;    public static final String DEFAULT_EMAIL = &quot;default@email&quot;;
+&nbsp;
+&nbsp;    // Identity fields
+&nbsp;    private Name name;
+&nbsp;    private Phone phone;
+&nbsp;    private Email email;
+&nbsp;
+&nbsp;    // Data fields
+&nbsp;    private Address address;
+&nbsp;    private Set&lt;Tag&gt; tags;
+&nbsp;    private final ObservableList&lt;Person&gt; pairedPersons;
+&nbsp;    private final ObservableList&lt;Person&gt; unmodifiablePairedPersons;
+&nbsp;    private final List&lt;Person&gt; unmodifiablePairingsView;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The Builder for the Person class.
+&nbsp;     */
+&nbsp;    public static class PersonBuild&lt;T extends PersonBuild&lt;T&gt;&gt; {
+&nbsp;        // Required parameters
+&nbsp;        private final Name name;
+&nbsp;
+&nbsp;        // Optional parameters - initialized to default values
+<b class="fc">&nbsp;        private Phone phone = new Phone(&quot;000&quot;);</b>
+<b class="fc">&nbsp;        private Email email = new Email(&quot;default@email&quot;);</b>
+<b class="fc">&nbsp;        private Address address = new Address(&quot;Default Address&quot;);</b>
+<b class="fc">&nbsp;        private Set&lt;Tag&gt; tags = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;        private ObservableList&lt;Person&gt; pairedPersons = FXCollections.observableArrayList();</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Constructor for PersonBuild.
+&nbsp;         */
+<b class="fc">&nbsp;        public PersonBuild(Name name) {</b>
+<b class="fc">&nbsp;            requireAllNonNull(name);</b>
+<b class="fc">&nbsp;            this.name = name;</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Setter for the phone parameter.
+&nbsp;         */
+&nbsp;        public PersonBuild&lt;T&gt; phone(Phone phone) {
+<b class="pc">&nbsp;            if (phone != null) {</b>
+<b class="fc">&nbsp;                this.phone = phone;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Setter for the email parameter.
+&nbsp;         */
+&nbsp;        public PersonBuild&lt;T&gt; email(Email email) {
+<b class="pc">&nbsp;            if (email != null) {</b>
+<b class="fc">&nbsp;                this.email = email;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Setter for the address parameter.
+&nbsp;         */
+&nbsp;        public PersonBuild&lt;T&gt; address(Address address) {
+<b class="pc">&nbsp;            if (address != null) {</b>
+<b class="fc">&nbsp;                this.address = address;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Setter for the tags parameter.
+&nbsp;         */
+&nbsp;        public PersonBuild&lt;T&gt; tags(Set&lt;Tag&gt; tags) {
+<b class="pc">&nbsp;            if (tags != null) {</b>
+<b class="fc">&nbsp;                this.tags = tags;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Setter for the pairedPersons parameter.
+&nbsp;         */
+&nbsp;        public PersonBuild&lt;T&gt; pairedPersons(List&lt;Person&gt; pairedPersons) {
+<b class="fc">&nbsp;            this.pairedPersons.setAll(pairedPersons);</b>
+<b class="fc">&nbsp;            FXCollections.sort(this.pairedPersons, Comparator.comparing(p -&gt; p.getName().toString()));</b>
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Returns a Person object with the parameter values of the Builder.
+&nbsp;         */
+&nbsp;        public Person build() {
+<b class="fc">&nbsp;            return new Person(this);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor for a Person object using the builder. This is the intended method of constructing
+&nbsp;     * the person object via the Builder pattern.
+&nbsp;     */
+<b class="fc">&nbsp;    public Person(PersonBuild&lt;? extends PersonBuild&lt;?&gt;&gt; builder) {</b>
+<b class="fc">&nbsp;        requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,</b>
+&nbsp;                builder.tags, builder.pairedPersons);
+<b class="fc">&nbsp;        this.name = builder.name;</b>
+<b class="fc">&nbsp;        this.phone = builder.phone;</b>
+<b class="fc">&nbsp;        this.email = builder.email;</b>
+<b class="fc">&nbsp;        this.address = builder.address;</b>
+<b class="fc">&nbsp;        this.tags = builder.tags;</b>
+<b class="fc">&nbsp;        this.pairedPersons = builder.pairedPersons;</b>
+<b class="fc">&nbsp;        this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(pairedPersons);</b>
+<b class="fc">&nbsp;        this.unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor for a Person object. We can try removing this in future iterations as
+&nbsp;     * it is not strictly necessary.
+&nbsp;     */
+<b class="fc">&nbsp;    public Person(Name name, Phone phone, Email email, Address address, Set&lt;Tag&gt; tags, List&lt;Person&gt; pairedPersons) {</b>
+<b class="fc">&nbsp;        PersonBuild&lt;?&gt; builder = new PersonBuild&lt;&gt;(name).phone(phone).email(email).address(address)</b>
+<b class="fc">&nbsp;                .tags(tags).pairedPersons(pairedPersons);</b>
+<b class="fc">&nbsp;        requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,</b>
+&nbsp;                builder.tags, builder.pairedPersons);
+<b class="fc">&nbsp;        this.name = builder.name;</b>
+<b class="fc">&nbsp;        this.phone = builder.phone;</b>
+<b class="fc">&nbsp;        this.email = builder.email;</b>
+<b class="fc">&nbsp;        this.address = builder.address;</b>
+<b class="fc">&nbsp;        this.tags = builder.tags;</b>
+<b class="fc">&nbsp;        this.pairedPersons = builder.pairedPersons;</b>
+<b class="fc">&nbsp;        this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(builder.pairedPersons);</b>
+<b class="fc">&nbsp;        this.unmodifiablePairingsView = Collections.unmodifiableList(builder.pairedPersons);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts the Person back to Builder form so that it can be easily modified.
+&nbsp;     */
+&nbsp;    public PersonBuild&lt;? extends PersonBuild&lt;?&gt;&gt; toBuilder() {
+<b class="nc">&nbsp;        return toBuilder(this.name);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts the Person back to Builder form so that it can be easily modified.
+&nbsp;     * The name can be passed as a parameter as it is final and cannot be modified afterward.
+&nbsp;     */
+&nbsp;    public PersonBuild&lt;? extends PersonBuild&lt;?&gt;&gt; toBuilder(Name name) {
+<b class="nc">&nbsp;        PersonBuild&lt;? extends PersonBuild&lt;?&gt;&gt; personBuild = new PersonBuild&lt;&gt;(name);</b>
+<b class="nc">&nbsp;        return personBuild.phone(this.phone).email(this.email).address(this.address)</b>
+<b class="nc">&nbsp;                .tags(this.tags).pairedPersons(this.pairedPersons);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the name.
+&nbsp;     */
+&nbsp;    public Name getName() {
+<b class="fc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the phone number.
+&nbsp;     */
+&nbsp;    public Phone getPhone() {
+<b class="fc">&nbsp;        return phone;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the email.
+&nbsp;     */
+&nbsp;    public Email getEmail() {
+<b class="fc">&nbsp;        return email;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the address.
+&nbsp;     */
+&nbsp;    public Address getAddress() {
+<b class="fc">&nbsp;        return address;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Trims and converts the given name to lowercase for consistent comparison.
+&nbsp;     */
+&nbsp;    private String normalizeName(String name) {
+<b class="fc">&nbsp;        return name.trim().toLowerCase();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Trims and converts the given email to lowercase for consistent comparison.
+&nbsp;     */
+&nbsp;    private String normalizeEmail(String email) {
+<b class="fc">&nbsp;        return email.trim().toLowerCase();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Trims the given phone number for consistent comparison.
+&nbsp;     */
+&nbsp;    private String normalizePhone(String phone) {
+<b class="fc">&nbsp;        return phone.trim();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+&nbsp;     * if modification is attempted.
+&nbsp;     */
+&nbsp;    public Set&lt;Tag&gt; getTags() {
+<b class="fc">&nbsp;        return Collections.unmodifiableSet(tags);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+&nbsp;     * if modification is attempted.
+&nbsp;     */
+&nbsp;    public List&lt;Person&gt; getPairedPersons() {
+<b class="fc">&nbsp;        return unmodifiablePairingsView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a new Person object with the specified name.
+&nbsp;     * Relevant checks are in EditCommandParser and other relevant commands.
+&nbsp;     */
+&nbsp;    public Person setName(Name name) {
+<b class="fc">&nbsp;        this.name = name;</b>
+<b class="fc">&nbsp;        return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a new Person object with the specified phone.
+&nbsp;     */
+&nbsp;    public Person setPhone(Phone phone) {
+<b class="fc">&nbsp;        this.phone = phone;</b>
+<b class="fc">&nbsp;        return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a new Person object with the specified email.
+&nbsp;     */
+&nbsp;    public Person setEmail(Email email) {
+<b class="fc">&nbsp;        this.email = email;</b>
+<b class="fc">&nbsp;        return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a new Person object with the specified address.
+&nbsp;     */
+&nbsp;    public Person setAddress(Address address) {
+<b class="fc">&nbsp;        this.address = address;</b>
+<b class="fc">&nbsp;        return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a new Person object with the specified tags.
+&nbsp;     */
+&nbsp;    public Person setTags(Set&lt;Tag&gt; tags) {
+<b class="fc">&nbsp;        this.tags = tags;</b>
+<b class="fc">&nbsp;        return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a Person pair. Only call this on one of the two partners in each pair.
+&nbsp;     * For example, after running {@code person1.addPerson(person2)},
+&nbsp;     * you should not then run {@code `person2.addPerson(person1)}.
+&nbsp;     */
+&nbsp;    public void addPerson(Person otherPerson) throws IllegalValueException {
+<b class="pc">&nbsp;        if (otherPerson == this) {</b>
+<b class="nc">&nbsp;            throw new IllegalValueException(SELF_PAIRING);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (pairedPersons.contains(otherPerson)) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(String.format(REPEAT_PAIRING,</b>
+<b class="fc">&nbsp;                    getName().toString(), otherPerson.getName().toString()));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        pairedPersons.add(otherPerson);</b>
+<b class="fc">&nbsp;        otherPerson.pairedPersons.add(this);</b>
+<b class="fc">&nbsp;        FXCollections.sort(pairedPersons, Comparator.comparing(s -&gt; s.getName().toString()));</b>
+<b class="fc">&nbsp;        FXCollections.sort(otherPerson.pairedPersons, Comparator.comparing(s -&gt; s.getName().toString()));</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a Person pair. Only call this on one of the two partners in each pair.
+&nbsp;     * For example, after running {@code person1.addPerson(person2)},
+&nbsp;     * you should not then run {@code `person2.addPerson(person1)}.
+&nbsp;     */
+&nbsp;    public void removePerson(Person otherPerson) throws IllegalValueException {
+<b class="fc">&nbsp;        if (otherPerson == this) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(SELF_PAIRING);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!pairedPersons.contains(otherPerson)) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(String.format(REPEAT_PAIRING,</b>
+<b class="fc">&nbsp;                    getName().toString(), otherPerson.getName().toString()));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        pairedPersons.remove(otherPerson);</b>
+<b class="fc">&nbsp;        otherPerson.pairedPersons.remove(this);</b>
+&nbsp;
+<b class="fc">&nbsp;        FXCollections.sort(pairedPersons, Comparator.comparing(s -&gt; s.getName().toString()));</b>
+<b class="fc">&nbsp;        FXCollections.sort(otherPerson.pairedPersons, Comparator.comparing(s -&gt; s.getName().toString()));</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns an immutable pairings list, which throws {@code UnsupportedOperationException}
+&nbsp;     * if modification is attempted.
+&nbsp;     */
+&nbsp;    public ObservableList&lt;Person&gt; getPairings() {
+<b class="fc">&nbsp;        return unmodifiablePairedPersons;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if this person and the given person are considered the same.
+&nbsp;     * Two persons are the same if they have the same name (case-insensitive),
+&nbsp;     * and either share the same real phone or email, or both have default contact details.
+&nbsp;     *
+&nbsp;     * @param otherPerson the other person to compare with
+&nbsp;     * @return true if both represent the same person, false otherwise
+&nbsp;     */
+&nbsp;    public boolean isSamePerson(Person otherPerson) {
+<b class="fc">&nbsp;        Objects.requireNonNull(otherPerson);</b>
+<b class="fc">&nbsp;        if (otherPerson == this) {</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // normalize names (case-insensitive, trimmed)
+<b class="fc">&nbsp;        String thisName = normalizeName(getName().fullName);</b>
+<b class="fc">&nbsp;        String otherName = normalizeName(otherPerson.getName().fullName);</b>
+<b class="fc">&nbsp;        if (!thisName.equals(otherName)) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // normalize contact values
+<b class="fc">&nbsp;        String thisPhone = normalizePhone(getPhone().value);</b>
+<b class="fc">&nbsp;        String otherPhone = normalizePhone(otherPerson.getPhone().value);</b>
+<b class="fc">&nbsp;        String thisEmail = normalizeEmail(getEmail().value);</b>
+<b class="fc">&nbsp;        String otherEmail = normalizeEmail(otherPerson.getEmail().value);</b>
+&nbsp;
+&nbsp;
+&nbsp;        // identify real contacts
+<b class="fc">&nbsp;        boolean thisHasRealPhone = !thisPhone.equals(DEFAULT_PHONE);</b>
+<b class="fc">&nbsp;        boolean otherHasRealPhone = !otherPhone.equals(DEFAULT_PHONE);</b>
+<b class="fc">&nbsp;        boolean thisHasRealEmail = !thisEmail.equals(DEFAULT_EMAIL);</b>
+<b class="fc">&nbsp;        boolean otherHasRealEmail = !otherEmail.equals(DEFAULT_EMAIL);</b>
+&nbsp;
+&nbsp;        // compare only when both sides have real data
+<b class="fc">&nbsp;        boolean isSamePhone = thisHasRealPhone &amp;&amp; otherHasRealPhone &amp;&amp; thisPhone.equals(otherPhone);</b>
+<b class="fc">&nbsp;        boolean isSameEmail = thisHasRealEmail &amp;&amp; otherHasRealEmail &amp;&amp; thisEmail.equals(otherEmail);</b>
+&nbsp;
+&nbsp;        // if both phones default &amp; same; if both emails default → same
+<b class="fc">&nbsp;        boolean bothPhonesDefault = !thisHasRealPhone &amp;&amp; !otherHasRealPhone;</b>
+<b class="pc">&nbsp;        boolean bothEmailsDefault = !thisHasRealEmail &amp;&amp; !otherHasRealEmail;</b>
+<b class="fc">&nbsp;        boolean bothPhoneAndEmailDefault = bothPhonesDefault &amp;&amp; bothEmailsDefault;</b>
+&nbsp;        // same name AND (
+&nbsp;        //    same real phone OR same real email OR both phones default OR both emails default
+&nbsp;        // )
+<b class="fc">&nbsp;        return isSamePhone || isSameEmail || bothPhoneAndEmailDefault;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if both persons have the same identity and data fields.
+&nbsp;     * This defines a stronger notion of equality between two persons.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object other) {
+<b class="fc">&nbsp;        if (other == this) {</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (!(other instanceof Person)) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Person otherPerson = (Person) other;</b>
+&nbsp;        // Intentionally EXCLUDE personList to avoid deep / cyclic recursion when pairings are mutual.
+<b class="fc">&nbsp;        return name.equals(otherPerson.name)</b>
+<b class="fc">&nbsp;                &amp;&amp; phone.equals(otherPerson.phone)</b>
+<b class="fc">&nbsp;                &amp;&amp; email.equals(otherPerson.email)</b>
+<b class="fc">&nbsp;                &amp;&amp; address.equals(otherPerson.address)</b>
+<b class="fc">&nbsp;                &amp;&amp; tags.equals(otherPerson.tags);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+&nbsp;        // Exclude personList for consistency with equals (prevents cyclic recursion / stack overflow)
+<b class="fc">&nbsp;        return Objects.hash(name, phone, email, address, tags);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a string representation of the Person and not its subclasses for testing.
+&nbsp;     */
+&nbsp;    public String originalToString() {
+&nbsp;        // Avoid printing entire personList graph (can be cyclic). Show only paired names for debugging.
+<b class="fc">&nbsp;        List&lt;String&gt; pairedNames = pairedPersons.stream()</b>
+<b class="fc">&nbsp;                .map(p -&gt; p.getName().toString())</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+<b class="fc">&nbsp;        return new ToStringBuilder(this)</b>
+<b class="fc">&nbsp;                .add(&quot;name&quot;, name)</b>
+<b class="fc">&nbsp;                .add(&quot;phone&quot;, phone)</b>
+<b class="fc">&nbsp;                .add(&quot;email&quot;, email)</b>
+<b class="fc">&nbsp;                .add(&quot;address&quot;, address)</b>
+<b class="fc">&nbsp;                .add(&quot;tags&quot;, tags)</b>
+<b class="fc">&nbsp;                .add(&quot;pairings&quot;, pairedNames)</b>
+<b class="fc">&nbsp;                .toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return originalToString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-10-21 17:11</div>
+</div>
+</body>
+</html>

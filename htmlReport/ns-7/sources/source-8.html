@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > FindByTagCommand</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.logic.commands</a>
+</div>
+
+<h1>Coverage Summary for Class: FindByTagCommand (seedu.address.logic.commands)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FindByTagCommand</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.4%
+  </span>
+  <span class="absValue">
+    (17/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.logic.commands;
+&nbsp;
+&nbsp;import static java.util.Objects.requireNonNull;
+&nbsp;
+&nbsp;import seedu.address.commons.util.ToStringBuilder;
+&nbsp;import seedu.address.logic.Messages;
+&nbsp;import seedu.address.model.Model;
+&nbsp;import seedu.address.model.person.NameContainsTagPredicate;
+&nbsp;
+&nbsp;/**
+&nbsp; * Finds and lists all the persons who are tagged with the given tag.
+&nbsp; * Tag searching is case insensitive.
+&nbsp; */
+&nbsp;public class FindByTagCommand extends Command {
+&nbsp;
+&nbsp;    public static final String COMMAND_WORD = &quot;findtag&quot;;
+&nbsp;
+&nbsp;    public static final String MESSAGE_USAGE = COMMAND_WORD + &quot;: Finds all persons who are tagged with&quot;
+&nbsp;            + &quot;the specified tag (case-insensitive) and displays them as a list with index numbers.\n&quot;
+&nbsp;            + &quot;Parameters: TAG_NAME\n&quot;
+&nbsp;            + &quot;Example: &quot; + COMMAND_WORD + &quot; mathematics\n&quot;
+&nbsp;            + &quot;Note that only one tag can be provided.&quot;;
+&nbsp;
+&nbsp;    private final NameContainsTagPredicate predicate;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a FindByTagCommand to search for {@code Person}s that fulfil the given
+&nbsp;     * {@code NameContainsTagPredicate}.
+&nbsp;     * @param predicate Tests if a given {@code Person} is tagged with the given tag.
+&nbsp;     * @throws NullPointerException If {@code predicate} is null.
+&nbsp;     */
+<b class="fc">&nbsp;    public FindByTagCommand(NameContainsTagPredicate predicate) {</b>
+<b class="fc">&nbsp;        requireNonNull(predicate);</b>
+<b class="fc">&nbsp;        this.predicate = predicate;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public CommandResult execute(Model model) {
+<b class="fc">&nbsp;        requireNonNull(model);</b>
+<b class="fc">&nbsp;        model.updateFilteredPersonList(predicate);</b>
+<b class="fc">&nbsp;        return new CommandResult(</b>
+<b class="fc">&nbsp;                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object other) {
+<b class="fc">&nbsp;        if (other == this) {</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // instanceof handles nulls
+<b class="fc">&nbsp;        if (!(other instanceof FindByTagCommand)) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        FindByTagCommand otherFindByTagCommand = (FindByTagCommand) other;</b>
+<b class="fc">&nbsp;        return predicate.equals(otherFindByTagCommand.predicate);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return predicate.hashCode();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return new ToStringBuilder(this)</b>
+<b class="fc">&nbsp;                .add(&quot;predicate&quot;, predicate)</b>
+<b class="fc">&nbsp;                .toString();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-10-21 17:11</div>
+</div>
+</body>
+</html>
