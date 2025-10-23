@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -16,52 +18,52 @@ import seedu.address.model.tag.Tag;
 public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
-                new Person.PersonBuilder()
+                new Student.StudentBuilder()
                         .name("Alex Yeoh")
                         .phone("87438807")
                         .email("alexyeoh@example.com")
                         .address("Blk 30 Geylang Street 29, #06-40")
-                        .tags(getTagSet("friends"))
+                        .tags(getTagSet("Math"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Volunteer.VolunteerBuilder()
                         .name("Bernice Yu")
                         .phone("99272758")
                         .email("berniceyu@example.com")
                         .address("Blk 30 Lorong 3 Serangoon Gardens, #07-18")
-                        .tags(getTagSet("colleagues", "friends"))
+                        .tags(getTagSet("Math", "Science"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Student.StudentBuilder()
                         .name("Charlotte Oliveiro")
                         .phone("93210283")
                         .email("charlotte@example.com")
                         .address("Blk 11 Ang Mo Kio Street 74, #11-04")
-                        .tags(getTagSet("neighbours"))
+                        .tags(getTagSet("English"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Volunteer.VolunteerBuilder()
                         .name("David Li")
                         .phone("91031282")
                         .email("lidavid@example.com")
                         .address("Blk 436 Serangoon Gardens Street 26, #16-43")
-                        .tags(getTagSet("family"))
+                        .tags(getTagSet("Chinese"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Student.StudentBuilder()
                         .name("Irfan Ibrahim")
                         .phone("92492021")
                         .email("irfan@example.com")
                         .address("Blk 47 Tampines Street 20, #17-35")
-                        .tags(getTagSet("classmates"))
+                        .tags(getTagSet("Chinese"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Volunteer.VolunteerBuilder()
                         .name("Roy Balakrishnan")
                         .phone("92624417")
                         .email("royb@example.com")
                         .address("Blk 45 Aljunied Street 85, #11-31")
-                        .tags(getTagSet("colleagues"))
+                        .tags(getTagSet("Malay", "English"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
         };

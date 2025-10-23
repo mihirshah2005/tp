@@ -153,16 +153,16 @@ Finds persons who are tagged with the given tag.
 
 This can help you find volunteers who are equipped to teach a particular student with the subjects they struggle with, or vice versa.
 
-Format: `findtag TAG`
+Format: `findtag TAG [MORE_TAGS]`
 
 * The search is case-insensitive. e.g `math` will match `Math` and `MATH`
 * Only tags are searched.
-* If a person has multiple tags, then they will be returned as long as one of their tags is the tag searched for.
+* Only persons whose tags include **all** the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will not appear on the output list after running `findtag math science`.
 
 Examples:
 
 * `findtag math`
-* `findtag EnglishLiterature`
+* `findtag math science`
 
 ### Deleting a person : `delete`
 
@@ -181,9 +181,9 @@ Examples:
 
 Pairs the specified person to other existing persons in the address book.
 
-Format: `pair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`
+Format: `pair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`
 
-* Pairs the person at the specified `INDEX` to the persons specified in `1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`.
+* Pairs the person at the specified `INDEX` to the persons specified in `1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`.
 * The indices refer to the respective index number shown in the displayed person list.
 
 Examples:
@@ -193,9 +193,9 @@ Examples:
 
 Unpairs the specified person to other existing persons in the address book.
 
-Format: `unpair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`
+Format: `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`
 
-* Unpairs the person at the specified `INDEX` to the persons specified in `1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`.
+* Unpairs the person at the specified `INDEX` to the persons specified in `1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`.
 * The indices refer to the respective index number shown in the displayed person list.
 
 Examples:
@@ -256,9 +256,9 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                 
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                         
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`  
-**Find by tag** | `findtag TAG`<br> e.g., `findtag math`     
-**Pair** | `pair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`<br> e.g., `pair 2 1 3`
-**Unpair** | `unpair INDEX 1st_PARTNER_INDEX 2nd_PARTNER_INDEX ... last_PARTNER_INDEX`<br> e.g., `unpair 2 1 3`
+**Find by tag** | `findtag TAG [MORE_TAGS]`<br> e.g., `findtag math science`   
+**Pair** | `pair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `pair 2 1 3`
+**Unpair** | `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `unpair 2 1 3`
 **Exit** | `exit`                                                                                                                                                                             
 **List** | `list`                                                                                                                                                                              
 **Help** | `help`                                                                                                                                                                              

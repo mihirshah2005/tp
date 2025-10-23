@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <ListView fx:id="personListView" VBox.vgrow="ALWAYS" />
-</VBox>
+<SplitPane xmlns="http://javafx.com/javafx/17"
+           xmlns:fx="http://javafx.com/fxml/1"
+           dividerPositions="0.5">
+
+    <items>
+        <!-- Left: Students -->
+        <VBox spacing="8.0">
+            <padding>
+                <Insets topRightBottomLeft="10.0"/>
+            </padding>
+            <Label text="Students" styleClass="heading"/>
+            <ListView fx:id="studentListView" VBox.vgrow="ALWAYS"/>
+        </VBox>
+
+        <!-- Right: Volunteers -->
+        <VBox spacing="8.0">
+            <padding>
+                <Insets topRightBottomLeft="10.0"/>
+            </padding>
+            <Label text="Volunteers" styleClass="heading"/>
+            <ListView fx:id="volunteerListView" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </items>
+</SplitPane>

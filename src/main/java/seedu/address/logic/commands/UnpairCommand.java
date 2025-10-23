@@ -3,7 +3,9 @@ package seedu.address.logic.commands;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
@@ -32,17 +34,17 @@ public class UnpairCommand extends Command {
     public static final String MESSAGE_DUPLICATE_PERSON = "This pairing doesn't even exist in the address book yet.";
 
     private final Index index;
-    private final List<Index> pairedIndices;
+    private final List<Index> indicesToUnpair;
 
     /**
      * @param index of the person in the filtered person list
-     * @param pairedIndices of the person(s) in the filtered person list to pair them to
+     * @param indicesToUnpair of the person(s) in the filtered person list to pair them to
      */
-    public UnpairCommand(Index index, List<Index> pairedIndices) {
-        requireAllNonNull(index, pairedIndices);
+    public UnpairCommand(Index index, List<Index> indicesToUnpair) {
+        requireAllNonNull(index, indicesToUnpair);
 
         this.index = index;
-        this.pairedIndices = pairedIndices;
+        this.indicesToUnpair = indicesToUnpair;
     }
 
     @Override
@@ -54,23 +56,33 @@ public class UnpairCommand extends Command {
         }
 
         Person person = lastShownList.get(index.getZeroBased());
-        for (Index pairedIndex : pairedIndices) {
-            if (pairedIndex.getZeroBased() >= lastShownList.size()) {
+
+        Set<Person> personsToUnpair = new HashSet<>();
+        for (Index indexToUnpair : indicesToUnpair) {
+            if (indexToUnpair.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
-            Person person2 = lastShownList.get(pairedIndex.getZeroBased());
+            Person personToUnpair = lastShownList.get(indexToUnpair.getZeroBased());
+            if ((personToUnpair == person) || !person.getPairedPersons().contains(personToUnpair)) {
+                assert false; // should already have been caught by PairCommandParser
+            }
+            personsToUnpair.add(personToUnpair);
+        }
+
+        for (Person personToUnpair : personsToUnpair) {
             try {
-                person.removePerson(person2);
+                person.removePerson(personToUnpair);
+                model.setPerson(personToUnpair, personToUnpair);
             } catch (IllegalValueException e) {
                 throw new CommandException(MESSAGE_DUPLICATE_PERSON);
             }
         }
-
+        model.setPerson(person, person);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
 
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
-                "{" + pairedIndices.stream().map(
+                "{" + indicesToUnpair.stream().map(
                         index -> lastShownList.get(index.getZeroBased()).getName().toString()
                 ).collect(Collectors.joining(", ")) + "}"));
     }
@@ -90,6 +102,6 @@ public class UnpairCommand extends Command {
         // state check
         UnpairCommand e = (UnpairCommand) other;
         return index.equals(e.index)
-                && pairedIndices.equals(e.pairedIndices);
+                && indicesToUnpair.equals(e.indicesToUnpair);
     }
 }
