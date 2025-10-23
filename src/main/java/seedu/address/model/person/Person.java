@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -24,48 +26,119 @@ public class Person {
     public static final String SELF_PAIRING = "Person cannot be paired with themselves.";
     public static final String REPEAT_PAIRING = "{} and {} already paired.";
 
-    public static final String DEFAULT_PHONE = "000";
-    public static final String DEFAULT_EMAIL = "default@email";
+    public static final Phone DEFAULT_PHONE = new Phone("000");
+    public static final Email DEFAULT_EMAIL = new Email("default@email");
+    public static final Address DEFAULT_ADDRESS = new Address("Default Address");
 
     // Identity fields
-    private Name name;
-    private Phone phone;
-    private Email email;
+    private final Name name;
+    private final Phone phone;
+    private final Email email;
 
     // Data fields
-    private Address address;
-    private Set<Tag> tags;
+    private final Address address;
+    private final Set<Tag> tags;
     private final ObservableList<Person> pairedPersons;
     private final ObservableList<Person> unmodifiablePairedPersons;
     private final List<Person> unmodifiablePairingsView;
 
+    private final PersonBuilder personBuilder;
+
     /**
      * The Builder for the Person class.
      */
-    public static class PersonBuild<T extends PersonBuild<T>> {
+    public static class PersonBuilder extends Builder<PersonBuilder> {
         // Required parameters
-        private final Name name;
+        private Name name;
 
         // Optional parameters - initialized to default values
-        private Phone phone = new Phone("000");
-        private Email email = new Email("default@email");
-        private Address address = new Address("Default Address");
-        private Set<Tag> tags = new HashSet<>();
-        private ObservableList<Person> pairedPersons = FXCollections.observableArrayList();
+        private Phone phone;
+        private Email email;
+        private Address address;
+        private Set<Tag> tags;
+        private ObservableList<Person> pairedPersons;
 
         /**
-         * Constructor for PersonBuild.
+         * Constructor for PersonBuilder.
          */
-        public PersonBuild(Name name) {
-            requireAllNonNull(name);
-            this.name = name;
+        public PersonBuilder() {
+
+        }
+
+        /**
+         * Constructor for PersonBuilder with Person.
+         */
+        public PersonBuilder(Person p) {
+            this.name = p.getName();
+            this.phone = p.getPhone();
+            this.email = p.getEmail();
+            this.address = p.getAddress();
+            this.tags = p.getTags();
+            this.pairedPersons = FXCollections.observableArrayList();
+            this.pairedPersons.setAll(p.getPairings());
+        }
+
+        /**
+         * Copy constructor.
+         */
+        public PersonBuilder(PersonBuilder toCopy) {
+            this.name = toCopy.name;
+            this.phone = toCopy.phone;
+            this.email = toCopy.email;
+            this.address = toCopy.address;
+            this.tags = toCopy.tags;
+            this.pairedPersons = toCopy.pairedPersons;
+        }
+
+        /**
+         * Setter for the name parameter.
+         */
+        public PersonBuilder name(Name name) {
+            if (name != null) {
+                this.name = name;
+            }
+            return this;
+        }
+
+        /**
+         * Setter for the name parameter but with String argument.
+         */
+        public PersonBuilder name(String name) {
+            return this.name(new Name(name));
+        }
+
+        /**
+         * Setter for the name parameter but only if this.name does not already exist.
+         */
+        public PersonBuilder nameIfNotPresent(Name name) {
+            if (this.name == null && name != null) {
+                this.name = name;
+            }
+            return this;
         }
 
         /**
          * Setter for the phone parameter.
          */
-        public PersonBuild<T> phone(Phone phone) {
+        public PersonBuilder phone(Phone phone) {
             if (phone != null) {
+                this.phone = phone;
+            }
+            return this;
+        }
+
+        /**
+         * Setter for the phone parameter but with String argument.
+         */
+        public PersonBuilder phone(String phone) {
+            return this.phone(new Phone(phone));
+        }
+
+        /**
+         * Setter for the phone parameter but only if this.phone does not already exist.
+         */
+        public PersonBuilder phoneIfNotPresent(Phone phone) {
+            if (this.phone == null && phone != null) {
                 this.phone = phone;
             }
             return this;
@@ -74,8 +147,25 @@ public class Person {
         /**
          * Setter for the email parameter.
          */
-        public PersonBuild<T> email(Email email) {
+        public PersonBuilder email(Email email) {
             if (email != null) {
+                this.email = email;
+            }
+            return this;
+        }
+
+        /**
+         * Setter for the email parameter but with String argument.
+         */
+        public PersonBuilder email(String email) {
+            return this.email(new Email(email));
+        }
+
+        /**
+         * Setter for the email parameter but only if this.email does not already exist.
+         */
+        public PersonBuilder emailIfNotPresent(Email email) {
+            if (this.email == null && email != null) {
                 this.email = email;
             }
             return this;
@@ -84,8 +174,25 @@ public class Person {
         /**
          * Setter for the address parameter.
          */
-        public PersonBuild<T> address(Address address) {
+        public PersonBuilder address(Address address) {
             if (address != null) {
+                this.address = address;
+            }
+            return this;
+        }
+
+        /**
+         * Setter for the address parameter but with String argument.
+         */
+        public PersonBuilder address(String address) {
+            return this.address(new Address(address));
+        }
+
+        /**
+         * Setter for the address parameter but only if this.address does not already exist.
+         */
+        public PersonBuilder addressIfNotPresent(Address address) {
+            if (this.address == null && address != null) {
                 this.address = address;
             }
             return this;
@@ -94,8 +201,32 @@ public class Person {
         /**
          * Setter for the tags parameter.
          */
-        public PersonBuild<T> tags(Set<Tag> tags) {
+        public PersonBuilder tags(Set<Tag> tags) {
             if (tags != null) {
+                this.tags = new HashSet<>();
+                this.tags.addAll(tags);
+            }
+            return this;
+        }
+
+        /**
+         * Setter for the tags parameter but with tags in String format.
+         */
+        public PersonBuilder tags(String... tags) {
+            if (tags != null) {
+                this.tags = new HashSet<>();
+                for (int i = 0; i < tags.length; i++) {
+                    this.tags.add(new Tag(tags[i]));
+                }
+            }
+            return this;
+        }
+
+        /**
+         * Setter for the tags parameter but only if this.tags does not already exist.
+         */
+        public PersonBuilder tagsIfNotPresent(Set<Tag> tags) {
+            if (this.tags == null && tags != null) {
                 this.tags = tags;
             }
             return this;
@@ -104,9 +235,24 @@ public class Person {
         /**
          * Setter for the pairedPersons parameter.
          */
-        public PersonBuild<T> pairedPersons(List<Person> pairedPersons) {
-            this.pairedPersons.setAll(pairedPersons);
-            FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
+        public PersonBuilder pairedPersons(List<Person> pairedPersons) {
+            if (pairedPersons != null) {
+                this.pairedPersons = FXCollections.observableArrayList();
+                this.pairedPersons.setAll(pairedPersons);
+                FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
+            }
+            return this;
+        }
+
+        /**
+         * Setter for the pairedPersons parameter but only if this.pairedPersons does not already exist.
+         */
+        public PersonBuilder pairedPersonsIfNotPresent(List<Person> pairedPersons) {
+            if (this.pairedPersons == null && pairedPersons != null) {
+                this.pairedPersons = FXCollections.observableArrayList();
+                this.pairedPersons.setAll(pairedPersons);
+                FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
+            }
             return this;
         }
 
@@ -114,7 +260,71 @@ public class Person {
          * Returns a Person object with the parameter values of the Builder.
          */
         public Person build() {
+            requireNonNull(name);
             return new Person(this);
+        }
+
+        /**
+         * Returns true if at least one field is edited.
+         */
+        public boolean isAnyFieldEdited() {
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags, pairedPersons);
+        }
+
+        public Name getName() {
+            return this.name;
+        }
+
+        public Phone getPhone() {
+            return this.phone;
+        }
+
+        public Email getEmail() {
+            return this.email;
+        }
+
+        public Address getAddress() {
+            return this.address;
+        }
+
+        public Set<Tag> getTags() {
+            return this.tags;
+        }
+
+        public ObservableList<Person> getPairedPersons() {
+            return this.pairedPersons;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == this) {
+                return true;
+            }
+
+            // instanceof handles nulls
+            if (!(other instanceof PersonBuilder)) {
+                return false;
+            }
+
+            PersonBuilder otherPersonBuilder = (PersonBuilder) other;
+            return Objects.equals(name, otherPersonBuilder.name)
+                    && Objects.equals(phone, otherPersonBuilder.phone)
+                    && Objects.equals(email, otherPersonBuilder.email)
+                    && Objects.equals(address, otherPersonBuilder.address)
+                    && Objects.equals(tags, otherPersonBuilder.tags)
+                    && Objects.equals(pairedPersons, otherPersonBuilder.pairedPersons);
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this)
+                    .add("name", name)
+                    .add("phone", phone)
+                    .add("email", email)
+                    .add("address", address)
+                    .add("tags", tags)
+                    .add("paired persons", pairedPersons)
+                    .toString();
         }
     }
 
@@ -122,53 +332,25 @@ public class Person {
      * Constructor for a Person object using the builder. This is the intended method of constructing
      * the person object via the Builder pattern.
      */
-    public Person(PersonBuild<? extends PersonBuild<?>> builder) {
-        requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,
-                builder.tags, builder.pairedPersons);
+    public Person(PersonBuilder builder) {
+        requireAllNonNull(builder.name);
         this.name = builder.name;
-        this.phone = builder.phone;
-        this.email = builder.email;
-        this.address = builder.address;
-        this.tags = builder.tags;
-        this.pairedPersons = builder.pairedPersons;
+        this.phone = builder.phone != null ? builder.phone : DEFAULT_PHONE;
+        this.email = builder.email != null ? builder.email : DEFAULT_EMAIL;
+        this.address = builder.address != null ? builder.address : DEFAULT_ADDRESS;
+        this.tags = builder.tags != null ? builder.tags : new HashSet<>();
+        this.pairedPersons = builder.pairedPersons != null
+                ? builder.pairedPersons : FXCollections.observableArrayList();
         this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(pairedPersons);
         this.unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);
-    }
-
-    /**
-     * Constructor for a Person object. We can try removing this in future iterations as
-     * it is not strictly necessary.
-     */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
-        PersonBuild<?> builder = new PersonBuild<>(name).phone(phone).email(email).address(address)
-                .tags(tags).pairedPersons(pairedPersons);
-        requireAllNonNull(builder.name, builder.phone, builder.email, builder.address,
-                builder.tags, builder.pairedPersons);
-        this.name = builder.name;
-        this.phone = builder.phone;
-        this.email = builder.email;
-        this.address = builder.address;
-        this.tags = builder.tags;
-        this.pairedPersons = builder.pairedPersons;
-        this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(builder.pairedPersons);
-        this.unmodifiablePairingsView = Collections.unmodifiableList(builder.pairedPersons);
+        this.personBuilder = builder;
     }
 
     /**
      * Converts the Person back to Builder form so that it can be easily modified.
      */
-    public PersonBuild<? extends PersonBuild<?>> toBuilder() {
-        return toBuilder(this.name);
-    }
-
-    /**
-     * Converts the Person back to Builder form so that it can be easily modified.
-     * The name can be passed as a parameter as it is final and cannot be modified afterward.
-     */
-    public PersonBuild<? extends PersonBuild<?>> toBuilder(Name name) {
-        PersonBuild<? extends PersonBuild<?>> personBuild = new PersonBuild<>(name);
-        return personBuild.phone(this.phone).email(this.email).address(this.address)
-                .tags(this.tags).pairedPersons(this.pairedPersons);
+    public PersonBuilder toBuilder() {
+        return new PersonBuilder(this.personBuilder);
     }
 
     /**
@@ -237,47 +419,6 @@ public class Person {
     }
 
     /**
-     * Returns a new Person object with the specified name.
-     * Relevant checks are in EditCommandParser and other relevant commands.
-     */
-    public Person setName(Name name) {
-        this.name = name;
-        return this;
-    }
-
-    /**
-     * Returns a new Person object with the specified phone.
-     */
-    public Person setPhone(Phone phone) {
-        this.phone = phone;
-        return this;
-    }
-
-    /**
-     * Returns a new Person object with the specified email.
-     */
-    public Person setEmail(Email email) {
-        this.email = email;
-        return this;
-    }
-
-    /**
-     * Returns a new Person object with the specified address.
-     */
-    public Person setAddress(Address address) {
-        this.address = address;
-        return this;
-    }
-
-    /**
-     * Returns a new Person object with the specified tags.
-     */
-    public Person setTags(Set<Tag> tags) {
-        this.tags = tags;
-        return this;
-    }
-
-    /**
      * Adds a Person pair. Only call this on one of the two partners in each pair.
      * For example, after running {@code person1.addPerson(person2)},
      * you should not then run {@code `person2.addPerson(person1)}.
@@ -286,14 +427,14 @@ public class Person {
         if (otherPerson == this) {
             throw new IllegalValueException(SELF_PAIRING);
         }
-        if (pairedPersons.contains(otherPerson)) {
+        if (this.pairedPersons.contains(otherPerson)) {
             throw new IllegalValueException(String.format(REPEAT_PAIRING,
                     getName().toString(), otherPerson.getName().toString()));
         }
 
-        pairedPersons.add(otherPerson);
+        this.pairedPersons.add(otherPerson);
         otherPerson.pairedPersons.add(this);
-        FXCollections.sort(pairedPersons, Comparator.comparing(s -> s.getName().toString()));
+        FXCollections.sort(this.pairedPersons, Comparator.comparing(s -> s.getName().toString()));
         FXCollections.sort(otherPerson.pairedPersons, Comparator.comparing(s -> s.getName().toString()));
     }
 
@@ -335,7 +476,7 @@ public class Person {
      * @return true if both represent the same person, false otherwise
      */
     public boolean isSamePerson(Person otherPerson) {
-        Objects.requireNonNull(otherPerson);
+        requireNonNull(otherPerson);
         if (otherPerson == this) {
             return true;
         }
@@ -355,10 +496,10 @@ public class Person {
 
 
         // identify real contacts
-        boolean thisHasRealPhone = !thisPhone.equals(DEFAULT_PHONE);
-        boolean otherHasRealPhone = !otherPhone.equals(DEFAULT_PHONE);
-        boolean thisHasRealEmail = !thisEmail.equals(DEFAULT_EMAIL);
-        boolean otherHasRealEmail = !otherEmail.equals(DEFAULT_EMAIL);
+        boolean thisHasRealPhone = !thisPhone.equals(DEFAULT_PHONE.value);
+        boolean otherHasRealPhone = !otherPhone.equals(DEFAULT_PHONE.value);
+        boolean thisHasRealEmail = !thisEmail.equals(DEFAULT_EMAIL.value);
+        boolean otherHasRealEmail = !otherEmail.equals(DEFAULT_EMAIL.value);
 
         // compare only when both sides have real data
         boolean isSamePhone = thisHasRealPhone && otherHasRealPhone && thisPhone.equals(otherPhone);
