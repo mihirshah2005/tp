@@ -6,13 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.logging.Logger;
-
-import javafx.fxml.FXML;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
-import seedu.address.commons.core.LogsCenter;
 
 import com.vladsch.flexmark.ext.tables.TablesExtension;
 import com.vladsch.flexmark.ext.toc.TocExtension;
@@ -21,6 +15,14 @@ import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
+import javafx.fxml.FXML;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import seedu.address.commons.core.LogsCenter;
+
+/**
+ * Controller for a help page
+ */
 public class HelpWindow extends UiPart<Stage> {
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
@@ -28,20 +30,45 @@ public class HelpWindow extends UiPart<Stage> {
 
     // Classpath resources (pack these under src/main/resources/docs/)
     private static final String CLASSPATH_MD = "/docs/UserGuide.md";
-    private static final String CLASSPATH_DOCS_DIR = "/docs/";   // for <base href>
+    private static final String CLASSPATH_DOCS_DIR = "/docs/"; // for <base href>
 
     // Optional dev fallback if you keep docs/ at repo root
     private static final Path FS_MD = Paths.get("docs", "UserGuide.md");
 
-    @FXML private WebView webView;
+    @FXML
+    private WebView webView;
 
-    public HelpWindow(Stage root) { super(FXML, root); loadUserGuide(); }
-    public HelpWindow() { this(new Stage()); }
+    /**
+     * Initialises Helpwindow
+     */
+    public HelpWindow(Stage root) {
+        super(FXML, root);
+        loadUserGuide();
+    }
 
-    public void show() { getRoot().show(); getRoot().centerOnScreen(); }
-    public boolean isShowing() { return getRoot().isShowing(); }
-    public void hide() { getRoot().hide(); }
-    public void focus() { getRoot().requestFocus(); }
+    public HelpWindow() {
+        this(new Stage());
+    }
+
+    /**
+     * Shows Helpwindow
+     */
+    public void show() {
+        getRoot().show();
+        getRoot().centerOnScreen();
+    }
+
+    public boolean isShowing() {
+        return getRoot().isShowing();
+    }
+
+    public void hide() {
+        getRoot().hide();
+    }
+
+    public void focus() {
+        getRoot().requestFocus();
+    }
 
     private void loadUserGuide() {
         try {
@@ -87,17 +114,18 @@ public class HelpWindow extends UiPart<Stage> {
             String baseHref = computeDocsBaseHref();
 
             String css = """
-                body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:16px;line-height:1.6}
-                h1,h2,h3{border-bottom:1px solid #ddd;padding-bottom:.25em}
-                img{max-width:100%;height:auto}
-                code, pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-                .toc{margin:0 0 1rem 0;padding-left:1.25rem}
-                /* Minimal Bootstrap-like alerts */
-                .alert{border-radius:6px;padding:.75rem 1rem;margin:1rem 0;border:1px solid #d0d7de;background:#f6f8fa}
-                .alert-info{border-color:#54aeff;background:#ddf4ff}
-                .alert-primary{border-color:#9b8eff;background:#f4f1ff}
-                .alert-warning{border-color:#c69026;background:#fff8c5}
-            """;
+                        body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:16px;line-height:1.6}
+                        h1,h2,h3{border-bottom:1px solid #ddd;padding-bottom:.25em}
+                        img{max-width:100%;height:auto}
+                        code, pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+                        .toc{margin:0 0 1rem 0;padding-left:1.25rem}
+                        /* Minimal Bootstrap-like alerts */
+                        .alert{border-radius:6px;padding:.75rem 1rem;margin:1rem 0;border:1px solid #d0d7de;
+                        background:#f6f8fa}
+                        .alert-info{border-color:#54aeff;background:#ddf4ff}
+                        .alert-primary{border-color:#9b8eff;background:#f4f1ff}
+                        .alert-warning{border-color:#c69026;background:#fff8c5}
+                    """;
 
             String html = "<!doctype html><html><head><meta charset='UTF-8'>"
                     + (baseHref != null ? "<base href='" + baseHref + "'>" : "")
@@ -114,9 +142,13 @@ public class HelpWindow extends UiPart<Stage> {
 
     private String readUserGuideMarkdown() throws Exception {
         try (InputStream is = getClass().getResourceAsStream(CLASSPATH_MD)) {
-            if (is != null) return new String(is.readAllBytes(), StandardCharsets.UTF_8);
+            if (is != null) {
+                return new String(is.readAllBytes(), StandardCharsets.UTF_8);
+            }
         }
-        if (Files.exists(FS_MD)) return Files.readString(FS_MD, StandardCharsets.UTF_8);
+        if (Files.exists(FS_MD)) {
+            return Files.readString(FS_MD, StandardCharsets.UTF_8);
+        }
         return null;
     }
 
