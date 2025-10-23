@@ -1,0 +1,18 @@
+@startuml
+title addstu/addvol execute flow
+actor User
+participant "UI" as UI
+participant "LogicManager" as Logic
+participant "Model" as Model
+participant "AddressBook" as AB
+
+User -> UI : Enter "addvol ..."
+UI -> Logic : execute(...)
+Logic -> Logic : parse -> AddCommand
+Logic -> Model : AddCommand.execute(model)
+Model -> Model : hasPerson(toAdd)?
+Model -> AB : addPerson(toAdd)
+AB --> Model : updated state
+Model --> Logic : CommandResult
+Logic --> UI : feedback to user
+@enduml
