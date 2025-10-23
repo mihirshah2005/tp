@@ -91,7 +91,8 @@ public class NameContainsTagPredicateTest {
         assertTrue(predicateWithUpperCaseTag.test(personWithLowercaseTag));
 
         Tag tagLowercase = new Tag(VALID_TAG_FRIEND.toLowerCase());
-        NameContainsTagPredicate predicateWithLowerCaseTag = new NameContainsTagPredicate(Collections.singletonList(tagLowercase));
+        NameContainsTagPredicate predicateWithLowerCaseTag = new NameContainsTagPredicate(
+                Collections.singletonList(tagLowercase));
         Person personWithUppercaseTag = new Person.PersonBuilder()
                 .name("new")
                 .tags(VALID_TAG_FRIEND.toLowerCase())
