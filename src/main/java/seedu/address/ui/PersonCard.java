@@ -2,7 +2,6 @@ package seedu.address.ui;
 
 import java.util.Comparator;
 
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -70,7 +69,6 @@ public class PersonCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
         renderPairings();
-        observablePairings.addListener((ListChangeListener<Person>) change -> renderPairings());
     }
 
     private void renderPairings() {
