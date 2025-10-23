@@ -2,9 +2,11 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -41,6 +43,18 @@ public class DeleteCommand extends Command {
         }
 
         Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
+
+        List<Person> snapshot = new ArrayList<>(personToDelete.getPairedPersons());
+        for (Person pairedPerson : snapshot) {
+            try {
+                personToDelete.removePerson(pairedPerson);
+                model.setPerson(pairedPerson, pairedPerson);
+            } catch (IllegalValueException e) {
+                // should not happen
+                assert false : "Paired person should be unpairable";
+            }
+        }
+
         model.deletePerson(personToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)));
     }

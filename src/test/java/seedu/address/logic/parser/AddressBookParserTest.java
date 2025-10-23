@@ -17,6 +17,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -101,7 +102,8 @@ public class AddressBookParserTest {
         FindByTagCommand command = (FindByTagCommand) parser.parseCommand(
                 FindByTagCommand.COMMAND_WORD + " " + VALID_TAG_FRIEND);
         Tag expectedTag = new Tag(VALID_TAG_FRIEND);
-        assertEquals(new FindByTagCommand(new NameContainsTagPredicate(expectedTag)), command);
+        assertEquals(new FindByTagCommand(new NameContainsTagPredicate(Collections.singletonList(expectedTag))),
+                command);
     }
 
     @Test

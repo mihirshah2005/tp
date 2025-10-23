@@ -5,6 +5,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.util.Collections;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindByTagCommand;
@@ -35,7 +37,8 @@ public class FindByTagCommandParserTest {
     @Test
     public void parse_validArgs_returnsFindByTagCommand() {
         Tag expectedTag = new Tag(VALID_TAG_FRIEND);
-        FindByTagCommand expectedCommand = new FindByTagCommand(new NameContainsTagPredicate(expectedTag));
+        FindByTagCommand expectedCommand = new FindByTagCommand(
+                new NameContainsTagPredicate(Collections.singletonList(expectedTag)));
 
         assertParseSuccess(parser, VALID_TAG_FRIEND, expectedCommand);
         assertParseSuccess(parser, "    " + VALID_TAG_FRIEND, expectedCommand);
