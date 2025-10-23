@@ -3,7 +3,9 @@ package seedu.address.logic.commands;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
@@ -31,17 +33,17 @@ public class PairCommand extends Command {
     public static final String MESSAGE_DUPLICATE_PERSON = "This pairing already exists in the address book.";
 
     private final Index index;
-    private final List<Index> pairedIndices;
+    private final List<Index> indicesToPair;
 
     /**
      * @param index of the person in the filtered person list
-     * @param pairedIndices of the person(s) in the filtered person list to pair them to
+     * @param indicesToPair of the person(s) in the filtered person list to pair them to
      */
-    public PairCommand(Index index, List<Index> pairedIndices) {
-        requireAllNonNull(index, pairedIndices);
+    public PairCommand(Index index, List<Index> indicesToPair) {
+        requireAllNonNull(index, indicesToPair);
 
         this.index = index;
-        this.pairedIndices = pairedIndices;
+        this.indicesToPair = indicesToPair;
     }
 
     @Override
@@ -53,22 +55,35 @@ public class PairCommand extends Command {
         }
 
         Person person = lastShownList.get(index.getZeroBased());
-        for (Index pairedIndex : pairedIndices) {
-            if (pairedIndex.getZeroBased() >= lastShownList.size()) {
+
+        Set<Person> personsToPair = new HashSet<>();
+        for (Index indexToPair : indicesToPair) {
+            if (indexToPair.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
-            Person person2 = lastShownList.get(pairedIndex.getZeroBased());
+            Person personToPair = lastShownList.get(indexToPair.getZeroBased());
+            assert personToPair != person;
+            assert !person.getPairedPersons().contains(personToPair);
+            // should already have been caught by PairCommandParser
+            personsToPair.add(personToPair);
+        }
+
+        for (Person personToPair : personsToPair) {
             try {
-                person.addPerson(person2);
+                person.addPerson(personToPair);
+                model.setPerson(personToPair, personToPair);
             } catch (IllegalValueException e) {
-                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+                assert false;
+                // should already have been caught by
+                // if ((personToPair == person) || person.getPairedPersons().contains(personToPair))
             }
         }
 
+        model.setPerson(person, person);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
-                "{" + pairedIndices.stream().map(
+                "{" + indicesToPair.stream().map(
                         index -> lastShownList.get(index.getZeroBased()).getName().toString()
                 ).collect(Collectors.joining(", ")) + "}"));
     }
@@ -87,7 +102,6 @@ public class PairCommand extends Command {
 
         // state check
         PairCommand e = (PairCommand) other;
-        return index.equals(e.index)
-                && pairedIndices.equals(e.pairedIndices);
+        return index.equals(e.index) && indicesToPair.equals(e.indicesToPair);
     }
 }

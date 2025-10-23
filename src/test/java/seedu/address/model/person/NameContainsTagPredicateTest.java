@@ -7,6 +7,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_ENGLISH;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -24,14 +25,17 @@ public class NameContainsTagPredicateTest {
         Tag firstTag = new Tag(VALID_TAG_FRIEND);
         Tag secondTag = new Tag(VALID_TAG_HUSBAND);
 
-        NameContainsTagPredicate firstPredicate = new NameContainsTagPredicate(firstTag);
-        NameContainsTagPredicate secondPredicate = new NameContainsTagPredicate(secondTag);
+        NameContainsTagPredicate firstPredicate = new NameContainsTagPredicate(
+                Collections.singletonList(firstTag));
+        NameContainsTagPredicate secondPredicate = new NameContainsTagPredicate(
+                Collections.singletonList(secondTag));
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        NameContainsTagPredicate firstPredicateCopy = new NameContainsTagPredicate(firstTag);
+        NameContainsTagPredicate firstPredicateCopy = new NameContainsTagPredicate(
+                Collections.singletonList(firstTag));
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -50,7 +54,7 @@ public class NameContainsTagPredicateTest {
     @Test
     public void test_nameContainsTag_returnsTrue() {
         Tag tag = new Tag(VALID_TAG_FRIEND);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(tag);
+        NameContainsTagPredicate predicate = new NameContainsTagPredicate(Collections.singletonList(tag));
 
         // Person has only one tag
         Person personWithOneTag = new PersonBuilder().withTags(tag.tagName).build();
@@ -67,20 +71,23 @@ public class NameContainsTagPredicateTest {
 
         // Mixed-case tags
         Tag tagUppercase = new Tag(VALID_TAG_FRIEND.toUpperCase());
-        NameContainsTagPredicate predicateWithUpperCaseTag = new NameContainsTagPredicate(tagUppercase);
+        NameContainsTagPredicate predicateWithUpperCaseTag = new NameContainsTagPredicate(
+                Collections.singletonList(tagUppercase));
         assertTrue(predicateWithUpperCaseTag.test(personWithOneTag));
         Person personWithLowercaseTag = new PersonBuilder().withTags(VALID_TAG_FRIEND.toLowerCase()).build();
         assertTrue(predicateWithUpperCaseTag.test(personWithLowercaseTag));
 
         Tag tagLowercase = new Tag(VALID_TAG_FRIEND.toLowerCase());
-        NameContainsTagPredicate predicateWithLowerCaseTag = new NameContainsTagPredicate(tagLowercase);
+        NameContainsTagPredicate predicateWithLowerCaseTag = new NameContainsTagPredicate(
+                Collections.singletonList(tagLowercase));
         Person personWithUppercaseTag = new PersonBuilder().withTags(VALID_TAG_FRIEND.toLowerCase()).build();
         assertTrue(predicateWithLowerCaseTag.test(personWithUppercaseTag));
     }
 
+    @Test
     public void test_nameDoesNotContainTag_returnsFalse() {
         Tag tag = new Tag(VALID_TAG_FRIEND);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(tag);
+        NameContainsTagPredicate predicate = new NameContainsTagPredicate(Collections.singletonList(tag));
 
         // Zero tags
         assertFalse(predicate.test(new PersonBuilder().withTags().build()));
@@ -101,10 +108,10 @@ public class NameContainsTagPredicateTest {
 
     @Test
     public void toStringMethod() {
-        Tag tag = new Tag(VALID_TAG_FRIEND);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(tag);
+        List<Tag> tags = List.of(new Tag(VALID_TAG_FRIEND));
+        NameContainsTagPredicate predicate = new NameContainsTagPredicate(tags);
 
-        String expected = NameContainsTagPredicate.class.getCanonicalName() + "{tag=" + tag + "}";
+        String expected = NameContainsTagPredicate.class.getCanonicalName() + "{tags=" + tags + "}";
         assertEquals(expected, predicate.toString());
     }
 }
