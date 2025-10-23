@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
 
 /**
- * Controller for a help page
+ * Controller for the Help window that displays the User Guide in a scrollable WebView.
  */
 public class HelpWindow extends UiPart<Stage> {
 
@@ -51,7 +51,7 @@ public class HelpWindow extends UiPart<Stage> {
     }
 
     /**
-     * Shows Helpwindow
+     * Displays the Help window and centers it on the screen.
      */
     public void show() {
         getRoot().show();
