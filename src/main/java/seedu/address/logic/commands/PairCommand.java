@@ -62,9 +62,9 @@ public class PairCommand extends Command {
                 throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
             Person personToPair = lastShownList.get(indexToPair.getZeroBased());
-            if ((personToPair == person) || person.getPairedPersons().contains(personToPair)) {
-                assert false; // should already have been caught by PairCommandParser
-            }
+            assert personToPair != person;
+            assert !person.getPairedPersons().contains(personToPair);
+            // should already have been caught by PairCommandParser
             personsToPair.add(personToPair);
         }
 
