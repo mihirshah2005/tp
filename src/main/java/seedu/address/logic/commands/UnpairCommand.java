@@ -64,7 +64,7 @@ public class UnpairCommand extends Command {
             }
             Person personToUnpair = lastShownList.get(indexToUnpair.getZeroBased());
             if ((personToUnpair == person) || !person.getPairedPersons().contains(personToUnpair)) {
-                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+                assert false; // should already have been caught by PairCommandParser
             }
             personsToUnpair.add(personToUnpair);
         }

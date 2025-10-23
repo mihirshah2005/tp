@@ -98,7 +98,7 @@ public class EditCommand extends Command {
         personToEdit.setTags(updatedTags);
         model.setPerson(personToEdit, personToEdit);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        if (editPersonDescriptor.getName().isPresent()) {
+        if (editPersonDescriptor.getName().isPresent()) { // if name has been edited
             for (Person pairedPerson : personToEdit.getPairedPersons()) {
                 model.setPerson(pairedPerson, pairedPerson);
             }
