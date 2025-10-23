@@ -77,9 +77,8 @@ dependencies {
 }
 
 processResources {
-    from('docs/UserGuide.md') {
-        into 'docs'
-    }
+    from('docs/UserGuide.md') { into 'docs' }
+    from('docs/images') { into 'docs/images' }   // <-- include images
 }
 
 shadowJar {
