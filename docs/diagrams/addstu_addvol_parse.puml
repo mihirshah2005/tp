@@ -1,0 +1,20 @@
+
+@startuml
+title addstu/addvol parse flow
+actor User
+participant "UI" as UI
+participant "LogicManager" as Logic
+participant "AddressBookParser" as ABP
+participant "AddCommandParser" as ACP
+participant "AddCommand" as AddC
+
+User -> UI : type "addstu n/Amy ... "
+UI -> Logic : execute("addstu n/Amy ...")
+Logic -> ABP : parseCommand("addstu n/Amy ...")
+ABP -> ACP : parse(args, mode=STUDENT)
+ACP -> ACP : parse n/ p/ e/ a/ t/...
+ACP -> ACP : construct Student(...)
+ACP -> AddC : new AddCommand(Student)
+ABP --> Logic : AddCommand
+Logic --> UI : (command ready)
+@enduml
