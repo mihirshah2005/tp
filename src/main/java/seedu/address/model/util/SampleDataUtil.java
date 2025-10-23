@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -16,7 +17,7 @@ import seedu.address.model.tag.Tag;
 public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
-                new Person.PersonBuilder()
+                new Student.StudentBuilder()
                         .name("Alex Yeoh")
                         .phone("87438807")
                         .email("alexyeoh@example.com")
@@ -24,7 +25,7 @@ public class SampleDataUtil {
                         .tags(getTagSet("friends"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Student.StudentBuilder()
                         .name("Bernice Yu")
                         .phone("99272758")
                         .email("berniceyu@example.com")
@@ -32,7 +33,7 @@ public class SampleDataUtil {
                         .tags(getTagSet("colleagues", "friends"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Student.StudentBuilder()
                         .name("Charlotte Oliveiro")
                         .phone("93210283")
                         .email("charlotte@example.com")
@@ -40,7 +41,7 @@ public class SampleDataUtil {
                         .tags(getTagSet("neighbours"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Student.StudentBuilder()
                         .name("David Li")
                         .phone("91031282")
                         .email("lidavid@example.com")
@@ -48,7 +49,7 @@ public class SampleDataUtil {
                         .tags(getTagSet("family"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Student.StudentBuilder()
                         .name("Irfan Ibrahim")
                         .phone("92492021")
                         .email("irfan@example.com")
@@ -56,7 +57,7 @@ public class SampleDataUtil {
                         .tags(getTagSet("classmates"))
                         .pairedPersons(new ArrayList<>())
                         .build(),
-                new Person.PersonBuilder()
+                new Student.StudentBuilder()
                         .name("Roy Balakrishnan")
                         .phone("92624417")
                         .email("royb@example.com")
