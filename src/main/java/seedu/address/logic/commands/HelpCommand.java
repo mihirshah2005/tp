@@ -20,6 +20,7 @@ public class HelpCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) {
+        assert model != null : "Model should not be null when executing HelpCommand";
         StringBuilder sb = new StringBuilder();
 
         sb.append("Here are some sample commands you can try:\n\n")
