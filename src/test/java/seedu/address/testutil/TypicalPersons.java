@@ -19,52 +19,111 @@ import java.util.function.Supplier;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 
 /**
  * A utility class containing a list of {@code Person} objects to be used in tests.
  */
 public class TypicalPersons {
 
-    public static final Supplier<Person> ALICE_SUPPLIER = (() -> new StudentBuilder().withName("Alice Pauline")
-            .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
-            .withPhone("94351253")
-            .withTags("friends").build());
-    public static final Supplier<Person> BENSON_SUPPLIER = (() -> new PersonBuilder().withName("Benson Meier")
-            .withAddress("311, Clementi Ave 2, #02-25")
-            .withEmail("johnd@example.com").withPhone("98765432")
-            .withTags("owesMoney", "friends").build());
-    public static final Supplier<Person> CARL_SUPPLIER = (() -> new PersonBuilder()
-            .withName("Carl Kurz").withPhone("95352563")
-            .withEmail("heinz@example.com").withAddress("wall street").build());
-    public static final Supplier<Person> DANIEL_SUPPLIER = (() -> new PersonBuilder()
-            .withName("Daniel Meier").withPhone("87652533")
-            .withEmail("cornelia@example.com").withAddress("10th street").withTags("friends").build());
-    public static final Supplier<Person> ELLE_SUPPLIER = (() -> new PersonBuilder()
-            .withName("Elle Meyer").withPhone("9482224")
-            .withEmail("werner@example.com").withAddress("michegan ave").build());
-    public static final Supplier<Person> FIONA_SUPPLIER = (() -> new PersonBuilder()
-            .withName("Fiona Kunz").withPhone("9482427")
-            .withEmail("lydia@example.com").withAddress("little tokyo").build());
-    public static final Supplier<Person> GEORGE_SUPPLIER = (() -> new PersonBuilder()
-            .withName("George Best").withPhone("9482442")
-            .withEmail("anna@example.com").withAddress("4th street").build());
+    public static final Supplier<Person> ALICE_SUPPLIER = (() ->
+            new Student.StudentBuilder()
+                    .name("Alice Pauline")
+                    .address("123, Jurong West Ave 6, #08-111")
+                    .email("alice@example.com")
+                    .phone("94351253")
+                    .tags("friends")
+                    .build()
+    );
+    public static final Supplier<Person> BENSON_SUPPLIER = (() ->
+            new Student.StudentBuilder()
+                    .name("Benson Meier")
+                    .address("311, Clementi Ave 2, #02-25")
+                    .email("johnd@example.com")
+                    .phone("98765432")
+                    .tags("owesMoney", "friends")
+                    .build()
+    );
+    public static final Supplier<Person> CARL_SUPPLIER = (() ->
+            new Student.StudentBuilder()
+                    .name("Carl Kurz")
+                    .phone("95352563")
+                    .email("heinz@example.com")
+                    .address("wall street")
+                    .build()
+    );
+    public static final Supplier<Person> DANIEL_SUPPLIER = (() ->
+            new Student.StudentBuilder()
+                    .name("Daniel Meier")
+                    .phone("87652533")
+                    .email("cornelia@example.com")
+                    .address("10th street")
+                    .tags("friends")
+                    .build()
+    );
+    public static final Supplier<Person> ELLE_SUPPLIER = (() ->
+            new Volunteer.VolunteerBuilder()
+                    .name("Elle Meyer")
+                    .phone("9482224")
+                    .email("werner@example.com")
+                    .address("michegan ave")
+                    .build()
+    );
+    public static final Supplier<Person> FIONA_SUPPLIER = (() ->
+            new Volunteer.VolunteerBuilder()
+                    .name("Fiona Kunz")
+                    .phone("9482427")
+                    .email("lydia@example.com")
+                    .address("little tokyo")
+                    .build()
+    );
+    public static final Supplier<Person> GEORGE_SUPPLIER = (() ->
+            new Volunteer.VolunteerBuilder()
+                    .name("George Best")
+                    .phone("9482442")
+                    .email("anna@example.com")
+                    .address("4th street")
+                    .build()
+    );
 
     // Manually added
-    public static final Supplier<Person> HOON_SUPPLIER = (() -> new PersonBuilder()
-            .withName("Hoon Meier").withPhone("8482424")
-            .withEmail("stefan@example.com").withAddress("little india").build());
-    public static final Supplier<Person> IDA_SUPPLIER = (() -> new PersonBuilder()
-            .withName("Ida Mueller").withPhone("8482131")
-            .withEmail("hans@example.com").withAddress("chicago ave").build());
+    public static final Supplier<Person> HOON_SUPPLIER = (() ->
+            new Volunteer.VolunteerBuilder()
+                    .name("Hoon Meier")
+                    .phone("8482424")
+                    .email("stefan@example.com")
+                    .address("little india")
+                    .build()
+    );
+    public static final Supplier<Person> IDA_SUPPLIER = (() ->
+            new Volunteer.VolunteerBuilder()
+                    .name("Ida Mueller")
+                    .phone("8482131")
+                    .email("hans@example.com")
+                    .address("chicago ave")
+                    .build()
+    );
 
     // Manually added - Person's details found in {@code CommandTestUtil}
-    public static final Supplier<Person> AMY_SUPPLIER = (() -> new PersonBuilder()
-            .withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
-            .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).build());
-    public static final Supplier<Person> BOB_SUPPLIER = (() -> new PersonBuilder()
-            .withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-            .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
-            .build());
+    public static final Supplier<Person> AMY_SUPPLIER = (() ->
+            new Volunteer.VolunteerBuilder()
+                    .name(VALID_NAME_AMY)
+                    .phone(VALID_PHONE_AMY)
+                    .email(VALID_EMAIL_AMY)
+                    .address(VALID_ADDRESS_AMY)
+                    .tags(VALID_TAG_FRIEND)
+                    .build()
+    );
+    public static final Supplier<Person> BOB_SUPPLIER = (() ->
+            new Volunteer.VolunteerBuilder()
+                    .name(VALID_NAME_BOB)
+                    .phone(VALID_PHONE_BOB)
+                    .email(VALID_EMAIL_BOB)
+                    .address(VALID_ADDRESS_BOB)
+                    .tags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+                    .build()
+    );
 
     public static final Person ALICE = ALICE_SUPPLIER.get();
     public static final Person BENSON = BENSON_SUPPLIER.get();
@@ -119,5 +178,21 @@ public class TypicalPersons {
         }
         return new ArrayList<>(Arrays.asList(alice, benson, CARL_SUPPLIER.get(), DANIEL_SUPPLIER.get(),
                 ELLE_SUPPLIER.get(), FIONA_SUPPLIER.get(), GEORGE_SUPPLIER.get()));
+    }
+
+    /**
+     * Returns a List of typical persons, but returning a new copy each function call.
+     */
+    public static List<Person> getFreshTypicalPersons() {
+        return List.of(
+                new Person.PersonBuilder(ALICE).build(),
+                new Person.PersonBuilder(BOB).build(),
+                new Person.PersonBuilder(CARL).build(),
+                new Person.PersonBuilder(CARL).build(),
+                new Person.PersonBuilder(DANIEL).build(),
+                new Person.PersonBuilder(ELLE).build(),
+                new Person.PersonBuilder(FIONA).build(),
+                new Person.PersonBuilder(GEORGE).build()
+        );
     }
 }

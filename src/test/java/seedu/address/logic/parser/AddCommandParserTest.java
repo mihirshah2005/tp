@@ -45,14 +45,17 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Student;
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser(EntryType.STUDENT, AddCommand.MESSAGE_USAGE_STUDENT);
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Student expectedStudent = asStudent(new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND).build());
+        Student expectedStudent = asStudent(
+                new Person.PersonBuilder(BOB.toBuilder())
+                        .tags(VALID_TAG_FRIEND)
+                        .build()
+        );
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
@@ -61,7 +64,11 @@ public class AddCommandParserTest {
 
         // multiple tags - all accepted
         Student expectedStudentMultipleTags =
-                asStudent(new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build());
+                asStudent(
+                        new Person.PersonBuilder(BOB.toBuilder())
+                                .tags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+                                .build()
+                );
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 new AddCommand(expectedStudentMultipleTags));
@@ -133,39 +140,59 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_optionalFieldsMissing_success() {
-        Student expectedStudent = asStudent(new PersonBuilder(AMY).withTags().build());
+        Student expectedStudent = asStudent(
+                new Person.PersonBuilder(AMY.toBuilder())
+                .build()
+        );
         assertParseSuccess(parser,
-                NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
+                NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + TAG_DESC_FRIEND,
                 new AddCommand(expectedStudent));
 
         // missing phone prefix -> default "000"
-        Student missingPhone = asStudent(new PersonBuilder()
-                .withName(VALID_NAME_BOB).withPhone("000").withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withTags().build());
+        Student missingPhone = asStudent(
+                new Person.PersonBuilder()
+                        .name(VALID_NAME_BOB)
+                        .phone("000")
+                        .email(VALID_EMAIL_BOB)
+                        .address(VALID_ADDRESS_BOB)
+                        .build()
+        );
         assertParseSuccess(parser,
                 NAME_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
                 new AddCommand(missingPhone));
 
         // missing email prefix -> default "default@email"
-        Student missingEmail = asStudent(new PersonBuilder()
-                .withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB).withEmail("default@email")
-                .withAddress(VALID_ADDRESS_BOB).withTags().build());
+        Student missingEmail = asStudent(new Person.PersonBuilder()
+                .name(VALID_NAME_BOB)
+                .phone(VALID_PHONE_BOB)
+                .email("default@email")
+                .address(VALID_ADDRESS_BOB)
+                .build()
+        );
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + ADDRESS_DESC_BOB,
                 new AddCommand(missingEmail));
 
         // missing address prefix -> default "Default Address"
-        Student missingAddress = asStudent(new PersonBuilder()
-                .withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
-                .withAddress("Default Address").withTags().build());
+        Student missingAddress = asStudent(new Person.PersonBuilder()
+                .name(VALID_NAME_BOB)
+                .phone(VALID_PHONE_BOB)
+                .email(VALID_EMAIL_BOB)
+                .address("Default Address")
+                .build()
+        );
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB,
                 new AddCommand(missingAddress));
 
         // all prefixes missing (only name provided -> defaults for others)
-        Student onlyName = asStudent(new PersonBuilder()
-                .withName(VALID_NAME_BOB).withPhone("000").withEmail("default@email")
-                .withAddress("Default Address").withTags().build());
+        Student onlyName = asStudent(new Person.PersonBuilder()
+                .name(VALID_NAME_BOB)
+                .phone("000")
+                .email("default@email")
+                .address("Default Address")
+                .build()
+        );
         assertParseSuccess(parser, NAME_DESC_BOB, new AddCommand(onlyName));
     }
 
@@ -211,7 +238,7 @@ public class AddCommandParserTest {
     }
 
     private static Student asStudent(Person p) {
-        return new Student(p.getName(), p.getPhone(), p.getEmail(), p.getAddress(), p.getTags(), p.getPairings());
+        return Student.toBuilder(p).build();
     }
 
 }

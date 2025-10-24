@@ -27,7 +27,6 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindByTagCommand;
 import seedu.address.logic.commands.FindCommand;
@@ -42,11 +41,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
-import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
-import seedu.address.testutil.StudentBuilder;
-import seedu.address.testutil.VolunteerBuilder;
 
 public class AddressBookParserTest {
 
@@ -54,14 +49,14 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_addStudent() throws Exception {
-        Person person = new StudentBuilder().build();
+        Person person = new Student.StudentBuilder().name("new").build();
         AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommandStudent(person));
         assertEquals(new AddCommand(person), command);
     }
 
     @Test
     public void parseCommand_addVolunteer() throws Exception {
-        Person person = new VolunteerBuilder().build();
+        Person person = new Volunteer.VolunteerBuilder().name("new").build();
         AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommandVolunteer(person));
         assertEquals(new AddCommand(person), command);
     }
@@ -82,8 +77,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_edit() throws Exception {
-        Person person = new PersonBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
+        Person.PersonBuilder descriptor = new Person.PersonBuilder().name("new");
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
@@ -148,12 +142,11 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_addStudent_success() throws Exception {
-        Student expected = new StudentBuilder()
-                .withName("Amy Bee")
-                .withPhone("11111111")
-                .withEmail("amy@example.com")
-                .withAddress("Block 312, Amy Street 1")
-                .withTags()
+        Student expected = (Student) new Student.StudentBuilder()
+                .name("Amy Bee")
+                .phone("11111111")
+                .email("amy@example.com")
+                .address("Block 312, Amy Street 1")
                 .build();
 
         AddCommand command = (AddCommand) parser.parseCommand(
@@ -166,12 +159,12 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_addVolunteer_success() throws Exception {
-        Volunteer expected = new VolunteerBuilder()
-                .withName("Bob Choo")
-                .withPhone("22222222")
-                .withEmail("bob@example.com")
-                .withAddress("Block 123, Bobby Street 3")
-                .withTags()
+        Volunteer expected = (Volunteer) new Volunteer.VolunteerBuilder()
+                .name("Bob Choo")
+                .phone("22222222")
+                .email("bob@example.com")
+                .address("Block 123, Bobby Street 3")
+                .tags()
                 .build();
 
         AddCommand command = (AddCommand) parser.parseCommand(

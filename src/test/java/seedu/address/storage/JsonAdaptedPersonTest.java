@@ -9,7 +9,6 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,6 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Volunteer;
-import seedu.address.model.tag.Tag;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
@@ -202,20 +200,26 @@ public class JsonAdaptedPersonTest {
 
     @Test
     public void roundTrip_fromStudent_preservesSubtype() throws Exception {
-        Student s = new Student(
-                BENSON.getName(), BENSON.getPhone(), BENSON.getEmail(), BENSON.getAddress(),
-                Set.of(new Tag("friends")), List.of()
-        );
+        Student s = (Student) new Student.StudentBuilder()
+                .name(BENSON.getName())
+                .phone(BENSON.getPhone())
+                .email(BENSON.getEmail())
+                .address(BENSON.getAddress())
+                .tags("friends")
+                .build();
         JsonAdaptedPerson jap = new JsonAdaptedPerson(s);
         assertTrue(jap.toModelType() instanceof Student);
     }
 
     @Test
     public void roundTrip_fromVolunteer_preservesSubtype() throws Exception {
-        Volunteer v = new Volunteer(
-                BENSON.getName(), BENSON.getPhone(), BENSON.getEmail(), BENSON.getAddress(),
-                Set.of(new Tag("helpers")), List.of()
-        );
+        Volunteer v = (Volunteer) new Volunteer.VolunteerBuilder()
+                .name(BENSON.getName())
+                .phone(BENSON.getPhone())
+                .email(BENSON.getEmail())
+                .address(BENSON.getAddress())
+                .tags("helpers")
+                .build();
         JsonAdaptedPerson jap = new JsonAdaptedPerson(v);
         assertTrue(jap.toModelType() instanceof Volunteer);
     }
