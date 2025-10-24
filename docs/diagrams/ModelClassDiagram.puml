@@ -19,6 +19,8 @@ Class Email
 Class Name
 Class Phone
 Class Tag
+Class Student
+Class Volunteer
 
 Class I #FFFFFF
 }
@@ -42,6 +44,9 @@ Person *--> Phone
 Person *--> Email
 Person *--> Address
 Person *--> "*" Tag
+Person <|-- Student
+Person <|-- Volunteer
+Student "0..*" -down- "0..*" Volunteer : pairedPersons
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
