@@ -26,4 +26,5 @@ public class HelpCommandTest {
 
         assertEquals(model, expectedModel, "Model state should remain unchanged after help command.");
     }
+
 }
