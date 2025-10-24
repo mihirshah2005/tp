@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,9 +62,9 @@ public class PairCommand extends Command {
                 throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
             Person personToPair = lastShownList.get(indexToPair.getZeroBased());
-            if ((personToPair == person) || person.getPairedPersons().contains(personToPair)) {
-                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-            }
+            assert personToPair != person;
+            assert !person.getPairedPersons().contains(personToPair);
+            // should already have been caught by PairCommandParser
             personsToPair.add(personToPair);
         }
 
@@ -74,7 +73,9 @@ public class PairCommand extends Command {
                 person.addPerson(personToPair);
                 model.setPerson(personToPair, personToPair);
             } catch (IllegalValueException e) {
-                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+                assert false;
+                // should already have been caught by
+                // if ((personToPair == person) || person.getPairedPersons().contains(personToPair))
             }
         }
 
@@ -101,7 +102,6 @@ public class PairCommand extends Command {
 
         // state check
         PairCommand e = (PairCommand) other;
-        return index.equals(e.index)
-                && indicesToPair.equals(e.indicesToPair);
+        return index.equals(e.index) && indicesToPair.equals(e.indicesToPair);
     }
 }

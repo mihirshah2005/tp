@@ -1,10 +1,5 @@
 package seedu.address.model.person;
 
-import java.util.List;
-import java.util.Set;
-
-import seedu.address.model.tag.Tag;
-
 /**
  * Represents a Student in the tutoring volunteer system.
  * Same fields as Person; used to distinguish between Students and Volunteers.
@@ -14,13 +9,13 @@ public class Student extends Person {
     /**
      * The Builder for the Student class.
      */
-    public static class StudentBuild extends PersonBuild<StudentBuild> {
+    public static class StudentBuilder extends Person.PersonBuilder {
 
         /**
-         * Constructor for a StudentBuild object.
+         * Constructor for a StudentBuilder object.
          */
-        public StudentBuild(Name name) {
-            super(name);
+        public StudentBuilder() {
+            super();
         }
 
         /**
@@ -32,30 +27,45 @@ public class Student extends Person {
         }
     }
 
-    private Student(StudentBuild builder) {
+    private Student(StudentBuilder builder) {
         super(builder);
     }
 
-    /**
-     * Constructs a {@code Student}.
-     * All fields must be present and not null.
-     *
-     * @param name    The student's name.
-     * @param phone   The student's phone number.
-     * @param email   The student's email address.
-     * @param address The student's home address.
-     * @param tags    The set of tags associated with the student.
-     * @param pairedPersons The list of persons paired with the student.
-     */
-    public Student(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Person> pairedPersons) {
-        super(name, phone, email, address, tags, pairedPersons);
+    @Override
+    public StudentBuilder toBuilder() {
+        return (StudentBuilder) new StudentBuilder()
+                .name(this.getName())
+                .phone(this.getPhone())
+                .email(this.getEmail())
+                .address(this.getAddress())
+                .tags(this.getTags())
+                .pairedPersons(this.getPairedPersons());
     }
 
-    @Override
-    public StudentBuild toBuilder(Name name) {
-        StudentBuild studentBuild = new StudentBuild(name);
-        return (StudentBuild) studentBuild.phone(this.getPhone()).email(this.getEmail()).address(this.getAddress())
-                .tags(this.getTags()).pairedPersons(this.getPairedPersons());
+    /**
+     * Converts the PersonBuilder object to a StudentBuilder object.
+     */
+    public static StudentBuilder toBuilder(PersonBuilder personBuilder) {
+        return (StudentBuilder) new StudentBuilder()
+                .name(personBuilder.getName())
+                .phone(personBuilder.getPhone())
+                .email(personBuilder.getEmail())
+                .address(personBuilder.getAddress())
+                .tags(personBuilder.getTags())
+                .pairedPersons(personBuilder.getPairedPersons());
+    }
+
+    /**
+     * Converts the Person object to a StudentBuilder object.
+     */
+    public static StudentBuilder toBuilder(Person person) {
+        return (StudentBuilder) new StudentBuilder()
+                .name(person.getName())
+                .phone(person.getPhone())
+                .email(person.getEmail())
+                .address(person.getAddress())
+                .tags(person.getTags())
+                .pairedPersons(person.getPairedPersons());
     }
 
     @Override

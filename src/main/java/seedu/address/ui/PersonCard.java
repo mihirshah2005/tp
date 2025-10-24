@@ -2,7 +2,6 @@ package seedu.address.ui;
 
 import java.util.Comparator;
 
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

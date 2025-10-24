@@ -7,12 +7,12 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_ENGLISH;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.PersonBuilder;
 
 /**
  * Contains integration test (integration with Tag class) for NameContainsTagPredicate.
@@ -24,14 +24,17 @@ public class NameContainsTagPredicateTest {
         Tag firstTag = new Tag(VALID_TAG_FRIEND);
         Tag secondTag = new Tag(VALID_TAG_HUSBAND);
 
-        NameContainsTagPredicate firstPredicate = new NameContainsTagPredicate(firstTag);
-        NameContainsTagPredicate secondPredicate = new NameContainsTagPredicate(secondTag);
+        NameContainsTagPredicate firstPredicate = new NameContainsTagPredicate(
+                Collections.singletonList(firstTag));
+        NameContainsTagPredicate secondPredicate = new NameContainsTagPredicate(
+                Collections.singletonList(secondTag));
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        NameContainsTagPredicate firstPredicateCopy = new NameContainsTagPredicate(firstTag);
+        NameContainsTagPredicate firstPredicateCopy = new NameContainsTagPredicate(
+                Collections.singletonList(firstTag));
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -50,40 +53,64 @@ public class NameContainsTagPredicateTest {
     @Test
     public void test_nameContainsTag_returnsTrue() {
         Tag tag = new Tag(VALID_TAG_FRIEND);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(tag);
+        NameContainsTagPredicate predicate = new NameContainsTagPredicate(Collections.singletonList(tag));
 
         // Person has only one tag
-        Person personWithOneTag = new PersonBuilder().withTags(tag.tagName).build();
+        Person personWithOneTag = new Person.PersonBuilder()
+                .name("new")
+                .tags(tag.tagName)
+                .build();
         assertTrue(predicate.test(personWithOneTag));
 
         // Person has multiple tags
-        Person personWithTwoTags = new PersonBuilder().withTags(tag.tagName, VALID_TAG_HUSBAND).build();
+        Person personWithTwoTags = new Person.PersonBuilder()
+                .name("new")
+                .tags(tag.tagName, VALID_TAG_HUSBAND)
+                .build();
         assertTrue(predicate.test(personWithTwoTags));
-        Person otherPersonWithTwoTags = new PersonBuilder().withTags(VALID_TAG_HUSBAND, tag.tagName).build();
+        Person otherPersonWithTwoTags = new Person.PersonBuilder()
+                .name("new")
+                .tags(VALID_TAG_HUSBAND, tag.tagName)
+                .build();
         assertTrue(predicate.test(otherPersonWithTwoTags));
-        Person personWithThreeTags = new PersonBuilder()
-                .withTags(VALID_TAG_HUSBAND, tag.tagName, VALID_TAG_ENGLISH).build();
+        Person personWithThreeTags = new Person.PersonBuilder()
+                .name("new")
+                .tags(VALID_TAG_HUSBAND, tag.tagName, VALID_TAG_ENGLISH)
+                .build();
         assertTrue(predicate.test(personWithThreeTags));
 
         // Mixed-case tags
         Tag tagUppercase = new Tag(VALID_TAG_FRIEND.toUpperCase());
-        NameContainsTagPredicate predicateWithUpperCaseTag = new NameContainsTagPredicate(tagUppercase);
+        NameContainsTagPredicate predicateWithUpperCaseTag = new NameContainsTagPredicate(
+                Collections.singletonList(tagUppercase));
         assertTrue(predicateWithUpperCaseTag.test(personWithOneTag));
-        Person personWithLowercaseTag = new PersonBuilder().withTags(VALID_TAG_FRIEND.toLowerCase()).build();
+        Person personWithLowercaseTag = new Person.PersonBuilder()
+                .name("new")
+                .tags(VALID_TAG_FRIEND.toLowerCase())
+                .build();
         assertTrue(predicateWithUpperCaseTag.test(personWithLowercaseTag));
 
         Tag tagLowercase = new Tag(VALID_TAG_FRIEND.toLowerCase());
-        NameContainsTagPredicate predicateWithLowerCaseTag = new NameContainsTagPredicate(tagLowercase);
-        Person personWithUppercaseTag = new PersonBuilder().withTags(VALID_TAG_FRIEND.toLowerCase()).build();
+        NameContainsTagPredicate predicateWithLowerCaseTag = new NameContainsTagPredicate(
+                Collections.singletonList(tagLowercase));
+        Person personWithUppercaseTag = new Person.PersonBuilder()
+                .name("new")
+                .tags(VALID_TAG_FRIEND.toLowerCase())
+                .build();
         assertTrue(predicateWithLowerCaseTag.test(personWithUppercaseTag));
     }
 
+    @Test
     public void test_nameDoesNotContainTag_returnsFalse() {
         Tag tag = new Tag(VALID_TAG_FRIEND);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(tag);
+        NameContainsTagPredicate predicate = new NameContainsTagPredicate(Collections.singletonList(tag));
 
         // Zero tags
-        assertFalse(predicate.test(new PersonBuilder().withTags().build()));
+        assertFalse(predicate.test(new Person.PersonBuilder()
+                .name("name")
+                .tags()
+                .build())
+        );
         // While the default Person built with new PersonBuilder().build() already returns a person
         // without any tags, the additional method call to withTags() (with no parameters) is to make it
         // explicit that the Person to be built has no tags. Additionally, it means that this test method
@@ -91,20 +118,23 @@ public class NameContainsTagPredicateTest {
         // updated to have a different default set of tags.
 
         // Non-matching tag
-        assertFalse(predicate.test(new PersonBuilder().withTags(VALID_TAG_HUSBAND).build()));
+        assertFalse(predicate.test(new Person.PersonBuilder().name("name").tags(VALID_TAG_HUSBAND).build()));
 
         // Tag matches name, email, and address, but does not match tags
-        assertFalse(predicate.test(new PersonBuilder().withName(VALID_TAG_FRIEND)
-                .withEmail(VALID_TAG_FRIEND + "@email.com").withAddress(VALID_TAG_FRIEND + "Street")
-                .withTags(VALID_TAG_HUSBAND).build()));
+        assertFalse(predicate.test(new Person.PersonBuilder()
+                .name(VALID_TAG_FRIEND)
+                .email(VALID_TAG_FRIEND + "@email.com")
+                .address(VALID_TAG_FRIEND + "Street")
+                .tags(VALID_TAG_HUSBAND).build())
+        );
     }
 
     @Test
     public void toStringMethod() {
-        Tag tag = new Tag(VALID_TAG_FRIEND);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(tag);
+        List<Tag> tags = List.of(new Tag(VALID_TAG_FRIEND));
+        NameContainsTagPredicate predicate = new NameContainsTagPredicate(tags);
 
-        String expected = NameContainsTagPredicate.class.getCanonicalName() + "{tag=" + tag + "}";
+        String expected = NameContainsTagPredicate.class.getCanonicalName() + "{tags=" + tags + "}";
         assertEquals(expected, predicate.toString());
     }
 }

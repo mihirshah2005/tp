@@ -56,13 +56,13 @@ public class AddCommandParser implements Parser<AddCommand> {
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
 
-        Person.PersonBuild<?> builder;
+        Person.PersonBuilder builder;
         switch (fixedType) {
         case STUDENT:
-            builder = new Student.StudentBuild(name);
+            builder = new Student.StudentBuilder().name(name);
             break;
         case VOLUNTEER:
-            builder = new Volunteer.VolunteerBuild(name);
+            builder = new Volunteer.VolunteerBuilder().name(name);
             break;
         default:
             // Should never happen since we removed PERSON
