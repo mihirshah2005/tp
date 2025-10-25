@@ -46,8 +46,8 @@ public class NameTest {
         assertTrue(Name.isValidName("A. R. Rahman"));
         assertTrue(Name.isValidName("abc s/o def"));
         assertTrue(Name.isValidName("abc s / o def"));
-        assertTrue(Name.isValidName("Ren\u00E9e"));     // NFC
-        assertTrue(Name.isValidName("Rene\u0301e"));    // NFD
+        assertTrue(Name.isValidName("Ren\u00E9e")); // NFC
+        assertTrue(Name.isValidName("Rene\u0301e")); // NFD
         assertTrue(Name.isValidName("李 小龍"));
     }
 
@@ -120,7 +120,7 @@ public class NameTest {
     }
 
 
-@Test
+    @Test
     public void normalizeForIdentity_doesNotOverMergeDistinctNames() {
         Name ronAldo = new Name("Ron Aldo");
         Name ronaldo = new Name("Ronaldo");

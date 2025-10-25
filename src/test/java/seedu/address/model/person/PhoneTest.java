@@ -26,26 +26,26 @@ public class PhoneTest {
         assertThrows(NullPointerException.class, () -> Phone.isValidPhone(null));
 
         // invalid phone numbers
-        assertFalse(Phone.isValidPhone(""));            // empty
-        assertFalse(Phone.isValidPhone(" "));           // spaces only
-        assertFalse(Phone.isValidPhone("91"));          // fewer than 3 digits
-        assertFalse(Phone.isValidPhone("phone"));       // letters only
-        assertFalse(Phone.isValidPhone("9011p041"));    // letters mixed in
-        assertFalse(Phone.isValidPhone("+"));           // plus with no digits
-        assertFalse(Phone.isValidPhone("12+34"));       // plus not at start
-        assertFalse(Phone.isValidPhone("++1234"));      // multiple plus
-        assertFalse(Phone.isValidPhone("-1234"));       // starts with dash
-        assertFalse(Phone.isValidPhone("1234-"));       // ends with dash (reject if your validator does)
+        assertFalse(Phone.isValidPhone("")); // empty
+        assertFalse(Phone.isValidPhone(" ")); // spaces only
+        assertFalse(Phone.isValidPhone("91")); // fewer than 3 digits
+        assertFalse(Phone.isValidPhone("phone")); // letters only
+        assertFalse(Phone.isValidPhone("9011p041")); // letters mixed in
+        assertFalse(Phone.isValidPhone("+")); // plus with no digits
+        assertFalse(Phone.isValidPhone("12+34")); // plus not at start
+        assertFalse(Phone.isValidPhone("++1234")); // multiple plus
+        assertFalse(Phone.isValidPhone("-1234")); // starts with dash
+        assertFalse(Phone.isValidPhone("1234-")); // ends with dash (reject if your validator does)
 
         // valid phone numbers
-        assertTrue(Phone.isValidPhone("911"));                       // exactly 3 digits
-        assertTrue(Phone.isValidPhone("93121534"));                  // digits only
-        assertTrue(Phone.isValidPhone("124293842033123"));           // long numbers
-        assertTrue(Phone.isValidPhone("9312 1534"));                 // spaces allowed
-        assertTrue(Phone.isValidPhone("9312-1534"));                 // dashes allowed
-        assertTrue(Phone.isValidPhone("+65 9312 1534"));             // leading plus + spaces
-        assertTrue(Phone.isValidPhone("+1-202-555-0173"));           // leading plus + dashes
-        assertTrue(Phone.isValidPhone("00123"));                     // leading zeros ok
+        assertTrue(Phone.isValidPhone("911")); // exactly 3 digits
+        assertTrue(Phone.isValidPhone("93121534")); // digits only
+        assertTrue(Phone.isValidPhone("124293842033123")); // long numbers
+        assertTrue(Phone.isValidPhone("9312 1534")); // spaces allowed
+        assertTrue(Phone.isValidPhone("9312-1534")); // dashes allowed
+        assertTrue(Phone.isValidPhone("+65 9312 1534")); // leading plus + spaces
+        assertTrue(Phone.isValidPhone("+1-202-555-0173")); // leading plus + dashes
+        assertTrue(Phone.isValidPhone("00123")); // leading zeros ok
     }
 
     @Test
@@ -63,9 +63,9 @@ public class PhoneTest {
 
         // reflexive & null/type checks
         Phone p = new Phone("999");
-        assertTrue(p.equals(p));             // same object
-        assertFalse(p.equals(null));         // null
-        assertFalse(p.equals(5.0f));         // different type
+        assertTrue(p.equals(p)); // same object
+        assertFalse(p.equals(null)); // null
+        assertFalse(p.equals(5.0f)); // different type
     }
 
     @Test

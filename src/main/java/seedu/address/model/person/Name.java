@@ -1,8 +1,9 @@
 package seedu.address.model.person;
 
-import java.text.Normalizer;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
+
+import java.text.Normalizer;
 
 /**
  * Represents a Person's name in the address book.
@@ -88,11 +89,11 @@ public class Name {
                 .replace('’', '\'')
                 .replace('‘', '\'')
                 .replace('‛', '\'')
-                .replace('‐', '-')   // hyphen variants -> '-'
+                .replace('‐', '-')
                 .replace('–', '-')
                 .replace('—', '-')
-                .replace('⁄', '/')   // fraction slash
-                .replace('∕', '/');  // division slash
+                .replace('⁄', '/')
+                .replace('∕', '/');
 
         // 3) Collapse all runs of whitespace to a single space (but keep spaces!)
         n = n.trim().replaceAll("\\s+", " ");
@@ -103,8 +104,8 @@ public class Name {
 
         // 5) Ensure the token is spaced consistently: "... Xs/oY ..." -> "... X s/o Y ..."
         //    (add space before/after s/o when joined to letters)
-        n = n.replaceAll("(?<=\\p{L})s/o\\b", " s/o");   // letter before, missing space
-        n = n.replaceAll("\\bs/o(?=\\p{L})", "s/o ");    // letter after, missing space
+        n = n.replaceAll("(?<=\\p{L})s/o\\b", " s/o");
+        n = n.replaceAll("\\bs/o(?=\\p{L})", "s/o ");
 
         // 6) Collapse whitespace again in case step 5 introduced double spaces
         n = n.trim().replaceAll("\\s+", " ");
