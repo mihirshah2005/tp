@@ -55,7 +55,7 @@ public class PairCommandTest {
         indexes.add(INDEX_FIRST_PERSON);
         PairCommand pairCommand = new PairCommand(outOfBoundIndex, indexes);
 
-        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () ->
+        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_FIRST_PERSON_DISPLAYED_INDEX, () ->
                 pairCommand.execute(model));
     }
 
