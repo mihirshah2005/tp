@@ -82,7 +82,8 @@ public class Name {
 
         // 1) Unicode normalize and case-fold
         String n = Normalizer.normalize(s, Normalizer.Form.NFKC).toLowerCase();
-        n = n.replaceAll("[\\p{Cf}\\u200B\\u200C\\u200D\\uFEFF]+", "");
+        n = n.replaceAll("[\\p{Cf}\\u200B\\u200C\\u200D\\uFEFF]+", "")
+                .replaceAll("\\p{M}+", "");
 
         // 2) Unify common punctuation variants (keep them, just standardize)
         n = n

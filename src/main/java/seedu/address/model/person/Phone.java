@@ -17,7 +17,8 @@ public class Phone {
      *   Contain at least 3 digits in total.
      */
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone numbers must have at least 3 digits, may start with '+', and may include spaces or dashes.";
+            "Phone numbers must have at least 3 digits, may start with '+'"
+                    + ", and may include single spaces or single dashes.";
     public static final String VALIDATION_REGEX = "^\\+?\\d(?:[ -]?\\d){2,}$";
     public final String value;
 
@@ -30,7 +31,7 @@ public class Phone {
         requireNonNull(phone);
         String s = phone.trim();
         checkArgument(isValidPhone(s), MESSAGE_CONSTRAINTS);
-        this.value = canonicalize(s);
+        this.value = s;
     }
 
     /**
