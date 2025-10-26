@@ -10,6 +10,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Volunteer;
@@ -27,6 +28,8 @@ public class PersonListPanel extends UiPart<Region> {
     /** List of all Persons, regardless of subtype */
     private final ObservableList<Person> masterList;
 
+    private final ReadOnlyAddressBook addressBook;
+
     /**
      * Creates a {@code PersonListPanel} that renders a split view for students and volunteers.
      *
@@ -34,9 +37,10 @@ public class PersonListPanel extends UiPart<Region> {
      *                   the model uses for indexing so that global indices remain consistent.
      * @throws NullPointerException if {@code masterList} is {@code null}.
      */
-    public PersonListPanel(ObservableList<Person> masterList) {
+    public PersonListPanel(ReadOnlyAddressBook addressBook, ObservableList<Person> masterList) {
         super(FXML);
         this.masterList = masterList;
+        this.addressBook = addressBook;
 
         // Assert FXML injected fields are present
         assert studentListView != null : "FXML injection failed: studentListView is null";
@@ -48,8 +52,10 @@ public class PersonListPanel extends UiPart<Region> {
         studentListView.setItems(students);
         volunteerListView.setItems(volunteers);
 
-        studentListView.setCellFactory(lv -> new PersonListViewCell(this.masterList, "student"));
-        volunteerListView.setCellFactory(lv -> new PersonListViewCell(this.masterList, "volunteer"));
+        studentListView.setCellFactory(lv -> new PersonListViewCell(
+                this.addressBook, this.masterList, "student"));
+        volunteerListView.setCellFactory(lv -> new PersonListViewCell(
+                this.addressBook, this.masterList, "volunteer"));
 
         logger.info(() -> String.format(
                 "PersonListPanel initialized. masterList=%d, students=%d, volunteers=%d",
@@ -78,11 +84,13 @@ public class PersonListPanel extends UiPart<Region> {
      */
     static class PersonListViewCell extends ListCell<Person> {
         private final ObservableList<Person> masterList;
+        private final ReadOnlyAddressBook addressBook;
         /** "student" or "volunteer" for logs*/
         private final String lane;
 
-        PersonListViewCell(ObservableList<Person> masterList, String lane) {
+        PersonListViewCell(ReadOnlyAddressBook addressBook, ObservableList<Person> masterList, String lane) {
             this.masterList = masterList;
+            this.addressBook = addressBook;
             this.lane = lane;
         }
 
@@ -109,7 +117,7 @@ public class PersonListPanel extends UiPart<Region> {
 
             // indexes here are based on the master list to avoid breaking the pair function
             int globalIndex = masterList.indexOf(person) + 1;
-            setGraphic(new PersonCard(person, globalIndex).getRoot());
+            setGraphic(new PersonCard(addressBook, person, globalIndex).getRoot());
         }
     }
 }

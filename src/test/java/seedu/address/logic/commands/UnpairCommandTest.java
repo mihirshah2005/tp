@@ -42,7 +42,7 @@ class UnpairCommandTest {
         Person tutee = (new Person.PersonBuilder(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()))).build();
 
         // Ensure model reflects the pairing before unpairing
-        tutor.addPerson(tutee);
+        model.pair(tutor, tutee);
         model.setPerson(model.getFilteredPersonList().get(tutorIndex.getZeroBased()), tutor);
         model.setPerson(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()), tutee);
 

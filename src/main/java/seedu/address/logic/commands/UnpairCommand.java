@@ -31,7 +31,7 @@ public class UnpairCommand extends Command {
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Unpaired: %s to %s";
     //public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This pairing doesn't even exist in the address book yet.";
+    public static final String MESSAGE_PAIRING_DOES_NOT_EXIST_YET = "This pairing doesn't even exist in the address book yet.";
 
     private final Index index;
     private final List<Index> indicesToUnpair;
@@ -63,21 +63,17 @@ public class UnpairCommand extends Command {
                 throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
             Person personToUnpair = lastShownList.get(indexToUnpair.getZeroBased());
-            if ((personToUnpair == person) || !person.getPairedPersons().contains(personToUnpair)) {
-                assert false; // should already have been caught by PairCommandParser
+            if (!model.isPaired(person, personToUnpair)) {
+                throw new CommandException(MESSAGE_PAIRING_DOES_NOT_EXIST_YET);
             }
             personsToUnpair.add(personToUnpair);
         }
 
         for (Person personToUnpair : personsToUnpair) {
-            try {
-                person.removePerson(personToUnpair);
-                model.setPerson(personToUnpair, personToUnpair);
-            } catch (IllegalValueException e) {
-                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-            }
+            model.unpair(person, personToUnpair);
+            model.setPerson(personToUnpair, personToUnpair); // update GUI
         }
-        model.setPerson(person, person);
+        model.setPerson(person, person); // update GUI
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
 

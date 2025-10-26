@@ -3,103 +3,97 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
-/**
- * A list of persons that enforces uniqueness between its elements and does not allow nulls.
- * A person is considered unique by comparing using {@code Person#isSamePerson(Person)}. As such, adding and updating of
- * persons uses Person#isSamePerson(Person) for equality so as to ensure that the person being added or updated is
- * unique in terms of identity in the UniquePersonList. However, the removal of a person uses Person#equals(Object) so
- * as to ensure that the person with exactly the same fields will be removed.
- *
- * Supports a minimal set of list operations.
- *
- * @see Person#isSamePerson(Person)
- */
 public class UniquePersonList implements Iterable<Person> {
 
     private final ObservableList<Person> internalList = FXCollections.observableArrayList();
     private final ObservableList<Person> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
 
-    /**
-     * Returns true if the list contains an equivalent person as the given argument.
-     */
+    private final BiMap<Person, Integer> ids = HashBiMap.create();
+    private int nextId = 0;
+
+    private final SetMultimap<Integer, Integer> links = HashMultimap.create();
+
     public boolean contains(Person toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::isSamePerson);
     }
 
-    /**
-     * Adds a person to the list.
-     * The person must not already exist in the list.
-     */
     public void add(Person toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
             throw new DuplicatePersonException();
         }
         internalList.add(toAdd);
+        ids.put(toAdd, nextId++);
     }
 
-    /**
-     * Replaces the person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in the list.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the list.
-     */
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
         int index = internalList.indexOf(target);
         if (index == -1) {
             throw new PersonNotFoundException();
         }
-
         if (!target.isSamePerson(editedPerson) && contains(editedPerson)) {
             throw new DuplicatePersonException();
         }
-
         internalList.set(index, editedPerson);
+        Integer id = ids.remove(target);
+        ids.put(editedPerson, id);
     }
 
-    /**
-     * Removes the equivalent person from the list.
-     * The person must exist in the list.
-     */
     public void remove(Person toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
             throw new PersonNotFoundException();
+        }
+        Integer id = ids.remove(toRemove);
+        if (id != null) {
+            unpairAllById(id);
         }
     }
 
     public void setPersons(UniquePersonList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
+        ids.clear();
+        ids.putAll(replacement.ids);
+        nextId = replacement.nextId;
+        links.clear();
+        links.putAll(replacement.links);
     }
 
-    /**
-     * Replaces the contents of this list with {@code persons}.
-     * {@code persons} must not contain duplicate persons.
-     */
     public void setPersons(List<Person> persons) {
         requireAllNonNull(persons);
         if (!personsAreUnique(persons)) {
             throw new DuplicatePersonException();
         }
-
         internalList.setAll(persons);
+        ids.clear();
+        nextId = 0;
+        for (Person p : internalList) {
+            ids.put(p, nextId++);
+        }
+        links.clear();
     }
 
-    /**
-     * Returns the backing list as an unmodifiable {@code ObservableList}.
-     */
     public ObservableList<Person> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
     }
@@ -111,17 +105,10 @@ public class UniquePersonList implements Iterable<Person> {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(other instanceof UniquePersonList)) {
-            return false;
-        }
-
-        UniquePersonList otherUniquePersonList = (UniquePersonList) other;
-        return internalList.equals(otherUniquePersonList.internalList);
+        if (other == this) return true;
+        if (!(other instanceof UniquePersonList)) return false;
+        UniquePersonList o = (UniquePersonList) other;
+        return internalList.equals(o.internalList);
     }
 
     @Override
@@ -134,9 +121,77 @@ public class UniquePersonList implements Iterable<Person> {
         return internalList.toString();
     }
 
-    /**
-     * Returns true if {@code persons} contains only unique persons.
-     */
+    public Integer getId(Person p) {
+        requireNonNull(p);
+        Integer id = ids.get(p);
+        if (id == null) throw new PersonNotFoundException();
+        return id;
+    }
+
+    public Person getPersonById(int id) {
+        Person p = ids.inverse().get(id);
+        if (p == null) throw new PersonNotFoundException();
+        return p;
+    }
+
+    public void pair(Person a, Person b) {
+        requireAllNonNull(a, b);
+        pairById(getId(a), getId(b));
+    }
+
+    public void pairById(int a, int b) {
+        if (a == b) throw new IllegalArgumentException("cannot pair with self");
+        if (!ids.inverse().containsKey(a) || !ids.inverse().containsKey(b)) {
+            throw new NoSuchElementException("id not found");
+        }
+        links.put(a, b);
+        links.put(b, a);
+    }
+
+    public void unpair(Person a, Person b) {
+        requireAllNonNull(a, b);
+        unpairById(getId(a), getId(b));
+    }
+
+    public void unpairById(int a, int b) {
+        links.remove(a, b);
+        links.remove(b, a);
+    }
+
+    public void unpairAll(Person p) {
+        requireNonNull(p);
+        unpairAllById(getId(p));
+    }
+
+    public void unpairAllById(int id) {
+        Set<Integer> partners = Set.copyOf(links.get(id));
+        for (Integer other : partners) {
+            links.remove(other, id);
+        }
+        links.removeAll(id);
+    }
+
+    public boolean isPaired(Person a, Person b) {
+        requireAllNonNull(a, b);
+        return isPairedById(getId(a), getId(b));
+    }
+
+    public boolean isPairedById(int a, int b) {
+        return links.get(a).contains(b);
+    }
+
+    public Set<Integer> getPairedIds(int id) {
+        return Collections.unmodifiableSet(new LinkedHashSet<>(links.get(id)));
+    }
+
+    public Set<Person> getPairedPersons(Person p) {
+        requireNonNull(p);
+        int id = getId(p);
+        return getPairedIds(id).stream()
+                .map(this::getPersonById)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
     private boolean personsAreUnique(List<Person> persons) {
         for (int i = 0; i < persons.size() - 1; i++) {
             for (int j = i + 1; j < persons.size(); j++) {

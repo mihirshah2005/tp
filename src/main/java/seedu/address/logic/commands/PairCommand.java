@@ -30,7 +30,7 @@ public class PairCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 3 4 5 ";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Paired: %s to %s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This pairing already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PAIRING = "This pairing already exists in the address book.";
 
     private final Index index;
     private final List<Index> indicesToPair;
@@ -63,23 +63,19 @@ public class PairCommand extends Command {
             }
             Person personToPair = lastShownList.get(indexToPair.getZeroBased());
             assert personToPair != person;
-            assert !person.getPairedPersons().contains(personToPair);
-            // should already have been caught by PairCommandParser
-            personsToPair.add(personToPair);
+            if (model.getAddressBook().isPaired(person, personToPair)) {
+                throw new CommandException(MESSAGE_DUPLICATE_PAIRING);
+            }
+
+            model.getAddressBook().pair(person, personToPair);
         }
 
         for (Person personToPair : personsToPair) {
-            try {
-                person.addPerson(personToPair);
-                model.setPerson(personToPair, personToPair);
-            } catch (IllegalValueException e) {
-                assert false;
-                // should already have been caught by
-                // if ((personToPair == person) || person.getPairedPersons().contains(personToPair))
-            }
+            model.pair(person, personToPair);
+            model.setPerson(personToPair, personToPair); // update GUI
         }
 
-        model.setPerson(person, person);
+        model.setPerson(person, person); // update GUI
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
