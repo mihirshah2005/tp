@@ -152,47 +152,31 @@ public class TypicalPersons {
         return ab;
     }
 
-    /**
-     * Returns an {@code AddressBook} with all the typical persons but with Alice paired to Benson,
-     * returning a new copy each function call.
-     */
-    public static AddressBook getSelfPairingAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (Person person : getSelfPairingTypicalPersons()) {
-            ab.addPerson(person);
-        }
-        return ab;
-    }
+//    /**
+//     * Returns an {@code AddressBook} with all the typical persons but with Alice paired to Benson,
+//     * returning a new copy each function call.
+//     */
+//    public static AddressBook getSelfPairingAddressBook() {
+//        AddressBook ab = new AddressBook();
+//        for (Person person : getSelfPairingTypicalPersons()) {
+//            ab.addPerson(person);
+//        }
+//        return ab;
+//    }
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE_SUPPLIER.get(), BENSON_SUPPLIER.get(), CARL_SUPPLIER.get(),
                 DANIEL_SUPPLIER.get(), ELLE_SUPPLIER.get(), FIONA_SUPPLIER.get(), GEORGE_SUPPLIER.get()));
     }
 
-    public static List<Person> getSelfPairingTypicalPersons() {
-        Person alice = ALICE_SUPPLIER.get();
-        Person benson = BENSON_SUPPLIER.get();
-        try {
-            alice.addPerson(benson);
-        } catch (IllegalValueException e) {
-            throw new RuntimeException(e); // should not happen
-        }
-        return new ArrayList<>(Arrays.asList(alice, benson, CARL_SUPPLIER.get(), DANIEL_SUPPLIER.get(),
-                ELLE_SUPPLIER.get(), FIONA_SUPPLIER.get(), GEORGE_SUPPLIER.get()));
-    }
-
-    /**
-     * Returns a List of typical persons, but returning a new copy each function call.
-     */
-    public static List<Person> getFreshTypicalPersons() {
-        return List.of(
-                new Person.PersonBuilder(ALICE).build(),
-                new Person.PersonBuilder(BOB).build(),
-                new Person.PersonBuilder(CARL).build(),
-                new Person.PersonBuilder(CARL).build(),
-                new Person.PersonBuilder(DANIEL).build(),
-                new Person.PersonBuilder(ELLE).build(),
-                new Person.PersonBuilder(FIONA).build(),
-                new Person.PersonBuilder(GEORGE).build()
-        );
-    }
+//    public static List<Person> getSelfPairingTypicalPersons() {
+//        Person alice = ALICE_SUPPLIER.get();
+//        Person benson = BENSON_SUPPLIER.get();
+//        try {
+//            alice.addPerson(benson);
+//        } catch (IllegalValueException e) {
+//            throw new RuntimeException(e); // should not happen
+//        }
+//        return new ArrayList<>(Arrays.asList(alice, benson, CARL_SUPPLIER.get(), DANIEL_SUPPLIER.get(),
+//                ELLE_SUPPLIER.get(), FIONA_SUPPLIER.get(), GEORGE_SUPPLIER.get()));
+//    }
 }

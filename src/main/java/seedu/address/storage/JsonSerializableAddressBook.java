@@ -3,6 +3,7 @@ package seedu.address.storage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -26,98 +28,52 @@ class JsonSerializableAddressBook {
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
+    private final List<JsonPairing> pairings = new ArrayList<>();
 
-    /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given persons.
-     */
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
-        this.persons.addAll(persons);
+    public JsonSerializableAddressBook(
+            @JsonProperty("persons") List<JsonAdaptedPerson> persons,
+            @JsonProperty("pairings") List<JsonPairing> pairings) {
+        if (persons != null) this.persons.addAll(persons);
+        if (pairings != null) this.pairings.addAll(pairings);
     }
 
-    /**
-     * Converts a given {@code ReadOnlyAddressBook} into this class for Jackson use.
-     *
-     * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
-     */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
+        List<Person> list = source.getPersonList();
+        persons.addAll(list.stream().map(JsonAdaptedPerson::new).toList());
+
+        // index persons by position to emit unique edges
+        Map<Person, Integer> index = new IdentityHashMap<>();
+        for (int k = 0; k < list.size(); k++) index.put(list.get(k), k);
+
+        Set<Long> seen = new HashSet<>();
+        for (int a = 0; a < list.size(); a++) {
+            for (Person q : source.getPairedPersons(list.get(a))) {
+                Integer b = index.get(q);
+                if (b == null) continue;
+                int x = Math.min(a, b), y = Math.max(a, b);
+                long key = (((long) x) << 32) ^ (y & 0xffffffffL);
+                if (seen.add(key)) pairings.add(new JsonPairing(x, y));
+            }
+        }
     }
 
-    /**
-     * Converts this address book into the model's {@code AddressBook} object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated.
-     */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
-        Map<String, Person> identityMap = new HashMap<>();
-        List<PendingPairing> pendingPairings = new ArrayList<>();
 
-        for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
-            Person person = jsonAdaptedPerson.toModelType();
-            if (addressBook.hasPerson(person)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
-            }
-            addressBook.addPerson(person);
-
-            String identityKey = toLookupKey(person);
-            identityMap.put(identityKey, person);
-            pendingPairings.add(new PendingPairing(person, jsonAdaptedPerson.getPairingIdentities()));
+        for (JsonAdaptedPerson jap : persons) {
+            Person p = jap.toModelType();
+            if (addressBook.hasPerson(p)) throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+            addressBook.addPerson(p);
         }
 
-        linkPairings(pendingPairings, identityMap);
+        var loaded = addressBook.getPersonList();
+        for (JsonPairing pr : pairings) {
+            int a = pr.i, b = pr.j;
+            if (a < 0 || b < 0 || a >= loaded.size() || b >= loaded.size() || a == b) continue;
+            addressBook.pair(loaded.get(a), loaded.get(b));
+        }
         return addressBook;
     }
-
-    private void linkPairings(List<PendingPairing> pendingPairings, Map<String, Person> identityMap)
-            throws IllegalValueException {
-        Set<String> linkedEdges = new HashSet<>();
-
-        for (PendingPairing pending : pendingPairings) {
-            Person owner = pending.owner;
-            for (JsonAdaptedPerson.PersonIdentity targetIdentity : pending.pairingIdentities) {
-                Person target = identityMap.get(targetIdentity.toLookupKey());
-
-                // The case of (target == owner) is already addressed by Person.addPerson() and the catch clause below
-                if (target == null) {
-                    continue;
-                }
-
-                String edgeKey = toEdgeKey(owner, target);
-                if (!linkedEdges.add(edgeKey)) {
-                    continue; // already linked in opposite direction
-                }
-
-                try {
-                    owner.addPerson(target);
-                } catch (IllegalValueException ive) {
-                    // duplicate pairings in savefile, silently ignore
-                }
-            }
-        }
-    }
-
-    private String toLookupKey(Person person) {
-        return person.getName().fullName + "|" + person.getPhone().value;
-    }
-
-    private String toEdgeKey(Person first, Person second) {
-        String firstKey = toLookupKey(first);
-        String secondKey = toLookupKey(second);
-        return firstKey.compareTo(secondKey) <= 0
-                ? firstKey + "->" + secondKey
-                : secondKey + "->" + firstKey;
-    }
-
-    private static class PendingPairing {
-        private final Person owner;
-        private final List<JsonAdaptedPerson.PersonIdentity> pairingIdentities;
-
-        private PendingPairing(Person owner, List<JsonAdaptedPerson.PersonIdentity> pairingIdentities) {
-            this.owner = owner;
-            this.pairingIdentities = pairingIdentities;
-        }
-    }
-
 }
+

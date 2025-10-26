@@ -24,7 +24,6 @@ public class SampleDataUtil {
                         .email("alexyeoh@example.com")
                         .address("Blk 30 Geylang Street 29, #06-40")
                         .tags(getTagSet("Math"))
-                        .pairedPersons(new ArrayList<>())
                         .build(),
                 new Volunteer.VolunteerBuilder()
                         .name("Bernice Yu")
@@ -32,7 +31,6 @@ public class SampleDataUtil {
                         .email("berniceyu@example.com")
                         .address("Blk 30 Lorong 3 Serangoon Gardens, #07-18")
                         .tags(getTagSet("Math", "Science"))
-                        .pairedPersons(new ArrayList<>())
                         .build(),
                 new Student.StudentBuilder()
                         .name("Charlotte Oliveiro")
@@ -40,7 +38,6 @@ public class SampleDataUtil {
                         .email("charlotte@example.com")
                         .address("Blk 11 Ang Mo Kio Street 74, #11-04")
                         .tags(getTagSet("English"))
-                        .pairedPersons(new ArrayList<>())
                         .build(),
                 new Volunteer.VolunteerBuilder()
                         .name("David Li")
@@ -48,7 +45,6 @@ public class SampleDataUtil {
                         .email("lidavid@example.com")
                         .address("Blk 436 Serangoon Gardens Street 26, #16-43")
                         .tags(getTagSet("Chinese"))
-                        .pairedPersons(new ArrayList<>())
                         .build(),
                 new Student.StudentBuilder()
                         .name("Irfan Ibrahim")
@@ -56,7 +52,6 @@ public class SampleDataUtil {
                         .email("irfan@example.com")
                         .address("Blk 47 Tampines Street 20, #17-35")
                         .tags(getTagSet("Chinese"))
-                        .pairedPersons(new ArrayList<>())
                         .build(),
                 new Volunteer.VolunteerBuilder()
                         .name("Roy Balakrishnan")
@@ -64,7 +59,6 @@ public class SampleDataUtil {
                         .email("royb@example.com")
                         .address("Blk 45 Aljunied Street 85, #11-31")
                         .tags(getTagSet("Malay", "English"))
-                        .pairedPersons(new ArrayList<>())
                         .build(),
         };
     }

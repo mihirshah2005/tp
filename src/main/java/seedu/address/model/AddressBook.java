@@ -55,7 +55,19 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
 
+        // 1) copy persons
         setPersons(newData.getPersonList());
+
+        // 2) rebuild pairings by index
+        ObservableList<Person> src = newData.getPersonList();
+        ObservableList<Person> dst = this.getPersonList();
+        for (int i = 0; i < src.size(); i++) {
+            for (int j = i + 1; j < src.size(); j++) {
+                if (newData.isPaired(src.get(i), src.get(j))) {
+                    this.pair(dst.get(i), dst.get(j));
+                }
+            }
+        }
     }
 
     //// person-level operations

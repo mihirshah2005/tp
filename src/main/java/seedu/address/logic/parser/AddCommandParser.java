@@ -82,7 +82,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         builder.tags(ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG))); // tagList
-        builder.pairedPersons(new ArrayList<>());
         return new AddCommand(builder.build());
     }
 
