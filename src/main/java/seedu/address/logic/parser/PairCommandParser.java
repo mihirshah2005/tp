@@ -15,6 +15,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new PairCommand object
  */
 public class PairCommandParser implements Parser<PairCommand> {
+    private static final String MESSAGE_SELF_PAIRING = "Cannot pair to yourself.";
 
     @Override
     public PairCommand parse(String args) throws ParseException {
@@ -42,9 +43,11 @@ public class PairCommandParser implements Parser<PairCommand> {
             try {
                 Index idx = ParserUtil.parseIndex(tokens[i]);
                 // avoid pairing to self or duplicate entries
-                if (!idx.equals(mainIndex) && paired.stream().noneMatch(idx::equals)) {
-                    paired.add(idx);
+                if (idx.equals(mainIndex)) {
+                    throw new ParseException(MESSAGE_SELF_PAIRING);
                 }
+
+                paired.add(idx);
             } catch (IllegalValueException e) {
                 throw new ParseException("Invalid index: " + tokens[i], e);
             }

@@ -3,11 +3,13 @@ package seedu.address.logic.commands;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javafx.util.Pair;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -28,17 +30,17 @@ public class UnpairCommand extends Command {
             + "<INDEXES>\n"
             + "Example: " + COMMAND_WORD + " 1 3 4 5 ";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Unpaired: %s to %s";
-    //public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_PAIRING_DOES_NOT_EXIST_YET = "This pairing doesn't even "
-            + "exist in the address book yet.";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Unpaired: %s from %s";
+    public static final String MESSAGE_PAIRING_DOES_NOT_EXIST_YET = "%d: %s is not paired to these person(s)"
+            + "in the address book yet: {%s}";
 
     private final Index index;
     private final List<Index> indicesToUnpair;
 
     /**
-     * @param index of the person in the filtered person list
-     * @param indicesToUnpair of the person(s) in the filtered person list to pair them to
+     * @param index           of the person in the filtered person list
+     * @param indicesToUnpair of the person(s) in the filtered person list to pair
+     *                        them to
      */
     public UnpairCommand(Index index, List<Index> indicesToUnpair) {
         requireAllNonNull(index, indicesToUnpair);
@@ -58,29 +60,63 @@ public class UnpairCommand extends Command {
         Person person = lastShownList.get(index.getZeroBased());
 
         Set<Person> personsToUnpair = new HashSet<>();
+        Set<Index> invalidIndices = new HashSet<>();
+        Set<Pair<Index, Person>> personsNotYetPaired = new HashSet<>();
         for (Index indexToUnpair : indicesToUnpair) {
             if (indexToUnpair.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+                invalidIndices.add(indexToUnpair);
+                continue;
             }
             Person personToUnpair = lastShownList.get(indexToUnpair.getZeroBased());
-            if (!model.isPaired(person, personToUnpair)) {
-                throw new CommandException(MESSAGE_PAIRING_DOES_NOT_EXIST_YET);
+            if (model.getAddressBook().isPaired(person, personToUnpair)) {
+                personsNotYetPaired.add(new Pair<>(indexToUnpair, personToUnpair));
             }
-            personsToUnpair.add(personToUnpair);
+            if (!personsToUnpair.contains(personToUnpair)) {
+                personsToUnpair.add(personToUnpair);
+            }
+        }
+
+        ArrayList<String> errorMessages = new ArrayList<>();
+        if (!invalidIndices.isEmpty()) {
+            errorMessages.add(String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDICES,
+                    invalidIndices
+                            .stream()
+                            .map(index -> String.valueOf(index.getOneBased()))
+                            .collect(Collectors.joining(", "))));
+        }
+
+        if (!personsNotYetPaired.isEmpty()) {
+            errorMessages.add(String.format(MESSAGE_PAIRING_DOES_NOT_EXIST_YET, index.getOneBased(), person.getName(),
+                    personsNotYetPaired
+                            .stream()
+                            .map(pair -> pair.getKey().getOneBased() + ": " + pair.getValue().getName())
+                            .collect(Collectors.joining(", "))));
+        }
+
+        if (!errorMessages.isEmpty()) {
+            throw new CommandException(String.join("\n", errorMessages));
         }
 
         for (Person personToUnpair : personsToUnpair) {
-            model.unpair(person, personToUnpair);
+            model.pair(person, personToUnpair);
             model.setPerson(personToUnpair, personToUnpair); // update GUI
         }
+
         model.setPerson(person, person); // update GUI
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
+        StringBuilder outputMessage = new StringBuilder();
+        HashSet<Integer> uniqueIndices = new HashSet<>(indicesToUnpair.stream().map(Index::getZeroBased)
+                .collect(Collectors.toList()));
+        if (uniqueIndices.size() != indicesToUnpair.size()) {
+            outputMessage.append(Messages.MESSAGE_DUPLICATE_INDEX);
+        }
+        outputMessage.append(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
+                "{" + uniqueIndices.stream().map(
+                                index -> lastShownList.get(index).getName().toString())
+                        .collect(Collectors.joining(", ")) + "}"));
 
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
-                "{" + indicesToUnpair.stream().map(
-                        index -> lastShownList.get(index.getZeroBased()).getName().toString()
-                ).collect(Collectors.joining(", ")) + "}"));
+        return new CommandResult(outputMessage.toString());
     }
 
     @Override
