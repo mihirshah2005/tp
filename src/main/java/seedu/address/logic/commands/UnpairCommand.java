@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -31,7 +30,8 @@ public class UnpairCommand extends Command {
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Unpaired: %s to %s";
     //public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_PAIRING_DOES_NOT_EXIST_YET = "This pairing doesn't even exist in the address book yet.";
+    public static final String MESSAGE_PAIRING_DOES_NOT_EXIST_YET = "This pairing doesn't even "
+            + "exist in the address book yet.";
 
     private final Index index;
     private final List<Index> indicesToUnpair;

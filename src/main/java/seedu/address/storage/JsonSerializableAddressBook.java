@@ -1,19 +1,16 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -31,11 +28,14 @@ class JsonSerializableAddressBook {
     private final List<JsonPairing> pairings = new ArrayList<>();
 
     @JsonCreator
-    public JsonSerializableAddressBook(
-            @JsonProperty("persons") List<JsonAdaptedPerson> persons,
-            @JsonProperty("pairings") List<JsonPairing> pairings) {
-        if (persons != null) this.persons.addAll(persons);
-        if (pairings != null) this.pairings.addAll(pairings);
+    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
+                                       @JsonProperty("pairings") List<JsonPairing> pairings) {
+        if (persons != null) {
+            this.persons.addAll(persons);
+        }
+        if (pairings != null) {
+            this.pairings.addAll(pairings);
+        }
     }
 
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
@@ -44,16 +44,23 @@ class JsonSerializableAddressBook {
 
         // index persons by position to emit unique edges
         Map<Person, Integer> index = new IdentityHashMap<>();
-        for (int k = 0; k < list.size(); k++) index.put(list.get(k), k);
+        for (int k = 0; k < list.size(); k++) {
+            index.put(list.get(k), k);
+        }
 
         Set<Long> seen = new HashSet<>();
         for (int a = 0; a < list.size(); a++) {
             for (Person q : source.getPairedPersons(list.get(a))) {
                 Integer b = index.get(q);
-                if (b == null) continue;
-                int x = Math.min(a, b), y = Math.max(a, b);
+                if (b == null) {
+                    continue;
+                }
+                int x = Math.min(a, b);
+                int y = Math.max(a, b);
                 long key = (((long) x) << 32) ^ (y & 0xffffffffL);
-                if (seen.add(key)) pairings.add(new JsonPairing(x, y));
+                if (seen.add(key)) {
+                    pairings.add(new JsonPairing(x, y));
+                }
             }
         }
     }
@@ -63,14 +70,19 @@ class JsonSerializableAddressBook {
 
         for (JsonAdaptedPerson jap : persons) {
             Person p = jap.toModelType();
-            if (addressBook.hasPerson(p)) throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+            if (addressBook.hasPerson(p)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+            }
             addressBook.addPerson(p);
         }
 
         var loaded = addressBook.getPersonList();
         for (JsonPairing pr : pairings) {
-            int a = pr.i, b = pr.j;
-            if (a < 0 || b < 0 || a >= loaded.size() || b >= loaded.size() || a == b) continue;
+            int a = pr.i;
+            int b = pr.j;
+            if (a < 0 || b < 0 || a >= loaded.size() || b >= loaded.size() || a == b) {
+                continue;
+            }
             addressBook.pair(loaded.get(a), loaded.get(b));
         }
         return addressBook;

@@ -4,16 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -272,8 +266,7 @@ public class Person {
             }
 
             PersonBuilder otherPersonBuilder = (PersonBuilder) other;
-            return Objects.equals(name, otherPersonBuilder.name)
-                    && Objects.equals(phone, otherPersonBuilder.phone)
+            return Objects.equals(name, otherPersonBuilder.name) && Objects.equals(phone, otherPersonBuilder.phone)
                     && Objects.equals(email, otherPersonBuilder.email)
                     && Objects.equals(address, otherPersonBuilder.address)
                     && Objects.equals(tags, otherPersonBuilder.tags);
@@ -281,13 +274,9 @@ public class Person {
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this)
-                    .add("name", name)
-                    .add("phone", phone)
-                    .add("email", email)
-                    .add("address", address)
-                    .add("tags", tags)
-                    .toString();
+            return new ToStringBuilder(this).add("name", name)
+                    .add("phone", phone).add("email", email)
+                    .add("address", address).add("tags", tags).toString();
         }
     }
 
@@ -430,11 +419,8 @@ public class Person {
             return false;
         }
         Person otherPerson = (Person) other;
-        return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+        return name.equals(otherPerson.name) && phone.equals(otherPerson.phone) && email.equals(otherPerson.email)
+                && address.equals(otherPerson.address) && tags.equals(otherPerson.tags);
     }
 
     @Override
@@ -446,13 +432,8 @@ public class Person {
      * Returns a string representation of the Person and not its subclasses for testing.
      */
     public String originalToString() {
-        return new ToStringBuilder(this)
-                .add("name", name)
-                .add("phone", phone)
-                .add("email", email)
-                .add("address", address)
-                .add("tags", tags)
-                .toString();
+        return new ToStringBuilder(this).add("name", name).add("phone", phone)
+                .add("email", email).add("address", address).add("tags", tags).toString();
     }
 
     @Override

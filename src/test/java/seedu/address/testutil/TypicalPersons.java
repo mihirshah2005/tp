@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
@@ -152,31 +151,9 @@ public class TypicalPersons {
         return ab;
     }
 
-//    /**
-//     * Returns an {@code AddressBook} with all the typical persons but with Alice paired to Benson,
-//     * returning a new copy each function call.
-//     */
-//    public static AddressBook getSelfPairingAddressBook() {
-//        AddressBook ab = new AddressBook();
-//        for (Person person : getSelfPairingTypicalPersons()) {
-//            ab.addPerson(person);
-//        }
-//        return ab;
-//    }
+
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE_SUPPLIER.get(), BENSON_SUPPLIER.get(), CARL_SUPPLIER.get(),
                 DANIEL_SUPPLIER.get(), ELLE_SUPPLIER.get(), FIONA_SUPPLIER.get(), GEORGE_SUPPLIER.get()));
     }
-
-//    public static List<Person> getSelfPairingTypicalPersons() {
-//        Person alice = ALICE_SUPPLIER.get();
-//        Person benson = BENSON_SUPPLIER.get();
-//        try {
-//            alice.addPerson(benson);
-//        } catch (IllegalValueException e) {
-//            throw new RuntimeException(e); // should not happen
-//        }
-//        return new ArrayList<>(Arrays.asList(alice, benson, CARL_SUPPLIER.get(), DANIEL_SUPPLIER.get(),
-//                ELLE_SUPPLIER.get(), FIONA_SUPPLIER.get(), GEORGE_SUPPLIER.get()));
-//    }
 }
