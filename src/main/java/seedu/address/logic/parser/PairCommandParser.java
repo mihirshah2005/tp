@@ -15,7 +15,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new PairCommand object
  */
 public class PairCommandParser implements Parser<PairCommand> {
-    private static final String MESSAGE_SELF_PAIRING = "Cannot pair a person with themselves.";
+    private static final String MESSAGE_SELF_PAIRING = "Cannot pair to yourself.";
 
     @Override
     public PairCommand parse(String args) throws ParseException {
