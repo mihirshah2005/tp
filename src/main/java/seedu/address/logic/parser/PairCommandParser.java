@@ -42,14 +42,19 @@ public class PairCommandParser implements Parser<PairCommand> {
         for (int i = 1; i < tokens.length; i++) {
             try {
                 Index idx = ParserUtil.parseIndex(tokens[i]);
-                // avoid pairing to self or duplicate entries
+                // avoid pairing to self.
+                // Duplicate entries are given a warning but not dealbreaking and handled in PairCommand
                 if (idx.equals(mainIndex)) {
                     throw new ParseException(MESSAGE_SELF_PAIRING);
                 }
 
                 paired.add(idx);
             } catch (IllegalValueException e) {
-                throw new ParseException("Invalid index: " + tokens[i], e);
+                if (e instanceof ParseException) {
+                    throw e;
+                } else {
+                    throw new ParseException("Invalid index: " + tokens[i], e);
+                }
             }
         }
 

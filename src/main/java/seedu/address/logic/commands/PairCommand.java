@@ -76,6 +76,7 @@ public class PairCommand extends Command {
             }
             if (model.getAddressBook().isPaired(person, personToPair)) {
                 personsAlreadyPaired.add(new Pair<>(indexToPair, personToPair));
+                continue;
             }
 
             if (!person.getType().equals(personToPair.getType())) {
@@ -95,25 +96,29 @@ public class PairCommand extends Command {
             errorMessages.add(Messages.MESSAGE_DUPLICATE_INDEX);
         }
 
+        boolean isError = false;
         if (!invalidIndices.isEmpty()) {
             errorMessages.add(String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDICES,
                     invalidIndices
                             .stream()
                             .map(index -> String.valueOf(index.getOneBased()))
                             .collect(Collectors.joining(", "))));
+            isError = true;
         }
         if (!personsSameClass.isEmpty()) {
             errorMessages.add(String.format(MESSAGE_SAME_CLASS, index.getOneBased(), person.getName(),
                     INDEX_PERSON_LIST_TO_STRING_CONVERTER.apply(personsSameClass),
                     person.getType()));
+            isError = true;
         }
 
         if (!personsAlreadyPaired.isEmpty()) {
             errorMessages.add(String.format(MESSAGE_PAIRING_ALREADY_EXISTS, index.getOneBased(), person.getName(),
                     INDEX_PERSON_LIST_TO_STRING_CONVERTER.apply(personsAlreadyPaired)));
+            isError = true;
         }
 
-        if (!errorMessages.isEmpty()) {
+        if (isError) {
             throw new CommandException(String.join("\n", errorMessages));
         }
 

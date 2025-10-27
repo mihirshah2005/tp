@@ -69,52 +69,61 @@ public class UnpairCommand extends Command {
                 continue;
             }
             Person personToUnpair = lastShownList.get(indexToUnpair.getZeroBased());
-            if (model.getAddressBook().isPaired(person, personToUnpair)) {
+            if (personsToUnpair.contains(personToUnpair)) {
+                continue; // ignore duplicates first. Warning message will be added later in code.
+            }
+            if (!model.getAddressBook().isPaired(person, personToUnpair)) {
                 personsNotYetPaired.add(new Pair<>(indexToUnpair, personToUnpair));
+                continue;
             }
-            if (!personsToUnpair.contains(personToUnpair)) {
-                personsToUnpair.add(personToUnpair);
-            }
+
+            personsToUnpair.add(personToUnpair);
         }
 
+        StringBuilder successMessage = new StringBuilder();
         ArrayList<String> errorMessages = new ArrayList<>();
+
+        HashSet<Integer> uniqueIndices = new HashSet<>(indicesToUnpair.stream().map(Index::getZeroBased)
+                .collect(Collectors.toList()));
+        if (uniqueIndices.size() != indicesToUnpair.size()) {
+            successMessage.append(Messages.MESSAGE_DUPLICATE_INDEX).append("\n");
+            errorMessages.add(Messages.MESSAGE_DUPLICATE_INDEX);
+        }
+
+        boolean isError = false;
         if (!invalidIndices.isEmpty()) {
             errorMessages.add(String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDICES,
                     invalidIndices
                             .stream()
                             .map(index -> String.valueOf(index.getOneBased()))
                             .collect(Collectors.joining(", "))));
+            isError = true;
         }
 
         if (!personsNotYetPaired.isEmpty()) {
             errorMessages.add(String.format(MESSAGE_PAIRING_DOES_NOT_EXIST_YET, index.getOneBased(), person.getName(),
                     INDEX_PERSON_LIST_TO_STRING_CONVERTER.apply(personsNotYetPaired)));
+            isError = true;
         }
 
-        if (!errorMessages.isEmpty()) {
+        if (isError) {
             throw new CommandException(String.join("\n", errorMessages));
         }
 
         for (Person personToUnpair : personsToUnpair) {
-            model.pair(person, personToUnpair);
+            model.unpair(person, personToUnpair);
             model.setPerson(personToUnpair, personToUnpair); // update GUI
         }
 
         model.setPerson(person, person); // update GUI
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
-        StringBuilder outputMessage = new StringBuilder();
-        HashSet<Integer> uniqueIndices = new HashSet<>(indicesToUnpair.stream().map(Index::getZeroBased)
-                .collect(Collectors.toList()));
-        if (uniqueIndices.size() != indicesToUnpair.size()) {
-            outputMessage.append(Messages.MESSAGE_DUPLICATE_INDEX);
-        }
-        outputMessage.append(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
+        successMessage.append(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
                 "{" + uniqueIndices.stream().map(
                                 index -> lastShownList.get(index).getName().toString())
                         .collect(Collectors.joining(", ")) + "}"));
 
-        return new CommandResult(outputMessage.toString());
+        return new CommandResult(successMessage.toString());
     }
 
     @Override
