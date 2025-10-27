@@ -80,13 +80,13 @@ public class PersonListPanel extends UiPart<Region> {
 
     private static void autoScrollOnChange(ListView<Person> view, ObservableList<Person> list) {
         list.addListener((ListChangeListener<Person>) change -> {
-            boolean needsScroll = false;
+            boolean isScrollNeeded = false;
             while (change.next()) {
                 if (change.wasAdded() || change.wasReplaced()) {
-                    needsScroll = true;
+                    isScrollNeeded = true;
                 }
             }
-            if (needsScroll && !list.isEmpty()) {
+            if (isScrollNeeded && !list.isEmpty()) {
                 int last = list.size() - 1;
                 Platform.runLater(() -> view.scrollTo(last));
             }
