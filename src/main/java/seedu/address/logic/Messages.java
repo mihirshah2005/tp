@@ -1,9 +1,12 @@
 package seedu.address.logic;
 
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javafx.util.Pair;
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.person.Person;
 
@@ -22,6 +25,12 @@ public class Messages {
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_DUPLICATE_INDEX = "Ignoring duplicate indices provided.\n";
+
+    public static final Function<Set<Pair<Index, Person>>, String> INDEX_PERSON_LIST_TO_STRING_CONVERTER
+            = indexPersonList -> indexPersonList
+                .stream()
+                .map(pair -> pair.getKey().getOneBased() + ": " + pair.getValue().getName())
+                .collect(Collectors.joining(", "));
 
     /**
      * Returns an error message indicating the duplicate prefixes.

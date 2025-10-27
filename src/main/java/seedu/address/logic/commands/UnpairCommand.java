@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.INDEX_PERSON_LIST_TO_STRING_CONVERTER;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.ArrayList;
@@ -87,10 +88,7 @@ public class UnpairCommand extends Command {
 
         if (!personsNotYetPaired.isEmpty()) {
             errorMessages.add(String.format(MESSAGE_PAIRING_DOES_NOT_EXIST_YET, index.getOneBased(), person.getName(),
-                    personsNotYetPaired
-                            .stream()
-                            .map(pair -> pair.getKey().getOneBased() + ": " + pair.getValue().getName())
-                            .collect(Collectors.joining(", "))));
+                    INDEX_PERSON_LIST_TO_STRING_CONVERTER.apply(personsNotYetPaired)));
         }
 
         if (!errorMessages.isEmpty()) {

@@ -1,12 +1,14 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.INDEX_PERSON_LIST_TO_STRING_CONVERTER;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javafx.util.Pair;
@@ -15,6 +17,8 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Volunteer;
 
 /**
  * Changes the remark of an existing person in the address book.
@@ -33,6 +37,7 @@ public class PairCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Paired: %s to %s";
     public static final String MESSAGE_PAIRING_ALREADY_EXISTS = "%d: %s is already paired to these person(s) "
             + "in the address book: {%s}";
+    public static final String MESSAGE_SAME_CLASS = "%d: %s and {} are all %1$ss. %1$ss cannot be paired to %1$ss..";
 
     private final Index index;
     private final List<Index> indicesToPair;
@@ -62,6 +67,7 @@ public class PairCommand extends Command {
         Set<Person> personsToPair = new HashSet<>();
         Set<Index> invalidIndices = new HashSet<>();
         Set<Pair<Index, Person>> personsAlreadyPaired = new HashSet<>();
+        Set<Pair<Index, Person>> personsSameClass = new HashSet<>();
         for (Index indexToPair : indicesToPair) {
             if (indexToPair.getZeroBased() >= lastShownList.size()) {
                 invalidIndices.add(indexToPair);
@@ -71,8 +77,13 @@ public class PairCommand extends Command {
             if (model.getAddressBook().isPaired(person, personToPair)) {
                 personsAlreadyPaired.add(new Pair<>(indexToPair, personToPair));
             }
-            if (!personsToPair.contains(personToPair)) {
-                personsToPair.add(personToPair);
+            if (((person instanceof Student) && (personToPair instanceof Student))
+                || ((person instanceof Volunteer) && (personToPair instanceof Volunteer))) {
+                personsSameClass.add(new Pair<>(indexToPair, personToPair));
+            } else {
+                if (!personsToPair.contains(personToPair)) { // if not duplicate
+                    personsToPair.add(personToPair);
+                }
             }
         }
 
@@ -84,13 +95,14 @@ public class PairCommand extends Command {
                             .map(index -> String.valueOf(index.getOneBased()))
                             .collect(Collectors.joining(", "))));
         }
+        if (!personsSameClass.isEmpty()) {
+            errorMessages.add(String.format(MESSAGE_SAME_CLASS,
+                    INDEX_PERSON_LIST_TO_STRING_CONVERTER.apply(personsSameClass)));
+        }
 
         if (!personsAlreadyPaired.isEmpty()) {
             errorMessages.add(String.format(MESSAGE_PAIRING_ALREADY_EXISTS, index.getOneBased(), person.getName(),
-                    personsAlreadyPaired
-                            .stream()
-                            .map(pair -> pair.getKey().getOneBased() + ": " + pair.getValue().getName())
-                            .collect(Collectors.joining(", "))));
+                    INDEX_PERSON_LIST_TO_STRING_CONVERTER.apply(personsAlreadyPaired)));
         }
 
         if (!errorMessages.isEmpty()) {
