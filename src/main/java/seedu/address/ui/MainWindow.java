@@ -159,6 +159,7 @@ public class MainWindow extends UiPart<Stage> {
         } else {
             helpWindow.focus();
         }
+        helpWindow.loadSummaryText(message);
     }
 
     void show() {
@@ -193,7 +194,12 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
-                handleHelp(commandResult.getFeedbackToUser());
+                String helpText = commandResult.getHelpContent();
+                // fallback if helpContent was not set
+                if (helpText == null || helpText.isBlank()) {
+                    helpText = commandResult.getFeedbackToUser();
+                }
+                handleHelp(helpText);
             }
 
             if (commandResult.isExit()) {

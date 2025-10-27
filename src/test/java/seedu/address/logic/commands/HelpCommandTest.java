@@ -17,8 +17,8 @@ public class HelpCommandTest {
     public void execute_help_success() {
         CommandResult result = new HelpCommand().execute(model);
 
-        assertTrue(result.getFeedbackToUser().startsWith("Here are some sample commands"),
-                "Help message should start with the expected prefix.");
+        assertEquals(HelpCommand.SHOWING_HELP_MESSAGE, result.getFeedbackToUser(),
+                "CLI should show the short confirmation message.");
 
         assertTrue(result.isShowHelp(), "Help window flag should be true.");
 

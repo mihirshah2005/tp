@@ -78,28 +78,27 @@ public class HelpWindow extends UiPart<Stage> {
                 return;
             }
 
-            // 1) Strip Jekyll front-matter and convert kramdown {:toc} to Flexmark [TOC]
+
             md = stripJekyllFrontMatter(md);
             md = md.replace("\n{:toc}", "").replace("{:toc}", "");
-            // Insert a real [TOC] placeholder where the original table was
             md = md.replaceFirst("(?s)\\*\\s*Table of Contents\\s*", "[TOC]\n\n");
 
-            // replace GitHub/Jekyll emoji shortcodes with Unicode
+
             md = md.replace(":bulb:", "💡")
                     .replace(":information_source:", "ℹ️")
                     .replace(":exclamation:", "⚠️");
 
 
-            // 2) Flexmark config with TOC + heading anchors + tables
+
             MutableDataSet opts = new MutableDataSet()
                     .set(Parser.EXTENSIONS, java.util.List.of(
                             TablesExtension.create(),
                             TocExtension.create()
                     ))
-                    // generate id="" attributes on headings so the TOC can link to them
+
                     .set(HtmlRenderer.GENERATE_HEADER_ID, true)
                     .set(HtmlRenderer.RENDER_HEADER_ID, true)
-                    // optional: GitHub-like id generation
+
                     .set(HtmlRenderer.HEADER_ID_GENERATOR_RESOLVE_DUPES, true)
                     .set(TocExtension.LIST_CLASS, "toc")
                     .set(TocExtension.LEVELS, 255);
@@ -110,7 +109,7 @@ public class HelpWindow extends UiPart<Stage> {
             Node document = parser.parse(md);
             String bodyHtml = renderer.render(document);
 
-            // 3) Base href so relative images resolve inside the JAR
+
             String baseHref = computeDocsBaseHref();
 
             String css = """
@@ -152,13 +151,13 @@ public class HelpWindow extends UiPart<Stage> {
         return null;
     }
 
-    // Remove YAML front matter between leading --- and the next ---
+
     private static String stripJekyllFrontMatter(String md) {
         String s = md.stripLeading();
         if (s.startsWith("---")) {
             int next = s.indexOf("\n---", 3);
             if (next != -1) {
-                int end = next + 4; // include newline + ---
+                int end = next + 4;
                 int after = (end < s.length() && s.charAt(end) == '\n') ? end + 1 : end;
                 return s.substring(after);
             }
@@ -166,9 +165,64 @@ public class HelpWindow extends UiPart<Stage> {
         return md;
     }
 
-    // Resolve /docs/ inside resources to a URL string usable as <base href="...">
+
     private String computeDocsBaseHref() {
         URL url = getClass().getResource(CLASSPATH_DOCS_DIR);
         return (url != null) ? url.toExternalForm() : null;
+    }
+
+    /**
+     * Loads formatted HTML summary text into the Help window instead of the full User Guide.
+     */
+    public void loadSummaryText(String summary) {
+        if (summary == null || summary.isBlank()) {
+            webView.getEngine().loadContent("<h2>No help content available.</h2>");
+            return;
+        }
+        String formattedSummary = summary
+                .replaceAll("\n", "<br>")
+                .replace("https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html",
+                        "<a href='https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html' "
+                                + "target='_blank' style='color:#1e90ff;text-decoration:none;'>"
+                                + "User Guide</a>");
+
+        String css = """
+            body {
+                font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+                background-color: #2b2b2b;
+                color: #e8e8e8;
+                padding: 24px;
+                margin: 0;
+            }
+            h1 {
+                color: #ffffff;
+                text-align: center;
+                border-bottom: 1px solid #555;
+                padding-bottom: 0.4em;
+            }
+            .container {
+                max-width: 700px;
+                margin: auto;
+                background: #3a3a3a;
+                padding: 24px 28px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.4);
+            }
+            a {
+                color: #4ea3ff;
+            }
+            a:hover {
+                color: #82c4ff;
+                text-decoration: underline;
+            }
+            """;
+
+        String html = "<html><head><style>" + css + "</style></head><body>"
+                + "<div class='container'>"
+                + "<h1>Command Summary</h1>"
+                + "<p style='line-height:1.6;'>" + formattedSummary + "</p>"
+                + "</div></body></html>";
+
+        webView.getEngine().loadContent(html);
     }
 }
