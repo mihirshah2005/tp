@@ -27,4 +27,14 @@ public class HelpCommandTest {
         assertEquals(model, expectedModel, "Model state should remain unchanged after help command.");
     }
 
+    @Test
+    public void execute_help_setsContentCorrectly() {
+        HelpCommand command = new HelpCommand();
+        CommandResult result = command.execute(model);
+
+        assertTrue(result.getHelpContent().contains("addstu"), "Help content should include 'addstu'.");
+        assertTrue(result.getHelpContent().contains("UserGuide.html"),
+                "Help content should contain the link to the User Guide.");
+    }
+
 }
