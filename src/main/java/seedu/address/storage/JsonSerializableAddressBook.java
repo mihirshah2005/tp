@@ -53,20 +53,33 @@ class JsonSerializableAddressBook {
         AddressBook addressBook = new AddressBook();
         Map<String, Person> identityMap = new HashMap<>();
         List<PendingPairing> pendingPairings = new ArrayList<>();
+        boolean hasSkippedEntries = false;
 
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
-            Person person = jsonAdaptedPerson.toModelType();
-            if (addressBook.hasPerson(person)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
-            }
-            addressBook.addPerson(person);
+            try {
+                Person person = jsonAdaptedPerson.toModelType();
 
-            String identityKey = toLookupKey(person);
-            identityMap.put(identityKey, person);
-            pendingPairings.add(new PendingPairing(person, jsonAdaptedPerson.getPairingIdentities()));
+                if (addressBook.hasPerson(person)) {
+
+                    hasSkippedEntries = true;
+                    continue;
+                }
+
+                addressBook.addPerson(person);
+                String identityKey = toLookupKey(person);
+                identityMap.put(identityKey, person);
+                pendingPairings.add(new PendingPairing(person, jsonAdaptedPerson.getPairingIdentities()));
+
+            } catch (IllegalValueException e) {
+
+
+                hasSkippedEntries = true;
+            }
         }
 
         linkPairings(pendingPairings, identityMap);
+
+
         return addressBook;
     }
 
