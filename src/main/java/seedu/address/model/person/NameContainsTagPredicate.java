@@ -3,6 +3,7 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -12,14 +13,14 @@ import seedu.address.model.tag.Tag;
  * Tests that a {@code Person}'s tags includes any of the given tags.
  */
 public class NameContainsTagPredicate implements Predicate<Person> {
-    private final List<Tag> tags;
+    private final Set<Tag> tags;
 
     /**
      * Constructs a {@code NameContainsTagPredicate}
      */
-    public NameContainsTagPredicate(List<Tag> tags) {
+    public NameContainsTagPredicate(Set<Tag> tags) {
         requireNonNull(tags);
-        this.tags = List.copyOf(tags);
+        this.tags = Set.copyOf(tags);
         // Make a copy to ensure that modifying object passed into parameter does not
         // result in unexpected side effects in this predicate
     }

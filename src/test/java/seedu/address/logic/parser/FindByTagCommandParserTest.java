@@ -38,7 +38,7 @@ public class FindByTagCommandParserTest {
     public void parse_validArgs_returnsFindByTagCommand() {
         Tag expectedTag = new Tag(VALID_TAG_FRIEND);
         FindByTagCommand expectedCommand = new FindByTagCommand(
-                new NameContainsTagPredicate(Collections.singletonList(expectedTag)));
+                new NameContainsTagPredicate(Collections.singleton(expectedTag)));
 
         assertParseSuccess(parser, VALID_TAG_FRIEND, expectedCommand);
         assertParseSuccess(parser, "    " + VALID_TAG_FRIEND, expectedCommand);

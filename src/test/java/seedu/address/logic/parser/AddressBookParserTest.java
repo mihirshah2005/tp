@@ -102,7 +102,7 @@ public class AddressBookParserTest {
         FindByTagCommand command = (FindByTagCommand) parser.parseCommand(
                 FindByTagCommand.COMMAND_WORD + " " + VALID_TAG_FRIEND);
         Tag expectedTag = new Tag(VALID_TAG_FRIEND);
-        assertEquals(new FindByTagCommand(new NameContainsTagPredicate(Collections.singletonList(expectedTag))),
+        assertEquals(new FindByTagCommand(new NameContainsTagPredicate(Collections.singleton(expectedTag))),
                 command);
     }
 

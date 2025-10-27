@@ -35,9 +35,9 @@ public class FindByTagCommandTest {
     @Test
     public void equals() {
         NameContainsTagPredicate firstPredicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag(VALID_TAG_FRIEND)));
+                Collections.singleton(new Tag(VALID_TAG_FRIEND)));
         NameContainsTagPredicate secondPredicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag(VALID_TAG_HUSBAND)));
+                Collections.singleton(new Tag(VALID_TAG_HUSBAND)));
 
         FindByTagCommand firstCommand = new FindByTagCommand(firstPredicate);
         FindByTagCommand secondCommand = new FindByTagCommand(secondPredicate);
@@ -66,7 +66,7 @@ public class FindByTagCommandTest {
     public void execute_tagNotInList_noPersonFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
         NameContainsTagPredicate predicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag("noonehasthistag")));
+                Collections.singleton(new Tag("noonehasthistag")));
         FindByTagCommand command = new FindByTagCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -77,7 +77,7 @@ public class FindByTagCommandTest {
     public void execute_tagInList_personsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         NameContainsTagPredicate predicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag("friends")));
+                Collections.singleton(new Tag("friends")));
         FindByTagCommand command = new FindByTagCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -87,7 +87,7 @@ public class FindByTagCommandTest {
     @Test
     public void toStringMethod() {
         NameContainsTagPredicate predicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag(VALID_TAG_FRIEND)));
+                Collections.singleton(new Tag(VALID_TAG_FRIEND)));
         FindByTagCommand command = new FindByTagCommand(predicate);
         String expected = FindByTagCommand.class.getCanonicalName() + "{predicate=" + predicate + "}";
         assertEquals(expected, command.toString());

@@ -4,6 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seedu.address.logic.commands.FindByTagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -28,17 +29,8 @@ public class FindByTagCommandParser implements Parser<FindByTagCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindByTagCommand.MESSAGE_USAGE));
         }
 
-        String[] tagNames = trimmedArgs.split("\\s+");
-        boolean hasAnyInvalidTagName = Arrays.stream(tagNames)
-                .anyMatch(tagName -> !Tag.isValidTagName(tagName));
-        if (hasAnyInvalidTagName) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindByTagCommand.MESSAGE_USAGE));
-        }
-
-        List<Tag> tags = Arrays.stream(tagNames)
-                .map(Tag::new)
-                .toList();
+        List<String> tagNames = List.of(trimmedArgs.split("\\s+"));
+        Set<Tag> tags = ParserUtil.parseTags(tagNames);
         return new FindByTagCommand(new NameContainsTagPredicate(tags));
     }
 }
