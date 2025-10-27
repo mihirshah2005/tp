@@ -89,7 +89,7 @@ public class PairCommand extends Command {
         StringBuilder successMessage = new StringBuilder();
         ArrayList<String> errorMessages = new ArrayList<>();
 
-        HashSet<Integer> uniqueIndices = new HashSet<>(indicesToPair.stream().map(Index::getZeroBased)
+        Set<Integer> uniqueIndices = new HashSet<>(indicesToPair.stream().map(Index::getZeroBased)
                 .collect(Collectors.toList()));
         if (uniqueIndices.size() != indicesToPair.size()) {
             successMessage.append(Messages.MESSAGE_DUPLICATE_INDEX).append("\n");
