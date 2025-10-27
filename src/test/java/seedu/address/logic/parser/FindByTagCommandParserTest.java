@@ -30,8 +30,7 @@ public class FindByTagCommandParserTest {
     public void parse_invalidTagName_throwsParseException() {
         String invalidTag = "CS2103/T+CS2101";
         assert !Tag.isValidTagName(invalidTag);
-        assertParseFailure(parser, invalidTag,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindByTagCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, invalidTag, Tag.MESSAGE_CONSTRAINTS);
     }
 
     @Test

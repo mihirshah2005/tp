@@ -2,7 +2,6 @@ package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -28,6 +27,12 @@ public class NameContainsTagPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         return tags.stream().anyMatch(tag -> person.getTags().contains(tag));
+    }
+
+    public Set<Tag> getTags() {
+        return Set.copyOf(tags);
+        // Make a copy to ensure that modifying the set returned does not
+        // result in unexpected side effects in this predicate
     }
 
     @Override
