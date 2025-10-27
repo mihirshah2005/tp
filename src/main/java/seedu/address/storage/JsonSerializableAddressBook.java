@@ -89,7 +89,13 @@ class JsonSerializableAddressBook {
         for (JsonPairing pr : pairings) {
             int a = pr.i;
             int b = pr.j;
-            if (a < 0 || b < 0 || a >= loaded.size() || b >= loaded.size() || a == b) {
+            if (a < 0 || b < 0 || a >= loaded.size() || b >= loaded.size()) {
+                Logger.getGlobal().warning("Ignoring and not saving pairing where at least either"
+                        + " of the 2 indices are out of bounds: " + a + " and " + b);
+                continue;
+            }
+            if (a == b) {
+                Logger.getGlobal().warning("Ignoring and not saving self-pairing: " + a);
                 continue;
             }
 
