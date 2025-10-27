@@ -9,7 +9,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
- * Tests that a {@code Person}'s tags includes the all the given tags.
+ * Tests that a {@code Person}'s tags includes any of the given tags.
  */
 public class NameContainsTagPredicate implements Predicate<Person> {
     private final List<Tag> tags;
@@ -26,7 +26,7 @@ public class NameContainsTagPredicate implements Predicate<Person> {
 
     @Override
     public boolean test(Person person) {
-        return person.getTags().containsAll(tags);
+        return tags.stream().anyMatch(tag -> person.getTags().contains(tag));
     }
 
     @Override
