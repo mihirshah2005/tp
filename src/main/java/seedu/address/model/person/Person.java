@@ -441,4 +441,8 @@ public class Person {
         return originalToString();
     }
 
+    public String getType() {
+        return "Person";
+    }
+
 }

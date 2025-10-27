@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javafx.util.Pair;
@@ -17,8 +16,6 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Student;
-import seedu.address.model.person.Volunteer;
 
 /**
  * Changes the remark of an existing person in the address book.
@@ -37,7 +34,7 @@ public class PairCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Paired: %s to %s";
     public static final String MESSAGE_PAIRING_ALREADY_EXISTS = "%d: %s is already paired to these person(s) "
             + "in the address book: {%s}";
-    public static final String MESSAGE_SAME_CLASS = "%d: %s and {} are all %1$ss. %1$ss cannot be paired to %1$ss..";
+    public static final String MESSAGE_SAME_CLASS = "%d: %s and {%s} are all %4$ss. %4$ss cannot be paired to %4$ss.";
 
     private final Index index;
     private final List<Index> indicesToPair;
@@ -74,20 +71,30 @@ public class PairCommand extends Command {
                 continue;
             }
             Person personToPair = lastShownList.get(indexToPair.getZeroBased());
+            if (personsToPair.contains(personToPair)) {
+                continue; // ignore duplicates first. Warning message will be added later in code.
+            }
             if (model.getAddressBook().isPaired(person, personToPair)) {
                 personsAlreadyPaired.add(new Pair<>(indexToPair, personToPair));
             }
-            if (((person instanceof Student) && (personToPair instanceof Student))
-                || ((person instanceof Volunteer) && (personToPair instanceof Volunteer))) {
-                personsSameClass.add(new Pair<>(indexToPair, personToPair));
+
+            if (!person.getType().equals(personToPair.getType())) {
+                personsToPair.add(personToPair);
             } else {
-                if (!personsToPair.contains(personToPair)) { // if not duplicate
-                    personsToPair.add(personToPair);
-                }
+                personsSameClass.add(new Pair<>(indexToPair, personToPair));
             }
         }
 
+        StringBuilder successMessage = new StringBuilder();
         ArrayList<String> errorMessages = new ArrayList<>();
+
+        HashSet<Integer> uniqueIndices = new HashSet<>(indicesToPair.stream().map(Index::getZeroBased)
+                .collect(Collectors.toList()));
+        if (uniqueIndices.size() != indicesToPair.size()) {
+            successMessage.append(Messages.MESSAGE_DUPLICATE_INDEX).append("\n");
+            errorMessages.add(Messages.MESSAGE_DUPLICATE_INDEX);
+        }
+
         if (!invalidIndices.isEmpty()) {
             errorMessages.add(String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDICES,
                     invalidIndices
@@ -96,8 +103,9 @@ public class PairCommand extends Command {
                             .collect(Collectors.joining(", "))));
         }
         if (!personsSameClass.isEmpty()) {
-            errorMessages.add(String.format(MESSAGE_SAME_CLASS,
-                    INDEX_PERSON_LIST_TO_STRING_CONVERTER.apply(personsSameClass)));
+            errorMessages.add(String.format(MESSAGE_SAME_CLASS, index.getOneBased(), person.getName(),
+                    INDEX_PERSON_LIST_TO_STRING_CONVERTER.apply(personsSameClass),
+                    person.getType()));
         }
 
         if (!personsAlreadyPaired.isEmpty()) {
@@ -109,6 +117,7 @@ public class PairCommand extends Command {
             throw new CommandException(String.join("\n", errorMessages));
         }
 
+
         for (Person personToPair : personsToPair) {
             model.pair(person, personToPair);
             model.setPerson(personToPair, personToPair); // update GUI
@@ -117,18 +126,12 @@ public class PairCommand extends Command {
         model.setPerson(person, person); // update GUI
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
-        StringBuilder outputMessage = new StringBuilder();
-        HashSet<Integer> uniqueIndices = new HashSet<>(indicesToPair.stream().map(Index::getZeroBased)
-                .collect(Collectors.toList()));
-        if (uniqueIndices.size() != indicesToPair.size()) {
-            outputMessage.append(Messages.MESSAGE_DUPLICATE_INDEX);
-        }
-        outputMessage.append(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
+        successMessage.append(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
                 "{" + uniqueIndices.stream().map(
                                 index -> lastShownList.get(index).getName().toString())
                         .collect(Collectors.joining(", ")) + "}"));
 
-        return new CommandResult(outputMessage.toString());
+        return new CommandResult(successMessage.toString());
     }
 
     @Override

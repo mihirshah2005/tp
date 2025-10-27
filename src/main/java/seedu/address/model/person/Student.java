@@ -79,4 +79,9 @@ public class Student extends Person {
     public int hashCode() {
         return super.hashCode();
     }
+
+    @Override
+    public String getType() {
+        return "Student";
+    }
 }

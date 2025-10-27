@@ -24,10 +24,10 @@ public class Messages {
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
-    public static final String MESSAGE_DUPLICATE_INDEX = "Ignoring duplicate indices provided.\n";
+    public static final String MESSAGE_DUPLICATE_INDEX = "Ignoring duplicate indices provided.";
 
-    public static final Function<Set<Pair<Index, Person>>, String> INDEX_PERSON_LIST_TO_STRING_CONVERTER
-            = indexPersonList -> indexPersonList
+    public static final Function<Set<Pair<Index, Person>>, String> INDEX_PERSON_LIST_TO_STRING_CONVERTER =
+            indexPersonList -> indexPersonList
                 .stream()
                 .map(pair -> pair.getKey().getOneBased() + ": " + pair.getValue().getName())
                 .collect(Collectors.joining(", "));

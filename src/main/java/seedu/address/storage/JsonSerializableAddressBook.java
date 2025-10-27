@@ -6,6 +6,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -59,7 +60,15 @@ class JsonSerializableAddressBook {
                 int y = Math.max(a, b);
                 long key = (((long) x) << 32) ^ (y & 0xffffffffL);
                 if (seen.add(key)) {
-                    pairings.add(new JsonPairing(x, y));
+                    if (!list.get(x).getType().equals(list.get(y).getType())) {
+                        pairings.add(new JsonPairing(x, y));
+                    } else {
+                        Logger.getGlobal().warning("Ignoring and not loading pairing between two persons"
+                                + " of the same type: " + list.get(x) + " and " + list.get(y));
+                    }
+                } else {
+                    Logger.getGlobal().warning("Ignoring and not loading duplicate pairing: "
+                            + list.get(x) + " and " + list.get(y));
                 }
             }
         }
@@ -83,7 +92,15 @@ class JsonSerializableAddressBook {
             if (a < 0 || b < 0 || a >= loaded.size() || b >= loaded.size() || a == b) {
                 continue;
             }
-            addressBook.pair(loaded.get(a), loaded.get(b));
+
+            Person personA = loaded.get(a);
+            Person personB = loaded.get(b);
+            if (personA.getType().equals(personB.getType())) {
+                Logger.getGlobal().warning("Ignoring and not saving pairing between two persons of the same type: "
+                        + personA + " and " + personB);
+            } else {
+                addressBook.pair(personA, personB);
+            }
         }
         return addressBook;
     }
