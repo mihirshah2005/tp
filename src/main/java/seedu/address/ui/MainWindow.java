@@ -160,7 +160,6 @@ public class MainWindow extends UiPart<Stage> {
         } else {
             helpWindow.focus();
         }
-        helpWindow.loadSummaryText(message);
     }
 
     void show() {
