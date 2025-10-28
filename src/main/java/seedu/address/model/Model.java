@@ -77,22 +77,31 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
-    /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Person> getFilteredPersonList();
+    /** Returns an unmodifiable view of the person list after filtering and (if applicable) sorting */
+    ObservableList<Person> getProcessedPersonList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     *
+     * <p><strong>Warning:</strong> This will undo any sorting done by {@link Model#sortPersonList}.
+     * If you want to both filter and sort the person list, use {@link Model#filterAndSortPersonList}.</p>
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+    // TODO: rename this method to filterPersonList
+    // Rename is delayed to avoid merge conflicts
 
     //Code below inspired by https://github.com/AY2526S1-CS2103T-T15-2/tp/pull/140/files
-    /** Returns an unmodifiable view of the sorted person list */
-    ObservableList<Person> getSortedPersonList();
-
     /**
      * Updates the comparator used in the sorted person list to the give {@code comparator}.
      * @throws NullPointerException if {@code comparator} is null.
      */
     void sortPersonList(Comparator<Person> comparator);
+
+    /**
+     * Updates the person list to be filtered using the given {@code predicate}
+     * and sorted using the given {@code comparator}.
+     * @throws NullPointerException if {@code predicate} and/or {@code comparator} is null.
+     */
+    void filterAndSortPersonList(Predicate<Person> predicate, Comparator<Person> comparator);
 }

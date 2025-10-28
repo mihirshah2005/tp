@@ -68,6 +68,9 @@ public class PersonListPanel extends UiPart<Region> {
                     "masterList changed: +%d/-%d -> %d total",
                     additions, removals, masterList.size()
             ));
+            logger.fine("Master list: " + String.format(masterList.stream().map(Person::getName).toList().toString()));
+            logger.fine("Students: " + String.format(students.stream().map(Person::getName).toList().toString()));
+            logger.fine("Volunteers: " + String.format(volunteers.stream().map(Person::getName).toList().toString()));
             studentListView.refresh();
             volunteerListView.refresh();
         });

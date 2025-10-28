@@ -26,6 +26,9 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final SortedList<Person> sortedPersons;
 
+    /** Sorts persons per their order in the address book */
+    private final Comparator<Person> defaultComparator;
+
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
@@ -37,7 +40,8 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        sortedPersons = new SortedList<>(filteredPersons);
+        defaultComparator = getDefaultComparator();
+        sortedPersons = new SortedList<>(filteredPersons, defaultComparator);
     }
 
     public ModelManager() {
@@ -115,36 +119,50 @@ public class ModelManager implements Model {
         addressBook.setPerson(target, editedPerson);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    //=========== Person List Accessor =============================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
      * {@code versionedAddressBook}
      */
     @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        System.err.println("Should call getSortedPersonList instead");
-        return filteredPersons;
+    public ObservableList<Person> getProcessedPersonList() {
+        return sortedPersons;
     }
+
+    //=========== Person List Modifiers =============================================================
 
     @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+        sortedPersons.setComparator(defaultComparator);
         assert sortedPersons.stream().allMatch(predicate);
     }
 
     //Code below inspired by https://github.com/AY2526S1-CS2103T-T15-2/tp/pull/140/files
-    //=========== Sorted Person List Accessors =============================================================
-
-    @Override
-    public ObservableList<Person> getSortedPersonList() {
-        return sortedPersons;
-    }
-
     @Override
     public void sortPersonList(Comparator<Person> comparator) {
         sortedPersons.setComparator(comparator);
+    }
+
+    @Override
+    public void filterAndSortPersonList(Predicate<Person> predicate, Comparator<Person> comparator) {
+        filteredPersons.setPredicate(predicate);
+        sortedPersons.setComparator(comparator);
+    }
+
+    //=========== Person List Modifiers =============================================================
+
+    private Comparator<Person> getDefaultComparator() {
+        return Comparator.comparingInt(p -> {
+            logger.finer(p.getName() + ": " + addressBook.getPersonList().indexOf(p));
+            int index = addressBook.getPersonList().indexOf(p);
+            if (index == -1) { // person has just been added, should be at the back of the list
+                index = Integer.MAX_VALUE;
+            }
+            return index;
+        });
     }
 
     @Override

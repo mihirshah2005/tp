@@ -23,7 +23,7 @@ public class LogsCenter {
     private static final String LOG_FILE = "addressbook.log";
     private static final Logger logger; // logger for this class
     private static Logger baseLogger; // to be used as the parent of all other loggers created by this class.
-    private static Level currentLogLevel = Level.INFO;
+    private static Level currentLogLevel = Level.FINEST;
 
     // This static block ensures essential loggers are created early
     static {

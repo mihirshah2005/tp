@@ -70,7 +70,7 @@ public class FindByTagCommandTest {
         FindByTagCommand command = new FindByTagCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+        assertEquals(Collections.emptyList(), model.getProcessedPersonList());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class FindByTagCommandTest {
         FindByTagCommand command = new FindByTagCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredPersonList());
+        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getProcessedPersonList());
     }
 
     @Test

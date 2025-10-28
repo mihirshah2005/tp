@@ -40,13 +40,11 @@ public class FindByTagCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        // TODO: add blank lines and comments for increased readability
         requireNonNull(model);
-        model.updateFilteredPersonList(predicate);
         Comparator<Person> comparator = new FindTagComparator(this.predicate.getTags());
-        model.sortPersonList(comparator);
+        model.filterAndSortPersonList(predicate, comparator);
         return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getProcessedPersonList().size()));
     }
 
     @Override
