@@ -13,6 +13,9 @@ public class HelpCommand extends Command {
             + "Example: " + COMMAND_WORD;
 
     public static final String SHOWING_HELP_MESSAGE = "Opened help window with summary.";
+    public static final String MESSAGE_ALREADY_OPEN =
+            "The help window is already open. If it cannot be found, "
+                    + "check if it is minimised or at the edge of the screen.";
 
     /**
      * Executes the Help command and returns a {@code CommandResult} containing
@@ -21,28 +24,66 @@ public class HelpCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         assert model != null : "Model should not be null when executing HelpCommand";
+
         StringBuilder sb = new StringBuilder();
 
-        sb.append("===== Command Summary =====\n")
-                .append("addstu  - Add a new student\n")
-                .append("addvol  - Add a new volunteer\n")
-                .append("edit    - Edit an existing person\n")
-                .append("find    - Find persons by name keyword(s)\n")
-                .append("findtag - Find persons by tag\n")
-                .append("pair    - Pair students and volunteers\n")
-                .append("unpair  - Unpair existing pairs\n")
-                .append("delete  - Delete a person by index\n")
-                .append("list    - List all persons\n")
-                .append("clear   - Clear all entries\n")
-                .append("exit    - Exit the program\n")
-                .append("help    - Viewing help\n\n")
-                .append("For full command details and examples, visit:\n")
-                .append("https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html");
+        sb.append("""
+        <h1>Command Summary</h1>
+        <table>
+          <tr><th>Action</th><th>Format, Example</th></tr>
 
-        String summaryText = sb.toString();
+          <tr><td>Add student</td>
+              <td><code>addstu n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…</code><br>
+              e.g., <code>addstu n/James Ho p/22224444 e/jamesho@example.com a/123,
+              Clementi Rd, 1234665 t/friend t/colleague</code></td></tr>
 
-        CommandResult result = new CommandResult(SHOWING_HELP_MESSAGE, true, false);
-        result.setHelpContent(summaryText);
+          <tr><td>Add volunteer</td>
+              <td><code>addvol n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…</code><br>
+              e.g., <code>addvol n/Jane Roe p/93334444 e/jane@example.com a/45,
+              River Valley Rd, 238000 t/mentor</code></td></tr>
+
+          <tr><td>Clear</td>
+              <td><code>clear</code></td></tr>
+
+          <tr><td>Delete</td>
+              <td><code>delete INDEX</code><br>
+              e.g., <code>delete 3</code></td></tr>
+
+          <tr><td>Edit</td>
+              <td><code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…</code><br>
+              e.g., <code>edit 2 n/James Lee e/jameslee@example.com</code></td></tr>
+
+          <tr><td>Find</td>
+              <td><code>find KEYWORD [MORE_KEYWORDS]</code><br>
+              e.g., <code>find James Jake</code></td></tr>
+
+          <tr><td>Find by tag</td>
+              <td><code>findtag TAG [MORE_TAGS]</code><br>
+              e.g., <code>findtag math science</code></td></tr>
+
+          <tr><td>Pair</td>
+              <td><code>pair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ...</code><br>
+              e.g., <code>pair 2 1 3</code></td></tr>
+
+          <tr><td>Unpair</td>
+              <td><code>unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ...</code><br>
+              e.g., <code>unpair 2 1 3</code></td></tr>
+
+          <tr><td>List</td>
+              <td><code>list</code></td></tr>
+
+          <tr><td>Exit</td>
+              <td><code>exit</code></td></tr>
+
+          <tr><td>Help</td>
+              <td><code>help</code></td></tr>
+        </table>
+
+        <p>For full command details and examples, visit:<br>
+        <a href="https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html" target="_blank">User Guide</a></p>""");
+
+        CommandResult result = new CommandResult("Opened help window with command summary.", true, false);
+        result.setHelpContent(sb.toString());
         return result;
     }
 }

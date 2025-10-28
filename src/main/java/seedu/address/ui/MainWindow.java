@@ -140,12 +140,13 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     public void handleHelp() {
-        if (!helpWindow.isShowing()) {
-
-            helpWindow.show();
-        } else {
+        if (helpWindow.isShowing()) {
+            // If minimized or already open → bring to front and show message
             helpWindow.focus();
+            resultDisplay.setFeedbackToUser(seedu.address.logic.commands.HelpCommand.MESSAGE_ALREADY_OPEN);
+            return;
         }
+        helpWindow.show();
     }
     /**
      * Opens the help window and displays the given message.
@@ -155,11 +156,11 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void handleHelp(String message) {
         if (!helpWindow.isShowing()) {
-            helpWindow.setHelpMessage(message);
             helpWindow.show();
         } else {
             helpWindow.focus();
         }
+        helpWindow.loadSummaryText(message);
     }
 
     void show() {

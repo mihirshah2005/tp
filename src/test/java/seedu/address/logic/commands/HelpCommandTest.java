@@ -17,7 +17,7 @@ public class HelpCommandTest {
     public void execute_help_success() {
         CommandResult result = new HelpCommand().execute(model);
 
-        assertEquals(HelpCommand.SHOWING_HELP_MESSAGE, result.getFeedbackToUser(),
+        assertEquals("Opened help window with command summary.", result.getFeedbackToUser(),
                 "CLI should show the short confirmation message.");
 
         assertTrue(result.isShowHelp(), "Help window flag should be true.");
