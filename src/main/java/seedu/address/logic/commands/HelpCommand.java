@@ -17,6 +17,16 @@ public class HelpCommand extends Command {
             "The help window is already open. If it cannot be found, "
                     + "check if it is minimised or at the edge of the screen.";
 
+    private final String commandWord;
+    public HelpCommand() {
+        this.commandWord = null;
+    }
+
+    public HelpCommand(String commandWord) {
+        this.commandWord = commandWord == null ? null : commandWord.trim().toLowerCase();
+    }
+
+
     /**
      * Executes the Help command and returns a {@code CommandResult} containing
      * a formatted list of available sample commands and their usage examples.
@@ -25,9 +35,26 @@ public class HelpCommand extends Command {
     public CommandResult execute(Model model) {
         assert model != null : "Model should not be null when executing HelpCommand";
 
-        StringBuilder sb = new StringBuilder();
+        if (commandWord != null && !commandWord.isEmpty()) {
+            String fullHtml = getFullHelpHtml();
+            String filtered = extractCommandSection(fullHtml, commandWord);
 
-        sb.append("""
+            if (filtered == null) {
+                filtered = "<p>Unknown command: <b>" + commandWord + "</b></p>"
+                        + "<p>Type <code>help</code> to see all available commands.</p>";
+            }
+
+            CommandResult result = new CommandResult("Opened help for command: " + commandWord, true, false);
+            result.setHelpContent(filtered);
+            return result;
+        }
+
+        CommandResult result = new CommandResult("Opened help window with command summary.", true, false);
+        result.setHelpContent(getFullHelpHtml());
+        return result;
+    }
+    private String getFullHelpHtml() {
+        return """
         <h1>Command Summary</h1>
         <table>
           <tr><th>Action</th><th>Format, Example</th></tr>
@@ -80,10 +107,28 @@ public class HelpCommand extends Command {
         </table>
 
         <p>For full command details and examples, visit:<br>
-        <a href="https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html" target="_blank">User Guide</a></p>""");
+        <a href="https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html" target="_blank">User Guide</a></p>""";
+    }
 
-        CommandResult result = new CommandResult("Opened help window with command summary.", true, false);
-        result.setHelpContent(sb.toString());
-        return result;
+    private String extractCommandSection(String html, String commandWord) {
+        String lowerHtml = html.toLowerCase();
+        int start = lowerHtml.indexOf("<td>" + commandWord);
+        if (start == -1) {
+            start = lowerHtml.indexOf("<code>" + commandWord);
+            if (start == -1) {
+                return null;
+            }
+        }
+        int trStart = lowerHtml.lastIndexOf("<tr>", start);
+        int trEnd = lowerHtml.indexOf("</tr>", start);
+        if (trStart == -1 || trEnd == -1) {
+            return null;
+        }
+
+        return "<h1>Help for '" + commandWord + "'</h1><table>"
+                + html.substring(trStart, trEnd + 5)
+                + "</table>"
+                + "<p><a href='https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html' "
+                + "target='_blank'>View full guide</a></p>";
     }
 }
