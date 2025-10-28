@@ -3,44 +3,73 @@ layout: page
 title: User Guide
 ---
 
-VolunteeRoll is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+VolunteeRoll is a **desktop application designed to help volunteer coordinators, tutors, and student program managers efficiently manage student and volunteer information.**
+It combines the speed of a **Command Line Interface (CLI) with the clarity of a modern Graphical User Interface (GUI)**, making it ideal for users who prefer typing commands to navigate and manage data quickly.
+
+### VolunteeRoll allows users to:
+1. Store and organize student and volunteer contact information
+2. Match students with suitable volunteers based on shared tags or subjects
+3. Maintain a synchronized view of all pairings and unpairings
+4. Edit and update data instantly, with automatic saving
+
+### Why use VolunteeRoll?
+If you’re managing tutoring programs, community service groups, or any volunteer-based initiative, VolunteeRoll helps you stay organized - without needing spreadsheets or complex databases.
+
+### Who is this guide for?
+This guide is intended for:
+1. Volunteer coordinators or program leads who manage student–volunteer matching.
+2. Users who have basic familiarity with computers and can follow simple command-line instructions.
+3. Those who prefer fast, text-based interactions over traditional GUI-heavy tools.
 
 * Table of Contents
-{:toc}
+  {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+Follow these steps to get VolunteeRoll running in minutes.
+1. **Ensure you have Java `17` or above installed in your Computer.**<br>
+    * **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F10-1/tp/releases).
+2. **Download the latest release**
+    * Download the latest `.jar` file from [VolunteeRoll releases page](https://github.com/AY2526S1-CS2103T-F10-1/tp/releases).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. **Set up your workspace**
+    * Copy the `.jar` file into your preferred folder (this will be your app’s “home” directory).
+4. **Run the application**
+    * Open your terminal or command prompt.
+    * Navigate (`cd`) into the folder containing the .jar file.
+    * Enter the following command: `java -jar addressbook.jar`
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+5. **Explore the interface** <br>
+   Once launched, the app window appears with sample data loaded. You will see:
+    * **Tool bar (top)**: The file button lets you exit the application and help button takes you to the help page (you can access this via the `help` command as well)
+    * **Command Box (top)**: Where you type commands
+    * **Result Display (centre)**: Shows feedback and messages
+    * **List panel (centre-bottom)**: Displays all students(left) and Volunteers(right)
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+![Ui](images/Ui.png)
+
+6. **Try a few commands** <br>
+   Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window. <br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+    * `list` : Lists all contacts.
 
-   * `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` :
-     Adds a **student** named `John Doe`.
+    * `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` :
+      Adds a **student** named `John Doe`.
 
-   * `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02` :
-     Adds a **volunteer** named `Jane Roe`.
-   
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02` :
+      Adds a **volunteer** named `Jane Roe`.
 
-   * `clear` : Deletes all contacts.
+    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-   * `exit` : Exits the app.
+    * `clear` : Deletes all contacts.
 
-6. Refer to the [Features](#features) below for details of each command.
+    * `exit` : Exits the app.
+
+7. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -131,7 +160,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+  specifying any tags after it.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
@@ -248,6 +277,8 @@ _Details coming soon ..._
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
 
+**Q**: How can I check my Java version?<br>
+**A**: Run `java -version` in your terminal.
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
