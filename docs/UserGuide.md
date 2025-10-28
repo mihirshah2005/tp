@@ -33,7 +33,6 @@ VolunteeRoll is a **desktop app for managing contacts, optimized for use via a C
 
    * `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02` :
      Adds a **volunteer** named `Jane Roe`.
-   
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
    * `clear` : Deletes all contacts.
@@ -267,9 +266,9 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                 
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                         
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`  
-**Find by tag** | `findtag TAG [MORE_TAGS]`<br> e.g., `findtag math science`   
+**Find by tag** | `findtag TAG [MORE_TAGS]`<br> e.g., `findtag math science`
 **Pair** | `pair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `pair 2 1 3`
 **Unpair** | `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `unpair 2 1 3`
-**Exit** | `exit`                                                                                                                                                                             
-**List** | `list`                                                                                                                                                                              
-**Help** | `help`                                                                                                                                                                              
+**Exit** | `exit`
+**List** | `list`
+**Help** | `help`
