@@ -19,6 +19,8 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    private String helpContent;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
@@ -46,6 +48,15 @@ public class CommandResult {
 
     public boolean isExit() {
         return exit;
+    }
+
+
+    public void setHelpContent(String content) {
+        this.helpContent = content;
+    }
+
+    public String getHelpContent() {
+        return helpContent;
     }
 
     @Override
@@ -78,5 +89,6 @@ public class CommandResult {
                 .add("exit", exit)
                 .toString();
     }
+
 
 }
