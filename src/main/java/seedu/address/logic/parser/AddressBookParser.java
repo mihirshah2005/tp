@@ -85,7 +85,7 @@ public class AddressBookParser {
             return new ExitCommand();
 
         case HelpCommand.COMMAND_WORD:
-            String trimmedArgs = arguments.trim();
+            String trimmedArgs = arguments == null ? "" : arguments.trim();
             if (trimmedArgs.isEmpty()) {
                 return new HelpCommand();
             } else {

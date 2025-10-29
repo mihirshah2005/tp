@@ -22,8 +22,21 @@ public class HelpCommand extends Command {
         this.commandWord = null;
     }
 
+    /**
+     * Constructs a {@code HelpCommand} with an optional command word.
+     * The input is trimmed, converted to lowercase, and sanitized
+     * by removing all non-alphanumeric characters.
+     *
+     * @param commandWord the command word to filter help results for; may be {@code null} or blank
+     */
     public HelpCommand(String commandWord) {
-        this.commandWord = commandWord == null ? null : commandWord.trim().toLowerCase();
+        if (commandWord == null || commandWord.isBlank()) {
+            this.commandWord = null;
+        } else {
+            this.commandWord = commandWord.trim()
+                    .toLowerCase()
+                    .replaceAll("[^a-z0-9]", "");
+        }
     }
 
 
@@ -35,25 +48,26 @@ public class HelpCommand extends Command {
     public CommandResult execute(Model model) {
         assert model != null : "Model should not be null when executing HelpCommand";
 
-        if (commandWord != null && !commandWord.isEmpty()) {
-            String fullHtml = getFullHelpHtml();
-            String filtered = extractCommandSection(fullHtml, commandWord);
-
-            if (filtered == null) {
-                filtered = "<p>Unknown command: <b>" + commandWord + "</b></p>"
-                        + "<p>Type <code>help</code> to see all available commands.</p>";
-            }
-
-            CommandResult result = new CommandResult("Opened help for command: " + commandWord, true, false);
-            result.setHelpContent(filtered);
+        if (this.commandWord == null || this.commandWord.isBlank()) {
+            CommandResult result = new CommandResult("Opened help window with command summary.", true, false);
+            result.setHelpContent(getFullHelpHtml());
             return result;
         }
 
-        CommandResult result = new CommandResult("Opened help window with command summary.", true, false);
-        result.setHelpContent(getFullHelpHtml());
+        String fullHtml = getFullHelpHtml();
+        String filtered = extractCommandSection(fullHtml, this.commandWord);
+
+        if (filtered == null) {
+            filtered = "<p>Unknown command: <b>" + this.commandWord + "</b></p>"
+                    + "<p>Type <code>help</code> to see all available commands.</p>";
+        }
+
+        CommandResult result = new CommandResult("Opened help for command: " + this.commandWord, true, false);
+        result.setHelpContent(filtered);
         return result;
     }
-    private String getFullHelpHtml() {
+
+    public String getFullHelpHtml() {
         return """
         <h1>Command Summary</h1>
         <table>
@@ -112,21 +126,31 @@ public class HelpCommand extends Command {
 
     private String extractCommandSection(String html, String commandWord) {
         String lowerHtml = html.toLowerCase();
-        int start = lowerHtml.indexOf("<td>" + commandWord);
-        if (start == -1) {
-            start = lowerHtml.indexOf("<code>" + commandWord);
-            if (start == -1) {
-                return null;
+        String lowerCommand = commandWord.toLowerCase();
+        StringBuilder matches = new StringBuilder();
+
+        int index = 0;
+        while (true) {
+            int codeIndex = lowerHtml.indexOf("<code>" + lowerCommand, index);
+            if (codeIndex == -1) {
+                break;
             }
+
+            int trStart = lowerHtml.lastIndexOf("<tr>", codeIndex);
+            int trEnd = lowerHtml.indexOf("</tr>", codeIndex);
+            if (trStart != -1 && trEnd != -1) {
+                matches.append(html, trStart, trEnd + 5);
+            }
+
+            index = trEnd + 5;
         }
-        int trStart = lowerHtml.lastIndexOf("<tr>", start);
-        int trEnd = lowerHtml.indexOf("</tr>", start);
-        if (trStart == -1 || trEnd == -1) {
+
+        if (matches.length() == 0) {
             return null;
         }
 
-        return "<h1>Help for '" + commandWord + "'</h1><table>"
-                + html.substring(trStart, trEnd + 5)
+        return "<h1>Help results for '" + commandWord + "*'</h1><table>"
+                + matches
                 + "</table>"
                 + "<p><a href='https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html' "
                 + "target='_blank'>View full guide</a></p>";
