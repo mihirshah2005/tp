@@ -3,6 +3,8 @@ package seedu.address.ui;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -77,7 +79,44 @@ public class PersonListPanel extends UiPart<Region> {
             studentListView.refresh();
             volunteerListView.refresh();
         });
+
+        autoScrollOnChange(studentListView, students);
+        autoScrollOnChange(volunteerListView, volunteers);
+
+        // prime scroll once the scene is ready; avoids first-update misses
+        Platform.runLater(() -> {
+            if (!students.isEmpty()) {
+                studentListView.scrollTo(students.size() - 1);
+            }
+            if (!volunteers.isEmpty()) {
+                volunteerListView.scrollTo(volunteers.size() - 1);
+            }
+        });
     }
+
+    private static void autoScrollOnChange(ListView<Person> view, ObservableList<Person> list) {
+        list.addListener((ListChangeListener<Person>) change -> {
+            Integer target = null;
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    // Scroll to last added item
+                    target = change.getTo() - 1; // safe even for multi-add
+                } else if (change.wasReplaced()) {
+                    // Treat like add: scroll to the end of the replaced range
+                    target = change.getTo() - 1;
+                } else if (change.wasRemoved()) {
+                    // If items were removed, keep the viewport near where the change happened
+                    int idx = Math.min(change.getFrom(), Math.max(0, list.size() - 1));
+                    target = (list.isEmpty() ? null : idx);
+                }
+            }
+            if (target != null && !list.isEmpty()) {
+                final int scrollIndex = Math.max(0, Math.min(target, list.size() - 1));
+                Platform.runLater(() -> view.scrollTo(scrollIndex));
+            }
+        });
+    }
+
 
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code Person} using a {@code PersonCard}.
