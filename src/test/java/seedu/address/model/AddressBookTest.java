@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -105,6 +106,26 @@ public class AddressBookTest {
         @Override
         public ObservableList<Person> getPersonList() {
             return persons;
+        }
+
+        @Override
+        public void pair(Person a, Person b) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void unpair(Person a, Person b) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean isPaired(Person a, Person b) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Set<Person> getPairedPersons(Person p) {
+            throw new AssertionError("This method should not be called.");
         }
     }
 

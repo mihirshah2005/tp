@@ -3,7 +3,6 @@ package seedu.address.storage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +34,6 @@ class JsonAdaptedPerson {
     private final String address;
     private final String type;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
-    private final List<JsonAdaptedPairingRef> pairings = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -44,7 +42,6 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email, @JsonProperty("address") String address,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags,
-                             @JsonProperty("pairings") List<JsonAdaptedPairingRef> pairings,
                              @JsonProperty("type") String type) {
         this.name = name;
         this.phone = phone;
@@ -54,9 +51,6 @@ class JsonAdaptedPerson {
 
         if (tags != null) {
             this.tags.addAll(tags);
-        }
-        if (pairings != null) {
-            this.pairings.addAll(pairings);
         }
     }
 
@@ -70,9 +64,6 @@ class JsonAdaptedPerson {
         address = source.getAddress().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
-                .toList());
-        pairings.addAll(source.getPairings().stream()
-                .map(JsonAdaptedPairingRef::new)
                 .toList());
 
         if (source instanceof Student) {
@@ -146,7 +137,6 @@ class JsonAdaptedPerson {
                     .email(modelEmail)
                     .address(modelAddress)
                     .tags(modelTags)
-                    .pairedPersons(modelPairings)
                     .build();
         case "volunteer":
             return new Volunteer.VolunteerBuilder()
@@ -155,7 +145,6 @@ class JsonAdaptedPerson {
                     .email(modelEmail)
                     .address(modelAddress)
                     .tags(modelTags)
-                    .pairedPersons(modelPairings)
                     .build();
         // optionally allow "person"
         case "person":
@@ -165,112 +154,9 @@ class JsonAdaptedPerson {
                     .email(modelEmail)
                     .address(modelAddress)
                     .tags(modelTags)
-                    .pairedPersons(modelPairings)
                     .build();
         default:
             throw new IllegalValueException(String.format(UNSUPPORTED_TYPE_MESSAGE, type));
         }
     }
-
-    /**
-     * Returns the list of pairing identities declared in the JSON payload.
-     */
-    public List<PersonIdentity> getPairingIdentities() throws IllegalValueException {
-        List<PersonIdentity> identities = new ArrayList<>();
-        for (JsonAdaptedPairingRef pairing : pairings) {
-            identities.add(pairing.toIdentity());
-        }
-        return identities;
-    }
-
-    /**
-     * Jackson-friendly representation of a pairing reference by identity fields only.
-     */
-    static class JsonAdaptedPairingRef {
-        private final String name;
-        private final String phone;
-
-        @JsonCreator
-        JsonAdaptedPairingRef(@JsonProperty("name") String name,
-                              @JsonProperty("phone") String phone) {
-            this.name = name;
-            this.phone = phone;
-        }
-
-        JsonAdaptedPairingRef(Person person) {
-            this.name = person.getName().fullName;
-            this.phone = person.getPhone().value;
-        }
-
-        @JsonProperty("name")
-        public String getName() {
-            return name;
-        }
-
-        @JsonProperty("phone")
-        public String getPhone() {
-            return phone;
-        }
-
-        PersonIdentity toIdentity() throws IllegalValueException {
-            return new PersonIdentity(name, phone);
-        }
-    }
-
-    /**
-     * Identity tuple for linking persons by core fields.
-     */
-    public static class PersonIdentity {
-        private final String name;
-        private final String phone;
-
-        PersonIdentity(String name, String phone) throws IllegalValueException {
-            if (name == null) {
-                throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                        Name.class.getSimpleName()));
-            }
-            if (!Name.isValidName(name)) {
-                throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
-            }
-            if (phone == null) {
-                throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                        Phone.class.getSimpleName()));
-            }
-            if (!Phone.isValidPhone(phone)) {
-                throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
-            }
-            this.name = name;
-            this.phone = phone;
-        }
-
-        public String getNameValue() {
-            return name;
-        }
-
-        public String getPhoneValue() {
-            return phone;
-        }
-
-        public String toLookupKey() {
-            return name + "|" + phone;
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (other == this) {
-                return true;
-            }
-            if (!(other instanceof PersonIdentity)) {
-                return false;
-            }
-            PersonIdentity otherIdentity = (PersonIdentity) other;
-            return name.equals(otherIdentity.name) && phone.equals(otherIdentity.phone);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(name, phone);
-        }
-    }
-
 }
