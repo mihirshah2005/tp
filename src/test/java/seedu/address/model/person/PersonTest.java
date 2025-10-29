@@ -1,6 +1,5 @@
 package seedu.address.model.person;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,58 +8,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
-import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
-import static seedu.address.testutil.TypicalPersons.CARL;
-
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.commons.exceptions.IllegalValueException;
-
 
 public class PersonTest {
-    @Test
-    public void getPairedPersons_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> ALICE.getPairedPersons().clear());
-    }
-
-    @Test
-    public void getPairedPersons_noPairings_returnsEmptyList() {
-        Person alice = new Person.PersonBuilder(ALICE).build();
-        assertTrue(alice.getPairedPersons().isEmpty());
-    }
-
-    @Test
-    public void getPairedPersons_withPairings_returnsCorrectList() {
-        Person alice = new Person.PersonBuilder(ALICE).build();
-        Person bob = new Person.PersonBuilder(BOB).build();
-        assertDoesNotThrow(() -> alice.addPerson(bob));
-        assertEquals(1, alice.getPairedPersons().size());
-        assertTrue(alice.getPairedPersons().contains(bob));
-    }
-
-    @Test
-    public void addPerson() {
-        Person alice = new Person.PersonBuilder(ALICE).build();
-        Person bob = new Person.PersonBuilder(BOB).build();
-        assertDoesNotThrow(() -> alice.addPerson(bob));
-        assertThrows(IllegalValueException.class, () -> alice.addPerson(bob));
-        assertThrows(IllegalValueException.class, () -> bob.addPerson(alice));
-        assertDoesNotThrow(() -> alice.addPerson(CARL));
-    }
-
-    @Test
-    public void removePerson() {
-        Person alice = new Person.PersonBuilder(ALICE).build();
-        Person bob = new Person.PersonBuilder(BOB).build();
-        assertDoesNotThrow(() -> alice.addPerson(bob));
-        assertDoesNotThrow(() -> bob.removePerson(alice));
-        assertThrows(IllegalValueException.class, () -> CARL.removePerson(alice));
-        assertThrows(IllegalValueException.class, () -> CARL.removePerson(CARL));
-    }
 
     @Test
     public void isSamePerson() {
@@ -141,13 +95,8 @@ public class PersonTest {
 
     @Test
     public void toStringMethod() {
-        String pairedNames = ALICE.getPairedPersons().stream()
-                .map(p -> p.getName().toString())
-                .collect(Collectors.toList())
-                .toString();
         String expected = "[Student] seedu.address.model.person.Student{name=Alice Pauline, phone=94351253,"
-                + " email=alice@example.com, address=123, Jurong West Ave 6, #08-111, tags=[[friends]], "
-                + "pairings=" + pairedNames + "}";
+                + " email=alice@example.com, address=123, Jurong West Ave 6, #08-111, tags=[[friends]]" + "}";
         assertEquals(expected, ALICE.toString());
     }
 }

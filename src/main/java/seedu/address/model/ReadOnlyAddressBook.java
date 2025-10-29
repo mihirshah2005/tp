@@ -1,5 +1,7 @@
 package seedu.address.model;
 
+import java.util.Set;
+
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 
@@ -14,4 +16,11 @@ public interface ReadOnlyAddressBook {
      */
     ObservableList<Person> getPersonList();
 
+    void pair(Person a, Person b);
+
+    void unpair(Person a, Person b);
+
+    boolean isPaired(Person a, Person b);
+
+    Set<Person> getPairedPersons(Person p);
 }
