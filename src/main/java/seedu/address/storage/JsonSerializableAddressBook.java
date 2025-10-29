@@ -59,17 +59,18 @@ class JsonSerializableAddressBook {
                 int x = Math.min(a, b);
                 int y = Math.max(a, b);
                 long key = (((long) x) << 32) ^ (y & 0xffffffffL);
-                if (seen.add(key)) {
-                    if (!list.get(x).getType().equals(list.get(y).getType())) {
-                        pairings.add(new JsonPairing(x, y));
-                    } else {
-                        Logger.getGlobal().warning("Ignoring and not loading pairing between two persons"
-                                + " of the same type: " + list.get(x) + " and " + list.get(y));
-                    }
-                } else {
+                if (!seen.add(key)) {
                     Logger.getGlobal().warning("Ignoring and not loading duplicate pairing: "
                             + list.get(x) + " and " + list.get(y));
+                    continue;
                 }
+
+                if (list.get(x).getType().equals(list.get(y).getType())) {
+                    Logger.getGlobal().warning("Ignoring and not loading pairing between two persons"
+                            + " of the same type: " + list.get(x) + " and " + list.get(y));
+                    continue;
+                }
+                pairings.add(new JsonPairing(x, y));
             }
         }
     }

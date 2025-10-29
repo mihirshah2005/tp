@@ -25,7 +25,7 @@ public class UnpairCommand extends Command {
     public static final String COMMAND_WORD = "unpair";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Unpairs person identified "
-            + "by the index number used in the displayed person list. "
+            + "by the index number used in the displayed person list "
             + "to other persons by the index number used in the displayed person list\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "<INDEXES>\n"
