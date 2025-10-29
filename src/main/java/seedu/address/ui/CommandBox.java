@@ -1,8 +1,13 @@
 package seedu.address.ui;
 
+import java.util.function.UnaryOperator;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -19,7 +24,7 @@ public class CommandBox extends UiPart<Region> {
     private final CommandExecutor commandExecutor;
 
     @FXML
-    private TextField commandTextField;
+    private TextArea commandTextArea;
 
     /**
      * Creates a {@code CommandBox} with the given {@code CommandExecutor}.
@@ -27,8 +32,29 @@ public class CommandBox extends UiPart<Region> {
     public CommandBox(CommandExecutor commandExecutor) {
         super(FXML);
         this.commandExecutor = commandExecutor;
-        // calls #setStyleToDefault() whenever there is a change to the text of the command box.
-        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+
+        UnaryOperator<TextFormatter.Change> oneLineFilter = change -> {
+            String t = change.getText();
+            if (t != null && !t.isEmpty()) {
+                // \R matches any linebreak sequence (\n, \r, \r\n, Unicode LS/PS)
+                change.setText(t.replaceAll("\\R+", " "));
+            }
+            return change;
+        };
+        commandTextArea.setTextFormatter(new TextFormatter<>(oneLineFilter));
+
+        // Clear error style when text changes
+        commandTextArea.textProperty().addListener((u1, u2, u3) -> setStyleToDefault());
+
+        // Submit on Enter
+        commandTextArea.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.ENTER && !e.isShiftDown()) {
+                e.consume();
+                handleCommandEntered();
+            }
+        });
+        commandTextArea.setPrefRowCount(1);
+        commandTextArea.setWrapText(true);
     }
 
     /**
@@ -36,14 +62,21 @@ public class CommandBox extends UiPart<Region> {
      */
     @FXML
     private void handleCommandEntered() {
-        String commandText = commandTextField.getText();
-        if (commandText.equals("")) {
+        String commandText = commandTextArea.getText();
+        if (commandText.trim().isEmpty()) {
+            return;
+        }
+
+        // If any cases with newlines are to escape the constructor then this gives the reason
+        if (commandText.contains("\n") || commandText.contains("\r")) {
+            setStyleToIndicateCommandFailure();
+            commandTextArea.setPromptText("Only single-line commands are accepted");
             return;
         }
 
         try {
             commandExecutor.execute(commandText);
-            commandTextField.setText("");
+            commandTextArea.setText("");
         } catch (CommandException | ParseException e) {
             setStyleToIndicateCommandFailure();
         }
@@ -53,14 +86,14 @@ public class CommandBox extends UiPart<Region> {
      * Sets the command box style to use the default style.
      */
     private void setStyleToDefault() {
-        commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
+        commandTextArea.getStyleClass().remove(ERROR_STYLE_CLASS);
     }
 
     /**
      * Sets the command box style to indicate a failed command.
      */
     private void setStyleToIndicateCommandFailure() {
-        ObservableList<String> styleClass = commandTextField.getStyleClass();
+        ObservableList<String> styleClass = commandTextArea.getStyleClass();
 
         if (styleClass.contains(ERROR_STYLE_CLASS)) {
             return;
