@@ -77,7 +77,7 @@ public class EditCommand extends Command {
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         if (editedPerson.getName().equals(personToEdit.getName())) { // if name has been edited
-            for (Person pairedPerson : personToEdit.getPairedPersons()) {
+            for (Person pairedPerson : model.getPairedPersons(editedPerson)) {
                 model.setPerson(pairedPerson, pairedPerson);
             }
         }
@@ -97,8 +97,7 @@ public class EditCommand extends Command {
                 .phoneIfNotPresent(personToEdit.getPhone())
                 .emailIfNotPresent(personToEdit.getEmail())
                 .addressIfNotPresent(personToEdit.getAddress())
-                .tagsIfNotPresent(personToEdit.getTags())
-                .pairedPersonsIfNotPresent(personToEdit.getPairedPersons());
+                .tagsIfNotPresent(personToEdit.getTags());
 
         if (personToEdit instanceof Student) {
             return Student.toBuilder(personBuilder).build();

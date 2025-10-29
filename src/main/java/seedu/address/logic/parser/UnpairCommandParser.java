@@ -15,6 +15,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new PairCommand object
  */
 public class UnpairCommandParser implements Parser<UnpairCommand> {
+    private static final String MESSAGE_SELF_UNPAIRING = "Cannot unpair from yourself.";
 
     @Override
     public UnpairCommand parse(String args) throws ParseException {
@@ -41,12 +42,18 @@ public class UnpairCommandParser implements Parser<UnpairCommand> {
         for (int i = 1; i < tokens.length; i++) {
             try {
                 Index idx = ParserUtil.parseIndex(tokens[i]);
-                // avoid pairing to self or duplicate entries
-                if (!idx.equals(mainIndex) && unpaired.stream().noneMatch(idx::equals)) {
-                    unpaired.add(idx);
+                // avoid pairing to self.
+                // Duplicate entries are given a warning but not dealbreaking and handled in PairCommand
+                if (idx.equals(mainIndex)) {
+                    throw new ParseException(MESSAGE_SELF_UNPAIRING);
                 }
+                unpaired.add(idx);
             } catch (IllegalValueException e) {
-                throw new ParseException("Invalid index: " + tokens[i], e);
+                if (e instanceof ParseException) {
+                    throw e;
+                } else {
+                    throw new ParseException("Invalid index: " + tokens[i], e);
+                }
             }
         }
 
