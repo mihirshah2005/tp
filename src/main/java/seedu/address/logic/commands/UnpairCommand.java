@@ -32,7 +32,7 @@ public class UnpairCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 3 4 5 ";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Unpaired: %s from %s";
-    public static final String MESSAGE_PAIRING_DOES_NOT_EXIST_YET = "%d: %s is not paired to these person(s)"
+    public static final String MESSAGE_PAIRING_DOES_NOT_EXIST_YET = "%d: %s is not paired to these person(s) "
             + "in the address book yet: {%s}";
 
     private final Index index;
