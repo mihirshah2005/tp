@@ -1,0 +1,20 @@
+@startuml
+title help command execution flow
+
+actor User
+participant "UI" as UI
+participant "LogicManager" as Logic
+participant "Model" as Model
+participant "HelpCommand" as Help
+participant "CommandResult" as Result
+
+User -> UI : Enter "help"
+UI -> Logic : execute("help")
+Logic -> Logic : parseCommand("help") → HelpCommand
+Logic -> Help : execute(Model)
+Help -> Result : new CommandResult(SHOWING_HELP_MESSAGE, true, false)
+Result --> Help : CommandResult object
+Help --> Logic : CommandResult
+Logic --> UI : feedback "Opened help window."
+
+@enduml
