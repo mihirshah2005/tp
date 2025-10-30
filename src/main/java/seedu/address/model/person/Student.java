@@ -38,8 +38,7 @@ public class Student extends Person {
                 .phone(this.getPhone())
                 .email(this.getEmail())
                 .address(this.getAddress())
-                .tags(this.getTags())
-                .pairedPersons(this.getPairedPersons());
+                .tags(this.getTags());
     }
 
     /**
@@ -51,8 +50,7 @@ public class Student extends Person {
                 .phone(personBuilder.getPhone())
                 .email(personBuilder.getEmail())
                 .address(personBuilder.getAddress())
-                .tags(personBuilder.getTags())
-                .pairedPersons(personBuilder.getPairedPersons());
+                .tags(personBuilder.getTags());
     }
 
     /**
@@ -64,8 +62,7 @@ public class Student extends Person {
                 .phone(person.getPhone())
                 .email(person.getEmail())
                 .address(person.getAddress())
-                .tags(person.getTags())
-                .pairedPersons(person.getPairedPersons());
+                .tags(person.getTags());
     }
 
     @Override
@@ -81,5 +78,10 @@ public class Student extends Person {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @Override
+    public String getType() {
+        return "Student";
     }
 }
