@@ -69,7 +69,14 @@ Follow these steps to get VolunteeRoll running in minutes.
 
     * `exit` : Exits the app.
 
-7. Refer to the [Features](#features) below for details of each command.
+7. **Concepts you should know**
+   * **Two types**: Every person is either a Student or a Volunteer. The list panel shows them side-by-side; each card displays its type.
+   * **Prefixes**: Commands use prefixes to mark fields:
+   n/ name, p/ phone, e/ email, a/ address, t/ tag (repeatable).
+   Example: addvol n/Ana p/91234567 e/ana@ex.com a/123 Road t/physics t/weekend
+   * **One line only**: Commands must be a single line (no newlines). Pasted multi-line input will be rejected.
+
+8. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -95,6 +102,43 @@ Follow these steps to get VolunteeRoll running in minutes.
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+
+
+| Field       | What’s allowed                                                                                                                                                                                       | Examples                                     |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid literal `n/ p/ e/ a/ t/` sequences inside the name. | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
+| `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                           | `+65 9123-4567`, `9312 1534`, `911`          |
+| `e/EMAIL`   | Standard email formats.                                                                                                                                                                              | `name@example.com`                           |
+| `a/ADDRESS` | Free text.                                                                                                                                                                                           | `123, Clementi Rd, #02-01`                   |
+| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching.                                                                                                                       | `t/math t/weekday`                           |
+
+</div>
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: How VolunteeRoll detects duplicate entries (What counts as the same Person?):**<br>
+
+VolunteeRoll prevents accidental duplicates using the following rules:
+
+1. Name normalization
+   * Case-insensitive comparison.
+   * Unicode normalized (e.g., accented forms are compared fairly).
+   * Collapses consecutive spaces and removes zero-width characters.
+   * Treats s/o and s / o as equivalent (we normalize separators like this).
+   * Example: O’Malley, O'Malley, and o’malley compare equal for duplicate checks.
+   
+2. Phone normalization
+   * Ignores spaces, dashes, and a leading +.
+   * Example: +65 9123-4567 ≡ 6591234567 ≡ 91234567 (when country code matches).
+   
+3. Duplicate decision
+   * If normalized names match, and both phone AND email are identical (after normalization) or both left as defaults/blank, the person is considered a duplicate and will be rejected.
+   * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone/email ⇒ allowed.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
+    If you legitimately manage two people with the same normalized name, make sure their phone or email differs.
+</div>
+
 </div>
 
 ### Viewing help : `help`
@@ -115,14 +159,22 @@ Adds a **student** to the address book.
 Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
-A student can have any number of tags (including 0).
+    1. A student can have any number of tags (including 0). <br>
+    2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
 </div>
 
 **Examples:**
 * `addstu n/Betsy Crowe t/friend a/Newgate Prison p/1234567 t/criminal`
-* `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+* Suggested input : `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+* Expected output: 
 
 ![addstu](images/addstuJohnDoe.png)
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+    1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field. <br>
+    2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).
+</div>
+
 
 
 ### Adding a volunteer: `addvol`
@@ -132,18 +184,26 @@ Adds a **volunteer** to the address book.
 Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
-A volunteer can have any number of tags (including 0).
+    1. A Volunteer can have any number of tags (including 0). <br>
+    2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
 </div>
 
 **Examples:**
 * `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02`
-* `addvol n/Alex Yeoh t/mentor e/alex@example.com a/Somewhere`
+* Suggested input : `addvol n/Alex Yeoh t/mentor e/alex@example.com a/Somewhere`
+* Expected output : 
 
 ![addvol](images/addvolAlexYeoh.png)
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+    1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field. <br>
+    2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).
+</div>
+
 ### Listing all persons : `list`
 
-Shows a list of all persons in the address book.
+1. list shows all students (left) and volunteers (right).
+2. Indices shown on each card follow the global creation order (not the left/right position). Use these indices for commands like edit, delete, pair, and unpair.
 
 Format: `list`
 
@@ -279,13 +339,50 @@ _Details coming soon ..._
 
 **Q**: How can I check my Java version?<br>
 **A**: Run `java -version` in your terminal.
+
+**Q**: What’s the difference between `addstu` and `addvol`?<br>
+**A**: Only the **type** created. `addstu` creates a **Student**; `addvol` creates a **Volunteer**. All other fields and prefixes work the same.
+
+**Q**: My name contains `s/o`, `O’`, or `Anne-Marie`. Is that allowed?<br>
+**A**: Yes. Names allow letters (any language), numbers, spaces, apostrophes, hyphens, periods, slashes, commas, and parentheses.
+
+**Q**: Why did my name get “cut off” when I typed something like `n/John a/Smith`?<br>
+**A**: Prefixes (`n/`, `p/`, `e/`, `a/`, `t/`) **start new fields**. If a name must include a prefix-like bit, insert a space (`a /` instead of `a/`) or write it in parentheses.
+
+**Q**: My phone number has `+65`, spaces, or dashes. Is it valid?<br>
+**A**: Yes. Phone numbers may start with `+` and include spaces or `-`, as long as they contain **≥ 3 digits** total.
+
+**Q**: What do indices refer to in the UI with two lists?<br>
+**A**: The index shown on each card is the **global index** in the master list (shared by both panes). Use that number for commands like `edit`, `delete`, `pair`, and `unpair`.
+
+**Q**: Why didn’t my new person appear at the bottom of the list immediately?**<br>
+**A**: The list auto-refreshes on changes. If you don’t see it (rare on some platforms), run `list` to refresh the view.
+
+**Q**: How do I find by tag vs by name?<br>
+**A**: Use `find` for names (`find alex david`) and `findtag` for tags (`findtag math weekend`). `findtag` returns only persons containing **all** searched tags.
+
+**Q**: Can I add multiple tags?<br>
+**A**: Yes. Repeat the prefix: `t/math t/sec3 t/weekend`.
+
+**Q**: Where is my data saved?<br>
+**A**: Automatically to `[JAR location]/data/addressbook.json` after every change. No manual save needed.
+
+**Q**: Can I edit the JSON file directly?<br>
+**A**: Yes (advanced). Back it up first. If the format becomes invalid, the app will reset to an empty file on next run.
+
+**Q**: The app says “Invalid command format.” How do I see correct usage?<br>
+**A**: Run `help` or type the command name alone (e.g., `addstu`) to see the usage message in the result panel.
+
+**Q**: Do tags care about letter case?<br>
+**A**: Tag matching is **case-insensitive**. `math`, `Math`, and `MATH` are treated the same.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-
+3. **Name or details of Person are too long** , the app only shows the details until a number of characters and the rest will be displayed by "...". If you wish to view the full name, you can edit the person with an extra tag or any details you wish and copy their full details from the result display box.
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
@@ -304,3 +401,5 @@ Action | Format, Examples
 **Exit** | `exit`                                                                                                                                                                             
 **List** | `list`                                                                                                                                                                              
 **Help** | `help`                                                                                                                                                                              
+
+
