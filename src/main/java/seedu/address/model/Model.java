@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -77,8 +78,8 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
-    /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Person> getFilteredPersonList();
+    /** Returns an unmodifiable view of the person list after filtering and (if applicable) sorting */
+    ObservableList<Person> getProcessedPersonList();
 
     void pair(Person a, Person b);
 
@@ -92,5 +93,17 @@ public interface Model {
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredPersonList(Predicate<Person> predicate);
+    void filterPersonList(Predicate<Person> predicate);
+
+    // There is no method to just sort the person list w/o filtering
+    // because it is not used in the current codebase.
+    // Adding such a method would violate the YAGNI principle.
+
+    //Code below inspired by https://github.com/AY2526S1-CS2103T-T15-2/tp/pull/140/files
+    /**
+     * Updates the person list to be filtered using the given {@code predicate}
+     * and sorted using the given {@code comparator}.
+     * @throws NullPointerException if {@code predicate} and/or {@code comparator} is null.
+     */
+    void filterAndSortPersonList(Predicate<Person> predicate, Comparator<Person> comparator);
 }

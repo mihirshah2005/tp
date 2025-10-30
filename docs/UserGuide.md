@@ -267,7 +267,8 @@ Format: `findtag TAG [MORE_TAGS]`
 
 * The search is case-insensitive. e.g `math` will match `Math` and `MATH`
 * Only tags are searched.
-* Only persons whose tags include **all** the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will not appear on the output list after running `findtag math science`.
+* Persons whose tags include **any** the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will be included in the output list after running `findtag math science`.
+* Persons will be sorted such that those with the most tags matching those you are searching for will be be shown at the top.
 
 Examples:
 
