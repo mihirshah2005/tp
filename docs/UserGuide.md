@@ -104,13 +104,13 @@ Follow these steps to get VolunteeRoll running in minutes.
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 
-| Field       | What’s allowed                                                                                                                                                                                       | Examples                                     |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid literal `n/ p/ e/ a/ t/` sequences inside the name. | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
-| `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                           | `+65 9123-4567`, `9312 1534`, `911`          |
-| `e/EMAIL`   | Standard email formats.                                                                                                                                                                              | `name@example.com`                           |
-| `a/ADDRESS` | Free text.                                                                                                                                                                                           | `123, Clementi Rd, #02-01`                   |
-| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching.                                                                                                                       | `t/math t/weekday`                           |
+| Field       | What’s allowed                                                                                                                                                                                                 | Examples                                     |
+| ----------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -------------------------------------------- |
+| `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the name. | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
+| `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                                     | `+65 9123-4567`, `9312 1534`, `911`          |
+| `e/EMAIL`   | Standard email formats.                                                                                                                                                                                        | `name@example.com`                           |
+| `a/ADDRESS` | Free text.  Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the address.                                                                                                                             | `123, Clementi Rd, #02-01`                   |
+| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching.                                                                                                                                 | `t/math t/weekday`                           |
 
 </div>
 
