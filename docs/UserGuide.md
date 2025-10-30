@@ -341,8 +341,9 @@ VolunteeRoll data are saved in your computer automatically after any command tha
 VolunteeRoll data are saved automatically using a file format called JSON `[JAR file location]/data/addressbook.json`. Knowing about JSON is _not_ necessary to use the app. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, VolunteeRoll will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the VolunteeRoll to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+VolunteeRoll now includes safeguards to protect your data from corruption and accidental loss.
+If the data file is edited incorrectly (for example, if it contains invalid JSON format or unsupported values), VolunteeRoll will automatically detect the issue, create a backup of the original file, and prevent the invalid file from overwriting existing data.
+This ensures that your previous data remains safe and recoverable.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
