@@ -169,7 +169,7 @@ Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 ![addstu](images/addstuJohnDoe.png)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
-1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field. <br>
+1. **Prefixes (`n/`, `p/`, `e/`, `a/`, or `t/`) split fields**. For example, if you enter the command `addstu n/ Jayakumar a/l Shunmugam p/91234567` (note use of `a/`, the prefix for addresses), then the name of the new person will be "Jayakumar" and the address of the new person will be "l Shunmugam". As such, do _not_ use prefixes in names and addresses. <br>
 2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).<br>
 3. The command expects users to input sensible information even though it accepts inputs such as all numbers for a name etc. (as it might actually be someone's name).
 </div>
@@ -195,7 +195,7 @@ Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 ![addvol](images/addvolAlexYeoh.png)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
-1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field.<br>
+1. **Prefixes (`n/`, `p/`, `e/`, `a/`, or `t/`) split fields**. For example, if you enter the command `addvol n/ Jayakumar a/l Shunmugam p/91234567` (note use of `a/`, the prefix for addresses), then the name of the new person will be "Jayakumar" and the address of the new person will be "l Shunmugam". As such, do _not_ use prefixes in names and addresses.<br>
 2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).<br>
 3. The command expects users to input sensible information even though it accepts inputs such as all numbers for a name etc. (as it might actually be someone's name).
 </div>
