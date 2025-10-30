@@ -118,10 +118,7 @@ public class HelpCommand extends Command {
 
           <tr><td>Help</td>
               <td><code>help</code></td></tr>
-        </table>
-
-        <p>For full command details and examples, visit:<br>
-        <a href="https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html" target="_blank">User Guide</a></p>""";
+        </table> """;
     }
 
     private String extractCommandSection(String html, String commandWord) {
@@ -149,7 +146,7 @@ public class HelpCommand extends Command {
             return null;
         }
 
-        return "<h1>Help results for '" + commandWord + "*'</h1><table>"
+        return "<h1>Help results for '" + commandWord + "*'</h1>\n<table>"
                 + matches
                 + "</table>"
                 + "<p><a href='https://ay2526s1-cs2103t-f10-1.github.io/tp/UserGuide.html' "

@@ -63,10 +63,6 @@ dependencies {
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'mac'
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
 
-    implementation group: 'org.openjfx', name: 'javafx-web', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-web', version: javaFxVersion, classifier: 'mac'
-    implementation group: 'org.openjfx', name: 'javafx-web', version: javaFxVersion, classifier: 'linux'
-
     implementation group: 'org.openjfx', name: 'javafx-media', version: javaFxVersion, classifier: 'win'
     implementation group: 'org.openjfx', name: 'javafx-media', version: javaFxVersion, classifier: 'mac'
     implementation group: 'org.openjfx', name: 'javafx-media', version: javaFxVersion, classifier: 'linux'
