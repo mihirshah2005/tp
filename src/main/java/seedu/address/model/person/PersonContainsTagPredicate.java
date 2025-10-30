@@ -11,13 +11,13 @@ import seedu.address.model.tag.Tag;
 /**
  * Tests that a {@code Person}'s tags includes any of the given tags.
  */
-public class NameContainsTagPredicate implements Predicate<Person> {
+public class PersonContainsTagPredicate implements Predicate<Person> {
     private final Set<Tag> tags;
 
     /**
      * Constructs a {@code NameContainsTagPredicate}
      */
-    public NameContainsTagPredicate(Set<Tag> tags) {
+    public PersonContainsTagPredicate(Set<Tag> tags) {
         requireNonNull(tags);
         this.tags = Set.copyOf(tags);
         // Make a copy to ensure that modifying object passed into parameter does not
@@ -42,12 +42,12 @@ public class NameContainsTagPredicate implements Predicate<Person> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof NameContainsTagPredicate)) {
+        if (!(other instanceof PersonContainsTagPredicate)) {
             return false;
         }
 
-        NameContainsTagPredicate otherNameContainsTagPredicate = (NameContainsTagPredicate) other;
-        return tags.equals(otherNameContainsTagPredicate.tags);
+        PersonContainsTagPredicate otherPersonContainsTagPredicate = (PersonContainsTagPredicate) other;
+        return tags.equals(otherPersonContainsTagPredicate.tags);
     }
 
     @Override

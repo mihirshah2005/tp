@@ -7,7 +7,7 @@ import java.util.Set;
 
 import seedu.address.logic.commands.FindByTagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.NameContainsTagPredicate;
+import seedu.address.model.person.PersonContainsTagPredicate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -30,6 +30,6 @@ public class FindByTagCommandParser implements Parser<FindByTagCommand> {
 
         List<String> tagNames = List.of(trimmedArgs.split("\\s+"));
         Set<Tag> tags = ParserUtil.parseTags(tagNames);
-        return new FindByTagCommand(new NameContainsTagPredicate(tags));
+        return new FindByTagCommand(new PersonContainsTagPredicate(tags));
     }
 }

@@ -36,8 +36,8 @@ import seedu.address.logic.commands.PairCommand;
 import seedu.address.logic.commands.UnpairCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.person.NameContainsTagPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonContainsTagPredicate;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Volunteer;
 import seedu.address.model.tag.Tag;
@@ -102,7 +102,7 @@ public class AddressBookParserTest {
         FindByTagCommand command = (FindByTagCommand) parser.parseCommand(
                 FindByTagCommand.COMMAND_WORD + " " + VALID_TAG_FRIEND);
         Tag expectedTag = new Tag(VALID_TAG_FRIEND);
-        assertEquals(new FindByTagCommand(new NameContainsTagPredicate(Collections.singleton(expectedTag))),
+        assertEquals(new FindByTagCommand(new PersonContainsTagPredicate(Collections.singleton(expectedTag))),
                 command);
     }
 

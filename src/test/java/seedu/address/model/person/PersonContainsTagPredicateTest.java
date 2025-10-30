@@ -18,23 +18,23 @@ import seedu.address.model.tag.Tag;
 /**
  * Contains integration test (integration with Tag class) for NameContainsTagPredicate.
  */
-public class NameContainsTagPredicateTest {
+public class PersonContainsTagPredicateTest {
 
     @Test
     public void equals() {
         Tag firstTag = new Tag(VALID_TAG_FRIEND);
         Tag secondTag = new Tag(VALID_TAG_HUSBAND);
 
-        NameContainsTagPredicate firstPredicate = new NameContainsTagPredicate(
+        PersonContainsTagPredicate firstPredicate = new PersonContainsTagPredicate(
                 Collections.singleton(firstTag));
-        NameContainsTagPredicate secondPredicate = new NameContainsTagPredicate(
+        PersonContainsTagPredicate secondPredicate = new PersonContainsTagPredicate(
                 Collections.singleton(secondTag));
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        NameContainsTagPredicate firstPredicateCopy = new NameContainsTagPredicate(
+        PersonContainsTagPredicate firstPredicateCopy = new PersonContainsTagPredicate(
                 Collections.singleton(firstTag));
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
@@ -54,7 +54,7 @@ public class NameContainsTagPredicateTest {
     @Test
     public void test_nameContainsTag_returnsTrue() {
         Tag tag = new Tag(VALID_TAG_FRIEND);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(Collections.singleton(tag));
+        PersonContainsTagPredicate predicate = new PersonContainsTagPredicate(Collections.singleton(tag));
 
         // Person has only one tag
         Person personWithOneTag = new Person.PersonBuilder()
@@ -82,7 +82,7 @@ public class NameContainsTagPredicateTest {
 
         // Mixed-case tags
         Tag tagUppercase = new Tag(VALID_TAG_FRIEND.toUpperCase());
-        NameContainsTagPredicate predicateWithUpperCaseTag = new NameContainsTagPredicate(
+        PersonContainsTagPredicate predicateWithUpperCaseTag = new PersonContainsTagPredicate(
                 Collections.singleton(tagUppercase));
         assertTrue(predicateWithUpperCaseTag.test(personWithOneTag));
         Person personWithLowercaseTag = new Person.PersonBuilder()
@@ -92,7 +92,7 @@ public class NameContainsTagPredicateTest {
         assertTrue(predicateWithUpperCaseTag.test(personWithLowercaseTag));
 
         Tag tagLowercase = new Tag(VALID_TAG_FRIEND.toLowerCase());
-        NameContainsTagPredicate predicateWithLowerCaseTag = new NameContainsTagPredicate(
+        PersonContainsTagPredicate predicateWithLowerCaseTag = new PersonContainsTagPredicate(
                 Collections.singleton(tagLowercase));
         Person personWithUppercaseTag = new Person.PersonBuilder()
                 .name("new")
@@ -104,7 +104,7 @@ public class NameContainsTagPredicateTest {
     @Test
     public void test_nameDoesNotContainTag_returnsFalse() {
         Tag tag = new Tag(VALID_TAG_FRIEND);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(Collections.singleton(tag));
+        PersonContainsTagPredicate predicate = new PersonContainsTagPredicate(Collections.singleton(tag));
 
         // Zero tags
         assertFalse(predicate.test(new Person.PersonBuilder()
@@ -133,9 +133,9 @@ public class NameContainsTagPredicateTest {
     @Test
     public void toStringMethod() {
         Set<Tag> tags = Collections.singleton(new Tag(VALID_TAG_FRIEND));
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(tags);
+        PersonContainsTagPredicate predicate = new PersonContainsTagPredicate(tags);
 
-        String expected = NameContainsTagPredicate.class.getCanonicalName() + "{tags=" + tags + "}";
+        String expected = PersonContainsTagPredicate.class.getCanonicalName() + "{tags=" + tags + "}";
         assertEquals(expected, predicate.toString());
     }
 }

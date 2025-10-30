@@ -8,8 +8,8 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.comparators.FindTagComparator;
 import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsTagPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonContainsTagPredicate;
 
 /**
  * Finds and lists all the persons who are tagged with any of the given tags.
@@ -25,7 +25,7 @@ public class FindByTagCommand extends Command {
             + "Parameters: TAG_NAME [MORE_TAGS]...\n"
             + "Example: " + COMMAND_WORD + " Maths Science\n";
 
-    private final NameContainsTagPredicate predicate;
+    private final PersonContainsTagPredicate predicate;
 
     /**
      * Creates a FindByTagCommand to search for {@code Person}s that fulfil the given
@@ -33,7 +33,7 @@ public class FindByTagCommand extends Command {
      * @param predicate Tests if a given {@code Person} is tagged with the given tag.
      * @throws NullPointerException If {@code predicate} is null.
      */
-    public FindByTagCommand(NameContainsTagPredicate predicate) {
+    public FindByTagCommand(PersonContainsTagPredicate predicate) {
         requireNonNull(predicate);
         this.predicate = predicate;
     }
