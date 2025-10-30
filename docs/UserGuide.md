@@ -29,7 +29,7 @@ This guide is intended for:
 ## Quick start
 
 Follow these steps to get VolunteeRoll running in minutes.
-1. **Ensure you have Java `17` or above installed in your Computer.**<br>
+1. **Ensure you have Java `17` or above installed in your computer.**<br>
     * **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
 2. **Download the latest release**
@@ -44,7 +44,7 @@ Follow these steps to get VolunteeRoll running in minutes.
 
 5. **Explore the interface** <br>
    Once launched, the app window appears with sample data loaded. You will see:
-    * **Tool bar (top)**: The file button lets you exit the application and help button takes you to the help page (you can access this via the `help` command as well)
+    * **Toolbar (top)**: The file button lets you exit the application and help button takes you to the help page (you can access this via the `help` command as well)
     * **Command Box (top)**: Where you type commands
     * **Result Display (centre)**: Shows feedback and messages
     * **List panel (centre-bottom)**: Displays all students(left) and Volunteers(right)
