@@ -141,7 +141,7 @@ If you legitimately manage two people with the same normalized name, make sure t
 
 ### Viewing help : `help`
 
-Opens a scrollable popup window containing the list of available commands and shortcuts.  
+Opens a scrollable popup window containing the list of available commands and shortcuts.<br>
 This helps users quickly navigate the app without leaving the main interface.
 
 **Tip:** You can resize or scroll through the Help window to view all commands.
@@ -156,7 +156,7 @@ Adds a **student** to the address book.
 
 Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 1. A student can have any number of tags (including 0). <br>
 2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
 </div>
@@ -164,7 +164,7 @@ Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 **Examples:**
 * `addstu n/Betsy Crowe t/friend a/Newgate Prison p/1234567 t/criminal`
 * Suggested input : `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* Expected output: 
+* Expected output:
 
 ![addstu](images/addstuJohnDoe.png)
 
@@ -189,7 +189,7 @@ Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 **Examples:**
 * `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02`
 * Suggested input : `addvol n/Alex Yeoh t/mentor e/alex@example.com a/Somewhere`
-* Expected output : 
+* Expected output :
 
 ![addvol](images/addvolAlexYeoh.png)
 
@@ -385,17 +385,17 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action | Format, Examples                                                                                                                                                                    
+Action | Format, Examples
 --------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Add student** | `addstu n/NAME [p/PHONE NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…` <br> e.g., `addstu n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Add volunteer** | `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…` <br> e.g., `addvol n/Jane Roe p/93334444 e/jane@example.com a/45, River Valley Rd, 238000 t/mentor`
 **Clear**     | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                 
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                         
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`  
-**Find by tag** | `findtag TAG [MORE_TAGS]`<br> e.g., `findtag math science`   
+**Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find by tag** | `findtag TAG [MORE_TAGS]`<br> e.g., `findtag math science`
 **Pair** | `pair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `pair 2 1 3`
 **Unpair** | `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `unpair 2 1 3`
-**Exit** | `exit`                                                                                                                                                                             
-**List** | `list`                                                                                                                                                                              
+**Exit** | `exit`
+**List** | `list`
 **Help** | `help`
