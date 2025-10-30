@@ -130,7 +130,11 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * Ignores spaces, dashes, and a leading +.
    * Example: +65 9123-4567 ≡ 6591234567 ≡ 91234567 (when country code matches).
 3. Duplicate decision
-   * If normalized names match, and both phone AND email are identical (after normalization) or both left as defaults/blank, the person is considered a duplicate and will be rejected.
+   * If the normalized names match, and any of the following conditions hold true,
+     the person is considered a duplicate and the entry will be rejected:
+     *  Both the phone and email are default values, or
+     *  The phone numbers are the same (and not default), or
+     *  The email addresses are the same (and not default).
    * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone/email - allowed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
@@ -141,8 +145,14 @@ If you legitimately manage two people with the same normalized name, make sure t
 
 ### Viewing help : `help`
 
-Opens a scrollable popup window containing the list of available commands and shortcuts.<br>
-This helps users quickly navigate the app without leaving the main interface.
+Opens a popup window containing a list of available commands and their usage formats.
+This feature helps users quickly navigate and recall command syntax without leaving the main interface.
+
+Format: help [KEYWORD]
+
+*  Typing help without arguments displays all available commands along with their summaries and usage examples.	
+*  Typing help [keyword] shows the summary and example for the specific command [keyword], for eg- help addstu
+*  Typing help [x] displays all commands that start with “x” (e.g.,help a gives  addstu, addvol, etc.).
 
 **Tip:** You can resize or scroll through the Help window to view all commands.
 
