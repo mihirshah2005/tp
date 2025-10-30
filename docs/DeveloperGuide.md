@@ -12,7 +12,7 @@ title: Developer Guide
 * Images of some developers taken from [Portrait placeholder.png](https://en.wikipedia.org/wiki/File:Portrait_placeholder.png), created by [Andomedium](https://en.wikipedia.org/wiki/User:Andomedium) and edited by [Jajobi](https://en.wikipedia.org/wiki/User:Jajobi), retrieved from [Wikipedia](https://en.wikipedia.org/), used under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
 * Used [JetBrains Full Line Code Completion plug-in](https://plugins.jetbrains.com/plugin/14823-full-line-code-completion).
 * Code for sorting list (such as adding `SortedList<…>` field to `ModelManager` and related methods in `Model`, `Logic`, and related classes) inspired by changes made in this [Pull Request for a sorting command](https://github.com/AY2526S1-CS2103T-T15-2/tp/pull/140/files) by GitHub user [AndrescuIII-too](https://github.com/AndrescuIII-too).
-* While improving the help feature, I used ChatGPT primarily to clarify concepts related to writing basic HTML and CSS for the help command, and to refine a few test cases following updates to the help and storage components.
+* While enhancing the help feature, ChatGPT was primarily used to clarify concepts related to implementing basic HTML and CSS for the help command, as well as to refine several test cases following updates to the help and storage components.
 
 --------------------------------------------------------------------------------------------------------------------
 

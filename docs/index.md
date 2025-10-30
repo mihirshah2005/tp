@@ -8,9 +8,11 @@ title: AddressBook Level-3
 
 ![Ui](images/Ui.png)
 
-**AddressBook is a desktop application for managing your contact details.** While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
+**VolunteeRoll is a desktop application designed to help volunteer coordinators, tutors, and student program managers efficiently manage student and volunteer information. It combines the speed and precision of a Command Line Interface (CLI) with the clarity and accessibility of a modern Graphical User Interface (GUI). This hybrid design makes it ideal for users who prefer typing commands to navigate and manage data swiftly while still benefiting from an intuitive visual interface.
 
-* If you are interested in using AddressBook, head over to the [_Quick Start_ section of the **User Guide**](UserGuide.html#quick-start).
+With VolunteeRoll, users can conveniently store and organize student and volunteer contact information in one place. The application also enables the matching of students with suitable volunteers based on shared tags or subjects, ensuring that pairings are both relevant and effective. In addition, it maintains a synchronized view of all pairings and unpairings, allowing coordinators to track assignments effortlessly. Users can edit and update data instantly, with all changes automatically saved to ensure data consistency and reliability.
+
+* If you are interested in using VolunteeRoll, head over to the [_Quick Start_ section of the **User Guide**](UserGuide.html#quick-start).
 * If you are interested about developing AddressBook, the [**Developer Guide**](DeveloperGuide.html) is a good place to start.
 
 
