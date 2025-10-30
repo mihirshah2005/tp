@@ -383,6 +383,9 @@ _Details coming soon ..._
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 3. **Name or details of Person are too long** , the app only shows the details until a number of characters and the rest will be displayed by "...". If you wish to view the full name, you can edit the person with an extra tag or any details you wish and copy their full details from the result display box.
+4. **It is inconvenient to remove a tag** from a person with multiple tags. Entering the edit command with all the remaining tags specified is the current method, which can be time-consuming.
+5. **There is no safeguard against accidentally calling the clear function.** There is no undo command as well.
+6. **There is no way to distinguish from default values currently.** In the unlikely event that the phone, email or address of a person coincides exactly with '000', 'default@email' or 'Default Address' respectively, that person's phone, email or address will be treated as not present.
 
 --------------------------------------------------------------------------------------------------------------------
 
