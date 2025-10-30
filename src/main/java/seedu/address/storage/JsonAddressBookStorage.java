@@ -52,6 +52,8 @@ public class JsonAddressBookStorage implements AddressBookStorage {
                 return Optional.empty();
             }
 
+            ReadOnlyAddressBook model = jsonAddressBook.get().toModelType();
+
             String backupFileName = filePath.toString().replace(".json", "_backup.json");
             try {
                 java.nio.file.Files.copy(filePath, Path.of(backupFileName),
@@ -60,7 +62,7 @@ public class JsonAddressBookStorage implements AddressBookStorage {
                 System.out.println("Warning: Could not create backup file.");
             }
 
-            return Optional.of(jsonAddressBook.get().toModelType());
+            return Optional.of(model);
         } catch (Exception e) {
             String backupFileName = filePath.toString().replace(".json", "_backup.json");
             try {
