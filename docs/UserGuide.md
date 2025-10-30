@@ -323,15 +323,15 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in your computer automatically after any command that changes the data. There is no need to save manually.
+VolunteeRoll data are saved in your computer automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically using a file format called JSON `[JAR file location]/data/addressbook.json`. Knowing about JSON is _not_ necessary to use the app. Advanced users are welcome to update data directly by editing that data file.
+VolunteeRoll data are saved automatically using a file format called JSON `[JAR file location]/data/addressbook.json`. Knowing about JSON is _not_ necessary to use the app. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, VolunteeRoll will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the VolunteeRoll to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
@@ -343,7 +343,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous VolunteeRoll home folder.
 
 **Q**: How can I check my Java version?<br>
 **A**: Run `java -version` in your terminal.
