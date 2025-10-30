@@ -341,7 +341,7 @@ Use case ends.
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Tuition**: Providing academic support to students, such as helping them with homework questions and giving them additional practice on topics covered.
 * **Person**: An entry in the address book.
-* **Volunteer**: A person who is tutoring students on a voluntary basis.
+* **Volunteer**: A person who is tutoring students on a voluntary basis. People who are volunteering but are not engaged in tutoring students (such as volunteering in unrelated areas like beach cleanups or animal welfare) are not considered volunteers for the purposes of VolunteeRoll.
 * **Student**: A student who is being tutored as part of the voluntary tuition programme. Note that even if volunteers may be considered a student in a different context (for example, a volunteer who is also a student as a university) is **not** consider a "student" for the purposes of VolunteeRoll.
 * **Tuition/volunteer manager**: The person working at the volunteer welfare organisation that manages the tuition programme, in particular, working with the volunteers and students.
 
