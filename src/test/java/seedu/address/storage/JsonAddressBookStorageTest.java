@@ -2,7 +2,6 @@ package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.HOON;
@@ -52,23 +51,17 @@ public class JsonAddressBookStorageTest {
     }
 
     @Test
-    public void readAddressBook_invalidPersonAddressBook_throwDataLoadingException() throws Exception {
-        ReadOnlyAddressBook addressBook = new JsonAddressBookStorage(
-                addToTestDataPathIfNotNull("invalidPersonAddressBook.json"))
-                .readAddressBook(addToTestDataPathIfNotNull("invalidPersonAddressBook.json"))
-                .orElse(new AddressBook());
-
-        assertTrue(addressBook.getPersonList().isEmpty());
+    public void readAddressBook_invalidPersonAddressBook_throwDataLoadingException() {
+        assertThrows(DataLoadingException.class, () ->
+                new JsonAddressBookStorage(addToTestDataPathIfNotNull("invalidPersonAddressBook.json"))
+                        .readAddressBook(addToTestDataPathIfNotNull("invalidPersonAddressBook.json")));
     }
 
     @Test
-    public void readAddressBook_invalidAndValidPersonAddressBook_throwDataLoadingException() throws Exception {
-        ReadOnlyAddressBook addressBook = new JsonAddressBookStorage(
-                addToTestDataPathIfNotNull("invalidAndValidPersonAddressBook.json"))
-                .readAddressBook(addToTestDataPathIfNotNull("invalidAndValidPersonAddressBook.json"))
-                .orElse(new AddressBook());
-
-        assertTrue(addressBook.getPersonList().size() > 0 || addressBook.getPersonList().isEmpty());
+    public void readAddressBook_invalidAndValidPersonAddressBook_throwDataLoadingException() {
+        assertThrows(DataLoadingException.class, () ->
+                new JsonAddressBookStorage(addToTestDataPathIfNotNull("invalidAndValidPersonAddressBook.json"))
+                        .readAddressBook(addToTestDataPathIfNotNull("invalidAndValidPersonAddressBook.json")));
     }
 
     @Test
