@@ -339,14 +339,11 @@ Use case ends.
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
-* **Contact**: An entry in the address book
-* **Tuition manager**: The person that manages tutors
-* **Official representative of an organisation**: The person who documents the tutor's volunteer work for the organisation (school, company, etc.)
-* **Changelog**: A log of edits made (e.g. changes to contact info)
-* **Status flags**: Flags assigned to a volunteer / student (e.g. Active / On leave / Alumni)
-* **Summary reports**: A summary of important statistics (e.g. the overall progress and time given by the tutors)
-* **Map GUI**: A map that can be displayed graphically in the UI.
+* **Tuition**: Providing academic support to students, such as helping them with homework questions and giving them additional practice on topics covered.
+* **Person**: An entry in the address book.
+* **Volunteer**: A person who is tutoring students on a voluntary basis.
+* **Student**: A student who is being tutored as part of the voluntary tuition programme. Note that even if volunteers may be considered a student in a different context (for example, a volunteer who is also a student as a university) is **not** consider a "student" for the purposes of VolunteeRoll.
+* **Tuition/volunteer manager**: The person working at the volunteer welfare organisation that manages the tuition programme, in particular, working with the volunteers and students.
 
 --------------------------------------------------------------------------------------------------------------------
 
