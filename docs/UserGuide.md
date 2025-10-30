@@ -132,9 +132,9 @@ VolunteeRoll prevents accidental duplicates using the following rules:
 3. Duplicate decision
    * If the normalized names match, and any of the following conditions hold true,
      the person is considered a duplicate and the entry will be rejected:
-     *  Both the phone and email are default values, or
-     *  The phone numbers are the same (and not default), or
-     *  The email addresses are the same (and not default).
+     * Both the phone and email are default values, or
+     * The phone numbers are the same (and not default), or
+     * The email addresses are the same (and not default).
    * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone/email - allowed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
@@ -364,8 +364,8 @@ _Details coming soon ..._
 **Q**: My name contains `s/o`, `O’`, or `Anne-Marie`. Is that allowed?<br>
 **A**: Yes. Names allow letters (any language), numbers, spaces, apostrophes, hyphens, periods, slashes, commas, and parentheses, but they cannot contain prefixes (`n/`, `p/`, `e/`, `a/`, `t/`).
 
-**Q**: Why did my name get “cut off” when I typed something like `n/John a/Smith`?<br>
-**A**: Prefixes (`n/`, `p/`, `e/`, `a/`, `t/`) **start new fields**. If a name must include a prefix-like bit, insert a space (`a /` instead of `a/`) or write it in parentheses.
+**Q**: Why did my name get "cut off" when I typed something like `n/John a/Smith`?<br>
+**A**: Prefixes (`n/`, `p/`, `e/`, `a/`, `t/`) **start new fields**.
 
 **Q**: My phone number has `+65`, spaces, or dashes. Is it valid?<br>
 **A**: Yes. Phone numbers may start with `+` and include spaces or `-`, as long as they contain **≥ 3 digits** total.
@@ -388,7 +388,7 @@ _Details coming soon ..._
 **Q**: Can I edit the JSON file directly?<br>
 **A**: Yes (advanced). Back it up first. If the format becomes invalid, the app will reset to an empty file on next run.
 
-**Q**: The app says “Invalid command format.” How do I see correct usage?<br>
+**Q**: The app says "Invalid command format." How do I see correct usage?<br>
 **A**: Run `help` or type the command name alone (e.g., `addstu`) to see the usage message in the result panel.
 
 **Q**: Do tags care about letter case?<br>
