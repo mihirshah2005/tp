@@ -272,6 +272,12 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 _{more aspects and alternatives to be added}_
 
+### Help Command
+
+The sequence diagram below shows how the `help` command is executed.
+
+![HelpCommandSequenceDiagram](images/help_command_execution_flow.png)
+
 ### \[Proposed\] Data archiving
 
 _{Explain here how the data archiving feature will be implemented}_
@@ -299,7 +305,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * has a need to manage a significant number of contacts
 * prefer desktop apps over other types
 * can type fast
-* hate using the mouse 
+* hate using the mouse
 * very efficient in using the CLI
 
 **Value proposition**: CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new tutees with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.

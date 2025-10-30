@@ -4,16 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -38,9 +32,6 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags;
-    private final ObservableList<Person> pairedPersons;
-    private final ObservableList<Person> unmodifiablePairedPersons;
-    private final List<Person> unmodifiablePairingsView;
 
     private final PersonBuilder personBuilder;
 
@@ -56,7 +47,6 @@ public class Person {
         private Email email;
         private Address address;
         private Set<Tag> tags;
-        private ObservableList<Person> pairedPersons;
 
         /**
          * Constructor for PersonBuilder.
@@ -74,8 +64,6 @@ public class Person {
             this.email = p.getEmail();
             this.address = p.getAddress();
             this.tags = p.getTags();
-            this.pairedPersons = FXCollections.observableArrayList();
-            this.pairedPersons.setAll(p.getPairings());
         }
 
         /**
@@ -87,7 +75,6 @@ public class Person {
             this.email = toCopy.email;
             this.address = toCopy.address;
             this.tags = toCopy.tags;
-            this.pairedPersons = toCopy.pairedPersons;
         }
 
         /**
@@ -233,30 +220,6 @@ public class Person {
         }
 
         /**
-         * Setter for the pairedPersons parameter.
-         */
-        public PersonBuilder pairedPersons(List<Person> pairedPersons) {
-            if (pairedPersons != null) {
-                this.pairedPersons = FXCollections.observableArrayList();
-                this.pairedPersons.setAll(pairedPersons);
-                FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
-            }
-            return this;
-        }
-
-        /**
-         * Setter for the pairedPersons parameter but only if this.pairedPersons does not already exist.
-         */
-        public PersonBuilder pairedPersonsIfNotPresent(List<Person> pairedPersons) {
-            if (this.pairedPersons == null && pairedPersons != null) {
-                this.pairedPersons = FXCollections.observableArrayList();
-                this.pairedPersons.setAll(pairedPersons);
-                FXCollections.sort(this.pairedPersons, Comparator.comparing(p -> p.getName().toString()));
-            }
-            return this;
-        }
-
-        /**
          * Returns a Person object with the parameter values of the Builder.
          */
         public Person build() {
@@ -268,7 +231,7 @@ public class Person {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags, pairedPersons);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
         }
 
         public Name getName() {
@@ -291,10 +254,6 @@ public class Person {
             return this.tags;
         }
 
-        public ObservableList<Person> getPairedPersons() {
-            return this.pairedPersons;
-        }
-
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -307,24 +266,17 @@ public class Person {
             }
 
             PersonBuilder otherPersonBuilder = (PersonBuilder) other;
-            return Objects.equals(name, otherPersonBuilder.name)
-                    && Objects.equals(phone, otherPersonBuilder.phone)
+            return Objects.equals(name, otherPersonBuilder.name) && Objects.equals(phone, otherPersonBuilder.phone)
                     && Objects.equals(email, otherPersonBuilder.email)
                     && Objects.equals(address, otherPersonBuilder.address)
-                    && Objects.equals(tags, otherPersonBuilder.tags)
-                    && Objects.equals(pairedPersons, otherPersonBuilder.pairedPersons);
+                    && Objects.equals(tags, otherPersonBuilder.tags);
         }
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this)
-                    .add("name", name)
-                    .add("phone", phone)
-                    .add("email", email)
-                    .add("address", address)
-                    .add("tags", tags)
-                    .add("paired persons", pairedPersons)
-                    .toString();
+            return new ToStringBuilder(this).add("name", name)
+                    .add("phone", phone).add("email", email)
+                    .add("address", address).add("tags", tags).toString();
         }
     }
 
@@ -339,10 +291,6 @@ public class Person {
         this.email = builder.email != null ? builder.email : DEFAULT_EMAIL;
         this.address = builder.address != null ? builder.address : DEFAULT_ADDRESS;
         this.tags = builder.tags != null ? builder.tags : new HashSet<>();
-        this.pairedPersons = builder.pairedPersons != null
-                ? builder.pairedPersons : FXCollections.observableArrayList();
-        this.unmodifiablePairedPersons = FXCollections.unmodifiableObservableList(pairedPersons);
-        this.unmodifiablePairingsView = Collections.unmodifiableList(pairedPersons);
         this.personBuilder = builder;
     }
 
@@ -382,24 +330,10 @@ public class Person {
     }
 
     /**
-     * Trims and converts the given name to lowercase for consistent comparison.
-     */
-    private String normalizeName(String name) {
-        return name.trim().toLowerCase();
-    }
-
-    /**
      * Trims and converts the given email to lowercase for consistent comparison.
      */
     private String normalizeEmail(String email) {
         return email.trim().toLowerCase();
-    }
-
-    /**
-     * Trims the given phone number for consistent comparison.
-     */
-    private String normalizePhone(String phone) {
-        return phone.trim();
     }
 
     /**
@@ -408,63 +342,6 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
-    }
-
-    /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public List<Person> getPairedPersons() {
-        return unmodifiablePairingsView;
-    }
-
-    /**
-     * Adds a Person pair. Only call this on one of the two partners in each pair.
-     * For example, after running {@code person1.addPerson(person2)},
-     * you should not then run {@code `person2.addPerson(person1)}.
-     */
-    public void addPerson(Person otherPerson) throws IllegalValueException {
-        if (otherPerson == this) {
-            throw new IllegalValueException(SELF_PAIRING);
-        }
-        if (this.pairedPersons.contains(otherPerson)) {
-            throw new IllegalValueException(String.format(REPEAT_PAIRING,
-                    getName().toString(), otherPerson.getName().toString()));
-        }
-
-        this.pairedPersons.add(otherPerson);
-        otherPerson.pairedPersons.add(this);
-        FXCollections.sort(this.pairedPersons, Comparator.comparing(s -> s.getName().toString()));
-        FXCollections.sort(otherPerson.pairedPersons, Comparator.comparing(s -> s.getName().toString()));
-    }
-
-    /**
-     * Adds a Person pair. Only call this on one of the two partners in each pair.
-     * For example, after running {@code person1.addPerson(person2)},
-     * you should not then run {@code `person2.addPerson(person1)}.
-     */
-    public void removePerson(Person otherPerson) throws IllegalValueException {
-        if (otherPerson == this) {
-            throw new IllegalValueException(SELF_PAIRING);
-        }
-        if (!pairedPersons.contains(otherPerson)) {
-            throw new IllegalValueException(String.format(REPEAT_PAIRING,
-                    getName().toString(), otherPerson.getName().toString()));
-        }
-
-        pairedPersons.remove(otherPerson);
-        otherPerson.pairedPersons.remove(this);
-
-        FXCollections.sort(pairedPersons, Comparator.comparing(s -> s.getName().toString()));
-        FXCollections.sort(otherPerson.pairedPersons, Comparator.comparing(s -> s.getName().toString()));
-    }
-
-    /**
-     * Returns an immutable pairings list, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public ObservableList<Person> getPairings() {
-        return unmodifiablePairedPersons;
     }
 
     /**
@@ -482,15 +359,15 @@ public class Person {
         }
 
         // normalize names (case-insensitive, trimmed)
-        String thisName = normalizeName(getName().fullName);
-        String otherName = normalizeName(otherPerson.getName().fullName);
+        String thisName = Name.normalizeForIdentity(this.getName().fullName);
+        String otherName = Name.normalizeForIdentity(otherPerson.getName().fullName);
         if (!thisName.equals(otherName)) {
             return false;
         }
 
         // normalize contact values
-        String thisPhone = normalizePhone(getPhone().value);
-        String otherPhone = normalizePhone(otherPerson.getPhone().value);
+        String thisPhone = Phone.normalizeForIdentity(getPhone().value);
+        String otherPhone = Phone.normalizeForIdentity(otherPerson.getPhone().value);
         String thisEmail = normalizeEmail(getEmail().value);
         String otherEmail = normalizeEmail(otherPerson.getEmail().value);
 
@@ -528,17 +405,12 @@ public class Person {
             return false;
         }
         Person otherPerson = (Person) other;
-        // Intentionally EXCLUDE personList to avoid deep / cyclic recursion when pairings are mutual.
-        return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+        return name.equals(otherPerson.name) && phone.equals(otherPerson.phone) && email.equals(otherPerson.email)
+                && address.equals(otherPerson.address) && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
-        // Exclude personList for consistency with equals (prevents cyclic recursion / stack overflow)
         return Objects.hash(name, phone, email, address, tags);
     }
 
@@ -546,23 +418,17 @@ public class Person {
      * Returns a string representation of the Person and not its subclasses for testing.
      */
     public String originalToString() {
-        // Avoid printing entire personList graph (can be cyclic). Show only paired names for debugging.
-        List<String> pairedNames = pairedPersons.stream()
-                .map(p -> p.getName().toString())
-                .collect(Collectors.toList());
-        return new ToStringBuilder(this)
-                .add("name", name)
-                .add("phone", phone)
-                .add("email", email)
-                .add("address", address)
-                .add("tags", tags)
-                .add("pairings", pairedNames)
-                .toString();
+        return new ToStringBuilder(this).add("name", name).add("phone", phone)
+                .add("email", email).add("address", address).add("tags", tags).toString();
     }
 
     @Override
     public String toString() {
         return originalToString();
+    }
+
+    public String getType() {
+        return "Person";
     }
 
 }
