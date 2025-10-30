@@ -22,7 +22,7 @@ This guide is intended for:
 3. Those who prefer fast, text-based interactions over traditional GUI-heavy tools.
 
 * Table of Contents
-  {:toc}
+{:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -133,7 +133,7 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * If normalized names match, and both phone AND email are identical (after normalization) or both left as defaults/blank, the person is considered a duplicate and will be rejected.
    * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone/email - allowed.
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
 If you legitimately manage two people with the same normalized name, make sure their phone or email differs.
 </div>
 
@@ -156,7 +156,7 @@ Adds a **student** to the address book.
 
 Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
 1. A student can have any number of tags (including 0). <br>
 2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
 </div>
@@ -168,9 +168,10 @@ Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 ![addstu](images/addstuJohnDoe.png)
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
 1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field. <br>
-2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).
+2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).<br>
+3. The command expects users to input sensible information even though it accepts inputs such as all numbers for a name etc. (as it might actually be someone's name).
 </div>
 
 
@@ -181,7 +182,7 @@ Adds a **volunteer** to the address book.
 
 Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
 1. A Volunteer can have any number of tags (including 0).<br>
 2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
 </div>
@@ -193,9 +194,10 @@ Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 ![addvol](images/addvolAlexYeoh.png)
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
 1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field.<br>
-2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).
+2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).<br>
+3. The command expects users to input sensible information even though it accepts inputs such as all numbers for a name etc. (as it might actually be someone's name).
 </div>
 
 ### Listing all persons : `list`
@@ -381,6 +383,10 @@ _Details coming soon ..._
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 3. **Name or details of Person are too long** , the app only shows the details until a number of characters and the rest will be displayed by "...". If you wish to view the full name, you can edit the person with an extra tag or any details you wish and copy their full details from the result display box.
+4. **It is inconvenient to remove a tag** from a person with multiple tags. Entering the edit command with all the remaining tags specified is the current method, which can be time-consuming.
+5. **There is no safeguard against accidentally calling the clear function.** There is no undo command as well.
+6. **There is no way to distinguish from default values currently.** In the unlikely event that the phone, email or address of a person coincides exactly with '000', 'default@email' or 'Default Address' respectively, that person's phone, email or address will be treated as not present.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary

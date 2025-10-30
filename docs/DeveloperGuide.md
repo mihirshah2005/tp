@@ -509,9 +509,20 @@ testers are expected to do more *exploratory* testing.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Dealing with missing data files
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. To simulate a missing file, delete data/addressbook.json.
+   2. Start the app. Expected: Shows the GUI with 3 default students and 3 default volunteers.
+   3. Enter the clear command. Expected: GUI shows 0 students and 0 volunteers.
+   4. Enter the addstu command. Expected: GUI shows 1 student.
+
+2. Dealing with corrupted data files
+
+   1. Prerequisites: Have multiple persons in data/addressbook.json, and the syntax is valid.
+   2. To simulate a corrupted data file, make the phone number of the first student two digits long so that it is invalid.
+   3. Start the app. Expected: All the other persons are shown except the invalid person.
+   4. Add a student. Expected: Student is added to the list.
+   5. Close the app. Expected: The invalid person entry has been removed from the json file.
 
 1. _{ more test cases …​ }_
 
