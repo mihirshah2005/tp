@@ -49,7 +49,7 @@ Follow these steps to get VolunteeRoll running in minutes.
     * **Result Display (centre)**: Shows feedback and messages
     * **List panel (centre-bottom)**: Displays all students(left) and Volunteers(right)
 
-![Ui](images/Ui.png)
+    ![Ui](images/Ui.png)
 
 6. **Try a few commands** <br>
    Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window. <br>
