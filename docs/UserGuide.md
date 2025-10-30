@@ -110,7 +110,7 @@ Follow these steps to get VolunteeRoll running in minutes.
 | `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                                     | `+65 9123-4567`, `9312 1534`, `911`          |
 | `e/EMAIL`   | Standard email formats.                                                                                                                                                                                        | `name@example.com`                           |
 | `a/ADDRESS` | Free text.  Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the address.                                                                                                                             | `123, Clementi Rd, #02-01`                   |
-| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching.                                                                                                                                 | `t/math t/weekday`                           |
+| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching. Only alphabets or numerical digits allowed.                                                                                     | `t/math t/weekday`                           |
 
 </div>
 
