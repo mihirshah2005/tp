@@ -202,8 +202,8 @@ Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 ### Listing all persons : `list`
 
-1. list shows all students (left) and volunteers (right).
-2. Indices shown on each card follow the global creation order (not the left/right position). Use these indices for commands like edit, delete, pair, and unpair.
+1. List shows all students (left) and volunteers (right).
+2. Indexes shown on each card follow the global creation order (not the left/right position). Use these indexes for commands like edit, delete, pair, and unpair.
 
 Format: `list`
 
