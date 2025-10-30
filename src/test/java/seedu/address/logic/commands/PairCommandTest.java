@@ -39,9 +39,9 @@ public class PairCommandTest {
         Index tuteeIndex = INDEX_SECOND_PERSON;
         PairCommand pairCommand = new PairCommand(tutorIndex, Collections.singletonList(tuteeIndex));
 
-        Person tutor = (new Person.PersonBuilder(model.getProcessedPersonList().get(tutorIndex.getZeroBased())))
+        Person tutor = (new Person.PersonBuilder(model.getFilteredPersonList().get(tutorIndex.getZeroBased())))
                 .build();
-        Person tutee = (new Person.PersonBuilder(model.getProcessedPersonList().get(tuteeIndex.getZeroBased())))
+        Person tutee = (new Person.PersonBuilder(model.getFilteredPersonList().get(tuteeIndex.getZeroBased())))
                 .build();
         String expectedMessage = String.format(PairCommand.MESSAGE_EDIT_PERSON_SUCCESS, tutor.getName().toString(),
                 "{" + tutee.getName().toString() + "}");
@@ -52,7 +52,7 @@ public class PairCommandTest {
 
     @Test
     public void execute_invalidIndex_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getProcessedPersonList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         ArrayList<Index> indexes = new ArrayList<>();
         indexes.add(INDEX_FIRST_PERSON);
         PairCommand pairCommand = new PairCommand(outOfBoundIndex, indexes);
@@ -63,7 +63,7 @@ public class PairCommandTest {
 
     @Test
     public void execute_invalidPartnerIndex_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getProcessedPersonList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         ArrayList<Index> indexes = new ArrayList<>();
         indexes.add(outOfBoundIndex);
         PairCommand pairCommand = new PairCommand(INDEX_FIRST_PERSON, indexes);

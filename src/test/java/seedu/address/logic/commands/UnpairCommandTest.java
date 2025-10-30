@@ -38,15 +38,15 @@ class UnpairCommandTest {
         Index tuteeIndex = INDEX_SECOND_PERSON;
 
         // Grab fresh copies (don’t mutate static fixtures directly)
-        Person tutor = (new Person.PersonBuilder(model.getProcessedPersonList().get(tutorIndex.getZeroBased())))
+        Person tutor = (new Person.PersonBuilder(model.getFilteredPersonList().get(tutorIndex.getZeroBased())))
                 .build();
-        Person tutee = (new Person.PersonBuilder(model.getProcessedPersonList().get(tuteeIndex.getZeroBased())))
+        Person tutee = (new Person.PersonBuilder(model.getFilteredPersonList().get(tuteeIndex.getZeroBased())))
                 .build();
 
         // Ensure model reflects the pairing before unpairing
         tutor.addPerson(tutee);
-        model.setPerson(model.getProcessedPersonList().get(tutorIndex.getZeroBased()), tutor);
-        model.setPerson(model.getProcessedPersonList().get(tuteeIndex.getZeroBased()), tutee);
+        model.setPerson(model.getFilteredPersonList().get(tutorIndex.getZeroBased()), tutor);
+        model.setPerson(model.getFilteredPersonList().get(tuteeIndex.getZeroBased()), tutee);
 
         UnpairCommand unpair = new UnpairCommand(tutorIndex, Collections.singletonList(tuteeIndex));
         CommandResult result = unpair.execute(model);
@@ -58,7 +58,7 @@ class UnpairCommandTest {
 
         assertEquals(expectedMessage, result.getFeedbackToUser());
         // also assert state actually changed
-        Person updatedTutor = model.getProcessedPersonList().get(tutorIndex.getZeroBased());
+        Person updatedTutor = model.getFilteredPersonList().get(tutorIndex.getZeroBased());
         assertFalse(updatedTutor.getPairedPersons().contains(tutee));
     }
 

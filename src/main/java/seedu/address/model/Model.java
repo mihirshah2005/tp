@@ -78,7 +78,7 @@ public interface Model {
     void setPerson(Person target, Person editedPerson);
 
     /** Returns an unmodifiable view of the person list after filtering and (if applicable) sorting */
-    ObservableList<Person> getProcessedPersonList();
+    ObservableList<Person> getFilteredPersonList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
