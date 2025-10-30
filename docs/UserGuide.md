@@ -277,6 +277,10 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
+Deleteing a person cannot be undone. Information about deleted person is irretrievable.
+</div>
+
 ### Pairing a student to volunteers, or a volunteer to students : `pair`
 
 Pairs the specified person to other existing persons in the address book.
@@ -306,6 +310,10 @@ Examples:
 Clears all entries from the address book.
 
 Format: `clear`
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
+Clearing all entries cannot be undone. Information about deleted persons is irretrievable.
+</div>
 
 ### Exiting the program : `exit`
 
