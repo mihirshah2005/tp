@@ -349,10 +349,10 @@ _Details coming soon ..._
 **A**: Run `java -version` in your terminal.
 
 **Q**: What’s the difference between `addstu` and `addvol`?<br>
-**A**: Only the **type** created. `addstu` creates a **Student**; `addvol` creates a **Volunteer**. All other fields and prefixes work the same.
+**A**: Only the **type** created. `addstu` creates a **Student**; `addvol` creates a **Volunteer**. All other fields and prefixes work the same. Note that pairings are only allowed between a student and a volunteer. In other words, you cannot pair two volunteers together. You also cannot pair two students together.
 
 **Q**: My name contains `s/o`, `O’`, or `Anne-Marie`. Is that allowed?<br>
-**A**: Yes. Names allow letters (any language), numbers, spaces, apostrophes, hyphens, periods, slashes, commas, and parentheses.
+**A**: Yes. Names allow letters (any language), numbers, spaces, apostrophes, hyphens, periods, slashes, commas, and parentheses, but they cannot contain prefixes (`n/`, `p/`, `e/`, `a/`, `t/`).
 
 **Q**: Why did my name get “cut off” when I typed something like `n/John a/Smith`?<br>
 **A**: Prefixes (`n/`, `p/`, `e/`, `a/`, `t/`) **start new fields**. If a name must include a prefix-like bit, insert a space (`a /` instead of `a/`) or write it in parentheses.
