@@ -125,18 +125,16 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * Unicode normalized (e.g., accented forms are compared fairly).
    * Collapses consecutive spaces and removes zero-width characters.
    * Treats s/o and s / o as equivalent (we normalize separators like this).
-   * Example: O’Malley, O'Malley, and o’malley compare equal for duplicate checks.
-   
+   * Example: O’Malley, O'Malley, and o’malley compare equal for duplicate checks. 
 2. Phone normalization
    * Ignores spaces, dashes, and a leading +.
    * Example: +65 9123-4567 ≡ 6591234567 ≡ 91234567 (when country code matches).
-   
 3. Duplicate decision
    * If normalized names match, and both phone AND email are identical (after normalization) or both left as defaults/blank, the person is considered a duplicate and will be rejected.
    * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone/email ⇒ allowed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
-    If you legitimately manage two people with the same normalized name, make sure their phone or email differs.
+If you legitimately manage two people with the same normalized name, make sure their phone or email differs.
 </div>
 
 </div>
@@ -159,8 +157,8 @@ Adds a **student** to the address book.
 Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
-    1. A student can have any number of tags (including 0). <br>
-    2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
+1. A student can have any number of tags (including 0). <br>
+2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
 </div>
 
 **Examples:**
@@ -171,8 +169,8 @@ Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 ![addstu](images/addstuJohnDoe.png)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-    1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field. <br>
-    2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).
+1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field. <br>
+2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).
 </div>
 
 
@@ -184,8 +182,8 @@ Adds a **volunteer** to the address book.
 Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**  
-    1. A Volunteer can have any number of tags (including 0). <br>
-    2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
+1. A Volunteer can have any number of tags (including 0). <br>
+2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
 </div>
 
 **Examples:**
@@ -196,8 +194,8 @@ Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 ![addvol](images/addvolAlexYeoh.png)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-    1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field. <br>
-    2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).
+1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field. <br>
+2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).
 </div>
 
 ### Listing all persons : `list`
@@ -355,7 +353,7 @@ _Details coming soon ..._
 **Q**: What do indices refer to in the UI with two lists?<br>
 **A**: The index shown on each card is the **global index** in the master list (shared by both panes). Use that number for commands like `edit`, `delete`, `pair`, and `unpair`.
 
-**Q**: Why didn’t my new person appear at the bottom of the list immediately?**<br>
+**Q**: Why didn’t my new person appear at the bottom of the list immediately?<br>
 **A**: The list auto-refreshes on changes. If you don’t see it (rare on some platforms), run `list` to refresh the view.
 
 **Q**: How do I find by tag vs by name?<br>
@@ -400,6 +398,4 @@ Action | Format, Examples
 **Unpair** | `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `unpair 2 1 3`
 **Exit** | `exit`                                                                                                                                                                             
 **List** | `list`                                                                                                                                                                              
-**Help** | `help`                                                                                                                                                                              
-
-
+**Help** | `help`
