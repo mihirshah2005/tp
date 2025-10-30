@@ -128,7 +128,7 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * Example: O’Malley, O'Malley, and o’malley compare equal for duplicate checks.
 2. Phone normalization
    * Ignores spaces, dashes, and a leading +.
-   * Example: +65 9123-4567 ≡ 6591234567 ≡ 91234567 (when country code matches).
+   * Example: These three phone numbers are considered equivalent: +65 9123-4567, 6591234567, and 91234567 (country code matches).
 3. Duplicate decision
    * If normalized names match, and both phone AND email are identical (after normalization) or both left as defaults/blank, the person is considered a duplicate and will be rejected.
    * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone/email - allowed.
