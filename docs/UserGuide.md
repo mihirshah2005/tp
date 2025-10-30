@@ -105,7 +105,7 @@ Follow these steps to get VolunteeRoll running in minutes.
 
 
 | Field       | What’s allowed                                                                                                                                                                                                 | Examples                                     |
-| ----------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -------------------------------------------- |
+|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
 | `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the name. | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
 | `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                                     | `+65 9123-4567`, `9312 1534`, `911`          |
 | `e/EMAIL`   | Standard email formats.                                                                                                                                                                                        | `name@example.com`                           |
