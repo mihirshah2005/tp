@@ -228,16 +228,19 @@ The sequence diagram below shows how the `help` command is executed.
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​         | I want to …​                                                                                                                         | So that I can…​                                                                                              |
-|----------|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `* * *`  | new user        | see usage instructions                                                                                                               | refer to instructions when I forget how to use the App                                                       |
-| `* * *`  | user            | add a new person                                                                                                                     |                                                                                                              |
-| `* * *`  | user            | find a person by name                                                                                                                | locate details of persons without having to go through the entire list                                       |
-| `* * *`  | tuition manager | easily retrieve contact information about a tutor or tutee                                                                           | quickly contact them for urgent matters or emergencies                                                       |
-| `* * *`  | tutor manager   | add subjects that a tutor is good at or that a tutee needs help with                                                                 | easily pair up a tutee with a well-equipped tutor                                                            |
-| `* * *`  | tuition manager | remove or archive information about selected tutors or tutees                                                                        | view a less cluttered contact list without tutees who have graduated or tutors who have stopped volunteering |
-| `* *`    | careless user   | be reminded of duplicate names                                                                                                       | ensure not to accidentally add the same person twice                                                         |
-| `* *`    | tutor manager   | filter tutors by both subject expertise                                                                                              | assign the most suitable tutor without manual cross-checking                                                 |
+| Priority | As a …​         | I want to …​                                                         | So that I can…​                                                                                              |
+|----------|-----------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| `* * *`  | new user        | see usage instructions                                               | refer to instructions when I forget how to use the App                                                       |
+| `* * *`  | user            | add a new person                                                     |                                                                                                              |
+| `* * *`  | user            | find a person by name                                                | locate details of persons without having to go through the entire list                                       |
+| `* * *`  | tuition manager | easily retrieve contact information about a tutor or tutee           | quickly contact them for urgent matters or emergencies                                                       |
+| `* * *`  | tutor manager   | add subjects that a tutor is good at or that a tutee needs help with | easily pair up a tutee with a well-equipped tutor                                                            |
+| `* * *`  | tutor manager   | add tutor-tutee pairings                                             | to keep track of tutor-tutee pairings                                                                        |
+| `* * *`  | tutor manager   | remove tutor-tutee pairings                                          | to keep track of tutor-tutee pairings when there are changes                                                 |
+| `* * *`  | tuition manager | remove or archive information about selected tutors or tutees        | view a less cluttered contact list without tutees who have graduated or tutors who have stopped volunteering |
+| `* *`    | careless user   | be reminded of duplicate names                                       | ensure not to accidentally add the same person twice                                                         |
+| `* *`    | tutor manager   | filter tutors by both subject expertise                              | assign the most suitable tutor without manual cross-checking                                                 |
+| `* *`    | tutor manager   | keep track of subjects a tutee needs help in                         | prepare relevant study materials and find appropriate tutors to pair with                                    |
 
 ### Use cases
 
