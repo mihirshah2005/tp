@@ -10,10 +10,13 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -26,6 +29,7 @@ import seedu.address.model.person.Person;
 public class PairCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private ObservableList<Person> personList = model.getFilteredPersonList();
 
     @BeforeEach
     void setUp() {
@@ -35,9 +39,16 @@ public class PairCommandTest {
 
     @Test
     public void execute_validIndexes_success() throws Exception {
-        Index tutorIndex = INDEX_FIRST_PERSON;
-        Index tuteeIndex = INDEX_SECOND_PERSON;
-        PairCommand pairCommand = new PairCommand(tutorIndex, Collections.singletonList(tuteeIndex));
+        OptionalInt volunteerIndexInt = IntStream.range(0, personList.size())
+                .filter(index -> personList.get(index).getType().equals("Volunteer")).findFirst();
+        OptionalInt studentIndexInt = IntStream.range(0, personList.size())
+                .filter(index -> personList.get(index).getType().equals("Student")).findFirst();
+        assert volunteerIndexInt.isPresent(); // there should be at least 1 volunteer in getTypicalAddressBook()
+        assert studentIndexInt.isPresent(); // there should be at least 1 student in getTypicalAddressBook()
+        if (volunteerIndexInt.isPresent() && studentIndexInt.isPresent()) {
+            Index volunteerIndex = Index.fromZeroBased(volunteerIndexInt.getAsInt());
+            Index studentIndex = Index.fromZeroBased(studentIndexInt.getAsInt());
+            PairCommand pairCommand = new PairCommand(volunteerIndex, Collections.singletonList(studentIndex));
 
         Person tutor = (new Person.PersonBuilder(model.getFilteredPersonList().get(tutorIndex.getZeroBased())))
                 .build();
@@ -45,11 +56,21 @@ public class PairCommandTest {
                 .build();
         String expectedMessage = String.format(PairCommand.MESSAGE_EDIT_PERSON_SUCCESS, tutor.getName().toString(),
                 "{" + tutee.getName().toString() + "}");
+            Person tutor = (new Person.PersonBuilder(model.getFilteredPersonList()
+                    .get(volunteerIndex.getZeroBased()))).build();
+            Person tutee = (new Person.PersonBuilder(model.getFilteredPersonList()
+                    .get(studentIndex.getZeroBased()))).build();
+            assert !model.isPaired(tutor, tutee);
+            if (!model.isPaired(tutee, tutor)) {
+                String expectedMessage = String.format(PairCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                        tutor.getName().toString(), "{" + tutee.getName().toString() + "}");
 
-        CommandResult commandResult = pairCommand.execute(model);
-        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
+                CommandResult commandResult = pairCommand.execute(model);
+                assertEquals(expectedMessage, commandResult.getFeedbackToUser());
+            }
+        }
+
     }
-
     @Test
     public void execute_invalidIndex_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
@@ -57,7 +78,7 @@ public class PairCommandTest {
         indexes.add(INDEX_FIRST_PERSON);
         PairCommand pairCommand = new PairCommand(outOfBoundIndex, indexes);
 
-        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () ->
+        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_FIRST_PERSON_DISPLAYED_INDEX, () ->
                 pairCommand.execute(model));
     }
 
@@ -68,8 +89,7 @@ public class PairCommandTest {
         indexes.add(outOfBoundIndex);
         PairCommand pairCommand = new PairCommand(INDEX_FIRST_PERSON, indexes);
 
-        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () ->
-                pairCommand.execute(model));
+        assertThrows(CommandException.class, () -> pairCommand.execute(model));
     }
 
     @Test

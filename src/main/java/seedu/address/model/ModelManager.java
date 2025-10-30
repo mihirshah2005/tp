@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -91,7 +92,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ReadOnlyAddressBook getAddressBook() {
+    public AddressBook getAddressBook() {
         return addressBook;
     }
 
@@ -117,6 +118,26 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public void pair(Person a, Person b) {
+        addressBook.pair(a, b);
+    }
+
+    @Override
+    public void unpair(Person a, Person b) {
+        addressBook.unpair(a, b);
+    }
+
+    @Override
+    public boolean isPaired(Person a, Person b) {
+        return addressBook.isPaired(a, b);
+    }
+
+    @Override
+    public Set<Person> getPairedPersons(Person p) {
+        return addressBook.getPairedPersons(p);
     }
 
     //=========== Person List Accessor =============================================================

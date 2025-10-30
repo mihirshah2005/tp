@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
@@ -54,7 +55,19 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
 
+        // 1) copy persons
         setPersons(newData.getPersonList());
+
+        // 2) rebuild pairings by index
+        ObservableList<Person> src = newData.getPersonList();
+        ObservableList<Person> dst = this.getPersonList();
+        for (int i = 0; i < src.size(); i++) {
+            for (int j = i + 1; j < src.size(); j++) {
+                if (newData.isPaired(src.get(i), src.get(j))) {
+                    this.pair(dst.get(i), dst.get(j));
+                }
+            }
+        }
     }
 
     //// person-level operations
@@ -73,6 +86,26 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void addPerson(Person p) {
         persons.add(p);
+    }
+
+    @Override
+    public void pair(Person a, Person b) {
+        persons.pair(a, b);
+    }
+
+    @Override
+    public void unpair(Person a, Person b) {
+        persons.unpair(a, b);
+    }
+
+    @Override
+    public boolean isPaired(Person a, Person b) {
+        return persons.isPaired(a, b);
+    }
+
+    @Override
+    public Set<Person> getPairedPersons(Person p) {
+        return persons.getPairedPersons(p);
     }
 
     /**

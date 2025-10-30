@@ -14,6 +14,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -110,7 +111,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        personListPanel = new PersonListPanel(logic.getAddressBook(), logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -140,12 +141,13 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     public void handleHelp() {
-        if (!helpWindow.isShowing()) {
-
-            helpWindow.show();
-        } else {
+        if (helpWindow.isShowing()) {
             helpWindow.focus();
+            resultDisplay.setFeedbackToUser(seedu.address.logic.commands.HelpCommand.MESSAGE_ALREADY_OPEN);
+            return;
         }
+        HelpCommand helpCommand = new HelpCommand();
+        handleHelp(helpCommand.getFullHelpHtml());
     }
     /**
      * Opens the help window and displays the given message.
@@ -159,6 +161,7 @@ public class MainWindow extends UiPart<Stage> {
         } else {
             helpWindow.focus();
         }
+        helpWindow.loadSummaryText(message);
     }
 
     void show() {
@@ -193,7 +196,12 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
-                handleHelp(commandResult.getFeedbackToUser());
+                String helpText = commandResult.getHelpContent();
+                // fallback if helpContent was not set
+                if (helpText == null || helpText.isBlank()) {
+                    helpText = commandResult.getFeedbackToUser();
+                }
+                handleHelp(helpText);
             }
 
             if (commandResult.isExit()) {

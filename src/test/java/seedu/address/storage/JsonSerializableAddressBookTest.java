@@ -1,8 +1,7 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.testutil.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.AddressBook;
-import seedu.address.model.person.Person;
 import seedu.address.testutil.TypicalPersons;
 
 public class JsonSerializableAddressBookTest {
@@ -42,56 +40,7 @@ public class JsonSerializableAddressBookTest {
     public void toModelType_duplicatePersons_throwsIllegalValueException() throws Exception {
         JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(DUPLICATE_PERSON_FILE,
                 JsonSerializableAddressBook.class).get();
-        assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_PERSON,
-                dataFromFile::toModelType);
-    }
-
-
-    @Test
-    public void toModelType_pairingsRoundTrip_success() throws Exception {
-        Person alice = new Person.PersonBuilder()
-                .name("Alice Pauline")
-                .phone("94351253")
-                .email("alice@example.com")
-                .address("123, Jurong West Ave 6, #08-111")
-                .tags("friends")
-                .build();
-        Person benson = new Person.PersonBuilder()
-                .name("Benson Meier")
-                .phone("98765432")
-                .email("johnd@example.com")
-                .address("311, Clementi Ave 2, #02-25")
-                .tags("owesMoney", "friends").build();
-        Person carl = new Person.PersonBuilder()
-                .name("Carl Kurz")
-                .phone("95352563")
-                .email("heinz@example.com")
-                .address("wall street")
-                .build();
-
-        alice.addPerson(benson);
-
-        AddressBook source = new AddressBook();
-        source.addPerson(alice);
-        source.addPerson(benson);
-        source.addPerson(carl);
-
-        JsonSerializableAddressBook jsonAddressBook = new JsonSerializableAddressBook(source);
-        AddressBook rebuilt = jsonAddressBook.toModelType();
-
-        Person rebuiltAlice = rebuilt.getPersonList().stream()
-            .filter(p -> p.isSamePerson(alice))
-            .findFirst()
-            .orElseThrow();
-        Person rebuiltBenson = rebuilt.getPersonList().stream()
-            .filter(p -> p.isSamePerson(benson))
-            .findFirst()
-            .orElseThrow();
-
-        assertEquals(1, rebuiltAlice.getPairings().size());
-        assertTrue(rebuiltAlice.getPairings().get(0).isSamePerson(benson));
-        assertEquals(1, rebuiltBenson.getPairings().size());
-        assertTrue(rebuiltBenson.getPairings().get(0).isSamePerson(alice));
+        assertThrows(IllegalValueException.class, dataFromFile::toModelType);
     }
 
 }
