@@ -360,8 +360,8 @@ _Details coming soon ..._
 **Q**: My phone number has `+65`, spaces, or dashes. Is it valid?<br>
 **A**: Yes. Phone numbers may start with `+` and include spaces or `-`, as long as they contain **≥ 3 digits** total.
 
-**Q**: What do indices refer to in the UI with two lists?<br>
-**A**: The index shown on each card is the **global index** in the master list (shared by both panes). Use that number for commands like `edit`, `delete`, `pair`, and `unpair`.
+**Q**: What do indexes refer to in the UI with two lists?<br>
+**A**: It is the number to use for commands like `edit`, `delete`, `pair`, and `unpair`.
 
 **Q**: Why didn’t my new person appear at the bottom of the list immediately?<br>
 **A**: The list auto-refreshes on changes. If you don’t see it (rare on some platforms), run `list` to refresh the view.
