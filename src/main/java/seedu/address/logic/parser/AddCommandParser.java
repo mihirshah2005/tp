@@ -7,7 +7,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddCommand;
@@ -82,7 +81,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         builder.tags(ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG))); // tagList
-        builder.pairedPersons(new ArrayList<>());
         return new AddCommand(builder.build());
     }
 
