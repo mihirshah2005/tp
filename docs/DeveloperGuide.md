@@ -233,14 +233,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | new user        | see usage instructions                                               | refer to instructions when I forget how to use the App                                                       |
 | `* * *`  | user            | add a new person                                                     |                                                                                                              |
 | `* * *`  | user            | find a person by name                                                | locate details of persons without having to go through the entire list                                       |
-| `* * *`  | tuition manager | easily retrieve contact information about a tutor or tutee           | quickly contact them for urgent matters or emergencies                                                       |
-| `* * *`  | tutor manager   | add subjects that a tutor is good at or that a tutee needs help with | easily pair up a tutee with a well-equipped tutor                                                            |
-| `* * *`  | tutor manager   | add tutor-tutee pairings                                             | to keep track of tutor-tutee pairings                                                                        |
-| `* * *`  | tutor manager   | remove tutor-tutee pairings                                          | to keep track of tutor-tutee pairings when there are changes                                                 |
+| `* * *`  | tuition manager | easily retrieve contact information about a volunteer or student           | quickly contact them for urgent matters or emergencies                                                       |
+| `* * *`  | volunteer manager   | add subjects that a volunteer is good at or that a student needs help with | easily pair up a student with a well-equipped volunteer                                                            |
+| `* * *`  | volunteer manager   | add volunteer-student pairings                                             | to keep track of volunteer-student pairings                                                                        |
+| `* * *`  | volunteer manager   | remove volunteer-student pairings                                          | to keep track of volunteer-student pairings when there are changes                                                 |
 | `* * *`  | tuition manager | remove or archive information about selected tutors or tutees        | view a less cluttered contact list without tutees who have graduated or tutors who have stopped volunteering |
 | `* *`    | careless user   | be reminded of duplicate names                                       | ensure not to accidentally add the same person twice                                                         |
-| `* *`    | tutor manager   | filter tutors by both subject expertise                              | assign the most suitable tutor without manual cross-checking                                                 |
-| `* *`    | tutor manager   | keep track of subjects a tutee needs help in                         | prepare relevant study materials and find appropriate tutors to pair with                                    |
+| `* *`    | volunteer manager   | filter tutors by both subject expertise                              | assign the most suitable volunteer without manual cross-checking                                                 |
+| `* *`    | volunteer manager   | keep track of subjects a student needs help in                         | prepare relevant study materials and find appropriate tutors to pair with                                    |
 
 ### Use cases
 
@@ -273,20 +273,20 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.	A tuition manager searches for a tutor or tutee in the contact list
+1.	A tuition manager searches for a volunteer or student in the contact list
 2. The tuition manager selects their profile
 3. The tuition manager opens the details page to view their phone number and next-of-kin information for urgent communication
 
 Use case ends.
 
-**Use case: Add subjects to a tutor or tutee profile**
+**Use case: Add subjects to a volunteer or student profile**
 
 **MSS**
 
-1.	A tutor manager searches for the person’s profile
-2. The tutor manager selects “Edit Subjects”
-3. The tutor manager chooses the relevant subject tags or creates new ones
-4. The tutor manager saves the changes so the system updates pairing suggestions
+1.	A volunteer manager searches for the person’s profile
+2. The volunteer manager selects “Edit Subjects”
+3. The volunteer manager chooses the relevant subject tags or creates new ones
+4. The volunteer manager saves the changes so the system updates pairing suggestions
 
 Use case ends.
 
@@ -306,7 +306,7 @@ Use case ends.
 
 **MSS**
 
-1. A tuition manager searches for a tutor or tutee who has graduated or left
+1. A tuition manager searches for a volunteer or student who has graduated or left
 2. The tuition manager selects the profile
 3. The tuition manager chooses the "Archive/Remove" option
 4. The tuition manager confirms the action to move them out of the active list
@@ -317,10 +317,10 @@ Use case ends.
 
 **MSS**
 
-1.	A tutor manager opens the contact list
-2. The tutor applies filters for subject expertise and time availability
-3. The tutor reviews the filtered results
-4. The tutor selects the best-matched tutor for a new tutee
+1.	A volunteer manager opens the contact list
+2. The volunteer applies filters for subject expertise and time availability
+3. The volunteer reviews the filtered results
+4. The volunteer selects the best-matched volunteer for a new student
 
 Use case ends.
 
@@ -344,7 +344,7 @@ Use case ends.
 * **Tuition manager**: The person that manages tutors
 * **Official representative of an organisation**: The person who documents the tutor's volunteer work for the organisation (school, company, etc.)
 * **Changelog**: A log of edits made (e.g. changes to contact info)
-* **Status flags**: Flags assigned to a tutor / tutee (e.g. Active / On leave / Alumni)
+* **Status flags**: Flags assigned to a volunteer / student (e.g. Active / On leave / Alumni)
 * **Summary reports**: A summary of important statistics (e.g. the overall progress and time given by the tutors)
 * **Map GUI**: A map that can be displayed graphically in the UI.
 
