@@ -52,7 +52,7 @@ public class UnpairCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> lastShownList = model.getProcessedPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_FIRST_PERSON_DISPLAYED_INDEX);
@@ -116,7 +116,7 @@ public class UnpairCommand extends Command {
         }
 
         model.setPerson(person, person); // update GUI
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.filterPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         successMessage.append(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
                 "{" + uniqueIndices.stream().map(

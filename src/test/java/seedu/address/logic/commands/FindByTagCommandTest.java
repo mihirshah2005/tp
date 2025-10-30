@@ -68,9 +68,9 @@ public class FindByTagCommandTest {
         NameContainsTagPredicate predicate = new NameContainsTagPredicate(
                 Collections.singleton(new Tag("noonehasthistag")));
         FindByTagCommand command = new FindByTagCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.filterPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+        assertEquals(Collections.emptyList(), model.getProcessedPersonList());
     }
 
     @Test
@@ -79,9 +79,9 @@ public class FindByTagCommandTest {
         NameContainsTagPredicate predicate = new NameContainsTagPredicate(
                 Collections.singleton(new Tag("friends")));
         FindByTagCommand command = new FindByTagCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.filterPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredPersonList());
+        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getProcessedPersonList());
     }
 
     @Test

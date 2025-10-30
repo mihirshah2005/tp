@@ -79,7 +79,7 @@ public interface Model {
     void setPerson(Person target, Person editedPerson);
 
     /** Returns an unmodifiable view of the person list after filtering and (if applicable) sorting */
-    ObservableList<Person> getFilteredPersonList();
+    ObservableList<Person> getProcessedPersonList();
 
     void pair(Person a, Person b);
 
@@ -91,22 +91,15 @@ public interface Model {
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
-     *
-     * <p><strong>Warning:</strong> This will undo any sorting done by {@link Model#sortPersonList}.
-     * If you want to both filter and sort the person list, use {@link Model#filterAndSortPersonList}.</p>
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredPersonList(Predicate<Person> predicate);
-    // TODO: rename this method to filterPersonList
-    // Rename is delayed to avoid merge conflicts
+    void filterPersonList(Predicate<Person> predicate);
+
+    // There is no method to just sort the person list w/o filtering
+    // because it is not used in the current codebase.
+    // Adding such a method would violate the YAGNI principle.
 
     //Code below inspired by https://github.com/AY2526S1-CS2103T-T15-2/tp/pull/140/files
-    /**
-     * Updates the comparator used in the sorted person list to the give {@code comparator}.
-     * @throws NullPointerException if {@code comparator} is null.
-     */
-    void sortPersonList(Comparator<Person> comparator);
-
     /**
      * Updates the person list to be filtered using the given {@code predicate}
      * and sorted using the given {@code comparator}.

@@ -110,7 +110,7 @@ public class ModelManager implements Model {
     @Override
     public void addPerson(Person person) {
         addressBook.addPerson(person);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        filterPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
@@ -147,24 +147,18 @@ public class ModelManager implements Model {
      * {@code versionedAddressBook}
      */
     @Override
-    public ObservableList<Person> getFilteredPersonList() {
+    public ObservableList<Person> getProcessedPersonList() {
         return sortedPersons;
     }
 
     //=========== Person List Modifiers =============================================================
 
     @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
+    public void filterPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
         sortedPersons.setComparator(defaultComparator);
         assert sortedPersons.stream().allMatch(predicate);
-    }
-
-    //Code below inspired by https://github.com/AY2526S1-CS2103T-T15-2/tp/pull/140/files
-    @Override
-    public void sortPersonList(Comparator<Person> comparator) {
-        sortedPersons.setComparator(comparator);
     }
 
     @Override

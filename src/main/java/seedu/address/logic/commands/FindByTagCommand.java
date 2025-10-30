@@ -44,7 +44,7 @@ public class FindByTagCommand extends Command {
         Comparator<Person> comparator = new FindTagComparator(this.predicate.getTags());
         model.filterAndSortPersonList(predicate, comparator);
         return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getProcessedPersonList().size()));
     }
 
     @Override
