@@ -3,7 +3,10 @@ layout: page
 title: User Guide
 ---
 
-VolunteeRoll is a **desktop application designed to help volunteer coordinators, tutors, and student program managers efficiently manage student and volunteer information.**
+Many voluntary welfare organisation in Singapore run tuition programmes for underprivileged students who are unable to afford private tuition classes. 
+
+VolunteeRoll is a desktop application designed to help the coordinators of such voluntary tuition programmes efficiently manage student and volunteer information.
+
 It combines the speed of a **Command Line Interface (CLI) with the clarity of a modern Graphical User Interface (GUI)**, making it ideal for users who prefer typing commands to navigate and manage data quickly.
 
 ### VolunteeRoll allows users to:
