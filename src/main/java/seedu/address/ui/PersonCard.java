@@ -1,9 +1,7 @@
 package seedu.address.ui;
 
-import java.util.Arrays;
 import java.util.Comparator;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -55,11 +53,10 @@ public class PersonCard extends UiPart<Region> {
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
-    public PersonCard(ReadOnlyAddressBook addressBook, ObservableList<String> pairings, Person person, int displayedIndex) {
+    public PersonCard(ReadOnlyAddressBook addressBook, ObservableList<String> pairings, Person person,
+                      int displayedIndex) {
         super(FXML);
         this.person = person;
-//        this.observablePairings = FXCollections.observableList(addressBook.getPairedPersons(person).stream()
-//                .map(person -> addressBook.).toList());
         this.observablePairings = pairings;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
