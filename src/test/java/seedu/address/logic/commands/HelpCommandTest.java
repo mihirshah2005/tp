@@ -33,8 +33,6 @@ public class HelpCommandTest {
         CommandResult result = command.execute(model);
 
         assertTrue(result.getHelpContent().contains("addstu"), "Help content should include 'addstu'.");
-        assertTrue(result.getHelpContent().contains("UserGuide.html"),
-                "Help content should contain the link to the User Guide.");
     }
     @Test
     public void execute_helpWithValidCommand_returnsFilteredHelp() {

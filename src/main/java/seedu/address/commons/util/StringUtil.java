@@ -2,6 +2,7 @@ package seedu.address.commons.util;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -36,6 +37,27 @@ public class StringUtil {
 
         return Arrays.stream(wordsInPreppedSentence)
                 .anyMatch(preppedWord::equalsIgnoreCase);
+    }
+
+    /**
+     * Returns true if the {@code sentence} contains the {@code substring}.
+     * Ignores case. Unlike {@link StringUtil#containsWordIgnoreCase}, a full word is
+     * <strong>not</strong> required.
+     *
+     * <p>For example, {@code containsSubstringIgnoreCase("Hello World", "Wor"} will return true.</p>
+     *
+     * @param sentence Cannot be null.
+     * @param substring Cannot be null, cannot be empty.
+     * @throws NullPointerException If either/both parameters are null.
+     * @throws IllegalArgumentException If {@code substring} is empty or only contains whitespace characters.
+     */
+    public static boolean containsSubstringIgnoreCase(String sentence, String substring) {
+        requireAllNonNull(sentence, substring);
+
+        String preppedSubstring = substring.trim();
+        checkArgument(!preppedSubstring.isEmpty(), "Substring parameter cannot be empty");
+
+        return sentence.toLowerCase().contains(preppedSubstring.toLowerCase());
     }
 
     /**

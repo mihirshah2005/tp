@@ -22,7 +22,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.person.NameContainsTagPredicate;
+import seedu.address.model.person.PersonContainsTagPredicate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -34,10 +34,10 @@ public class FindByTagCommandTest {
 
     @Test
     public void equals() {
-        NameContainsTagPredicate firstPredicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag(VALID_TAG_FRIEND)));
-        NameContainsTagPredicate secondPredicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag(VALID_TAG_HUSBAND)));
+        PersonContainsTagPredicate firstPredicate = new PersonContainsTagPredicate(
+                Collections.singleton(new Tag(VALID_TAG_FRIEND)));
+        PersonContainsTagPredicate secondPredicate = new PersonContainsTagPredicate(
+                Collections.singleton(new Tag(VALID_TAG_HUSBAND)));
 
         FindByTagCommand firstCommand = new FindByTagCommand(firstPredicate);
         FindByTagCommand secondCommand = new FindByTagCommand(secondPredicate);
@@ -65,29 +65,29 @@ public class FindByTagCommandTest {
     @Test
     public void execute_tagNotInList_noPersonFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag("noonehasthistag")));
+        PersonContainsTagPredicate predicate = new PersonContainsTagPredicate(
+                Collections.singleton(new Tag("noonehasthistag")));
         FindByTagCommand command = new FindByTagCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.filterPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+        assertEquals(Collections.emptyList(), model.getProcessedPersonList());
     }
 
     @Test
     public void execute_tagInList_personsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag("friends")));
+        PersonContainsTagPredicate predicate = new PersonContainsTagPredicate(
+                Collections.singleton(new Tag("friends")));
         FindByTagCommand command = new FindByTagCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.filterPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredPersonList());
+        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getProcessedPersonList());
     }
 
     @Test
     public void toStringMethod() {
-        NameContainsTagPredicate predicate = new NameContainsTagPredicate(
-                Collections.singletonList(new Tag(VALID_TAG_FRIEND)));
+        PersonContainsTagPredicate predicate = new PersonContainsTagPredicate(
+                Collections.singleton(new Tag(VALID_TAG_FRIEND)));
         FindByTagCommand command = new FindByTagCommand(predicate);
         String expected = FindByTagCommand.class.getCanonicalName() + "{predicate=" + predicate + "}";
         assertEquals(expected, command.toString());

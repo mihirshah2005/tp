@@ -29,7 +29,7 @@ import seedu.address.model.person.Person;
 public class PairCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-    private ObservableList<Person> personList = model.getFilteredPersonList();
+    private ObservableList<Person> personList = model.getProcessedPersonList();
 
     @BeforeEach
     void setUp() {
@@ -50,9 +50,9 @@ public class PairCommandTest {
             Index studentIndex = Index.fromZeroBased(studentIndexInt.getAsInt());
             PairCommand pairCommand = new PairCommand(volunteerIndex, Collections.singletonList(studentIndex));
 
-            Person tutor = (new Person.PersonBuilder(model.getFilteredPersonList()
+            Person tutor = (new Person.PersonBuilder(model.getProcessedPersonList()
                     .get(volunteerIndex.getZeroBased()))).build();
-            Person tutee = (new Person.PersonBuilder(model.getFilteredPersonList()
+            Person tutee = (new Person.PersonBuilder(model.getProcessedPersonList()
                     .get(studentIndex.getZeroBased()))).build();
             assert !model.isPaired(tutor, tutee);
             if (!model.isPaired(tutee, tutor)) {
@@ -67,7 +67,7 @@ public class PairCommandTest {
     }
     @Test
     public void execute_invalidIndex_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getProcessedPersonList().size() + 1);
         ArrayList<Index> indexes = new ArrayList<>();
         indexes.add(INDEX_FIRST_PERSON);
         PairCommand pairCommand = new PairCommand(outOfBoundIndex, indexes);
@@ -78,7 +78,7 @@ public class PairCommandTest {
 
     @Test
     public void execute_invalidPartnerIndex_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getProcessedPersonList().size() + 1);
         ArrayList<Index> indexes = new ArrayList<>();
         indexes.add(outOfBoundIndex);
         PairCommand pairCommand = new PairCommand(INDEX_FIRST_PERSON, indexes);

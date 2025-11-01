@@ -3,7 +3,10 @@ layout: page
 title: User Guide
 ---
 
-VolunteeRoll is a **desktop application designed to help volunteer coordinators, tutors, and student program managers efficiently manage student and volunteer information.**
+Many voluntary welfare organisation in Singapore run tuition programmes for underprivileged students who are unable to afford private tuition classes. 
+
+VolunteeRoll is a desktop application designed to help the coordinators of such voluntary tuition programmes efficiently manage student and volunteer information.
+
 It combines the speed of a **Command Line Interface (CLI) with the clarity of a modern Graphical User Interface (GUI)**, making it ideal for users who prefer typing commands to navigate and manage data quickly.
 
 ### VolunteeRoll allows users to:
@@ -29,7 +32,7 @@ This guide is intended for:
 ## Quick start
 
 Follow these steps to get VolunteeRoll running in minutes.
-1. **Ensure you have Java `17` or above installed in your Computer.**<br>
+1. **Ensure you have Java `17` or above installed in your computer.**<br>
     * **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
 2. **Download the latest release**
@@ -44,12 +47,12 @@ Follow these steps to get VolunteeRoll running in minutes.
 
 5. **Explore the interface** <br>
    Once launched, the app window appears with sample data loaded. You will see:
-    * **Tool bar (top)**: The file button lets you exit the application and help button takes you to the help page (you can access this via the `help` command as well)
+    * **Toolbar (top)**: The file button lets you exit the application and help button takes you to the help page (you can access this via the `help` command as well)
     * **Command Box (top)**: Where you type commands
     * **Result Display (centre)**: Shows feedback and messages
     * **List panel (centre-bottom)**: Displays all students(left) and Volunteers(right)
 
-![Ui](images/Ui.png)
+    ![Ui](images/Ui.png)
 
 6. **Try a few commands** <br>
    Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window. <br>
@@ -104,13 +107,13 @@ Follow these steps to get VolunteeRoll running in minutes.
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 
-| Field       | What’s allowed                                                                                                                                                                                                                                           | Examples                                     |
-| ----------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -------------------------------------------- |
-| `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid literal `n/ p/ e/ a/ t/` sequences inside the name. Names must also start with a letter, mark or number | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
-| `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                                                                               | `+65 9123-4567`, `9312 1534`, `911`          |
-| `e/EMAIL`   | Standard email formats.                                                                                                                                                                                                                                  | `name@example.com`                           |
-| `a/ADDRESS` | Free text.                                                                                                                                                                                                                                               | `123, Clementi Rd, #02-01`                   |
-| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching.                                                                                                                                                                           | `t/math t/weekday`                           |
+| Field       | What’s allowed                                                                                                                                                                                                                                                      | Examples                                     |
+|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
+| `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the name.  Names must also start with a letter, mark or number | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
+| `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                                                                                          | `+65 9123-4567`, `9312 1534`, `911`          |
+| `e/EMAIL`   | Standard email formats.                                                                                                                                                                                                                                             | `name@example.com`                           |
+| `a/ADDRESS` | Free text.  Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the address.                                                                                                                                                                                  | `123, Clementi Rd, #02-01`                   |
+| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching. Only alphabets or numerical digits allowed.                                                                                                                                          | `t/math t/weekday`                           |
 
 </div>
 
@@ -128,9 +131,13 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * Example: `O’Malley`, `O'Malley`, and `o’malley` compare equal for duplicate checks.
 2. Phone normalization
    * Ignores spaces, dashes, and a leading +.
-   * Example: +65 9123-4567 ≡ 6591234567 ≡ 91234567 (when country code matches).
+   * Example: These three phone numbers are considered equivalent: +65 9123-4567, 6591234567, and 91234567 (country code matches).
 3. Duplicate decision
-   * If normalized names match, and both phone AND email are identical (after normalization) or both left as defaults/blank, the person is considered a duplicate and will be rejected.
+   * If the normalized names match, and any of the following conditions hold true,
+     the person is considered a duplicate and the entry will be rejected:
+     * Both the phone and email are default values, or
+     * The phone numbers are the same (and not default), or
+     * The email addresses are the same (and not default).
    * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone/email - allowed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
@@ -141,8 +148,14 @@ If you legitimately manage two people with the same normalized name, make sure t
 
 ### Viewing help : `help`
 
-Opens a scrollable popup window containing the list of available commands and shortcuts.<br>
-This helps users quickly navigate the app without leaving the main interface.
+Opens a popup window containing a list of available commands and their usage formats.
+This feature helps users quickly navigate and recall command syntax without leaving the main interface.
+
+Format: help [KEYWORD]
+
+*  Typing help without arguments displays all available commands along with their summaries and usage examples.	
+*  Typing help [keyword] shows the summary and example for the specific command [keyword], for eg- help addstu
+*  Typing help [x] displays all commands that start with “x” (e.g.,help a gives  addstu, addvol, etc.).
 
 **Tip:** You can resize or scroll through the Help window to view all commands.
 
@@ -169,7 +182,7 @@ Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 ![addstu](images/addstuJohnDoe.png)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
-1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field. <br>
+1. **Prefixes (`n/`, `p/`, `e/`, `a/`, or `t/`) split fields**. For example, if you enter the command `addstu n/ Jayakumar a/l Shunmugam p/91234567` (note use of `a/`, the prefix for addresses), then the name of the new person will be "Jayakumar" and the address of the new person will be "l Shunmugam". As such, do _not_ use prefixes in names and addresses. <br>
 2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).<br>
 3. The command expects users to input sensible information even though it accepts inputs such as all numbers for a name etc. (as it might actually be someone's name).
 </div>
@@ -195,15 +208,15 @@ Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 ![addvol](images/addvolAlexYeoh.png)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
-1. **Prefixes split fields**. Any literal n/, p/, e/, a/, or t/ inside your name will be treated as the start of a new field.<br>
+1. **Prefixes (`n/`, `p/`, `e/`, `a/`, or `t/`) split fields**. For example, if you enter the command `addvol n/ Jayakumar a/l Shunmugam p/91234567` (note use of `a/`, the prefix for addresses), then the name of the new person will be "Jayakumar" and the address of the new person will be "l Shunmugam". As such, do _not_ use prefixes in names and addresses.<br>
 2. Single line inputs only. Multi-line pastes are not accepted (the newlines will automatically be ignored).<br>
 3. The command expects users to input sensible information even though it accepts inputs such as all numbers for a name etc. (as it might actually be someone's name).
 </div>
 
 ### Listing all persons : `list`
 
-1. list shows all students (left) and volunteers (right).
-2. Indices shown on each card follow the global creation order (not the left/right position). Use these indices for commands like edit, delete, pair, and unpair.
+1. List shows all students (left) and volunteers (right).
+2. Indexes shown on each card follow the global creation order (not the left/right position). Use these indexes for commands like edit, delete, pair, and unpair.
 
 Format: `list`
 
@@ -237,13 +250,13 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
+* If the keyword searched for matches only part of the name, it will count as a match. e.g. `Alex` will match `Alexandra` and `Alexander`. **(Note to people familiar with AB3: This is _different_ from the `find` command in AB3.)**
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
 * `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+* `find alex dav` returns `Alex Yeoh`, `David Li`<br>
 
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
@@ -257,7 +270,8 @@ Format: `findtag TAG [MORE_TAGS]`
 
 * The search is case-insensitive. e.g `math` will match `Math` and `MATH`
 * Only tags are searched.
-* Only persons whose tags include **all** the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will not appear on the output list after running `findtag math science`.
+* Persons whose tags include **any** the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will be included in the output list after running `findtag math science`.
+* Persons will be sorted such that those with the most tags matching those you are searching for will be be shown at the top.
 
 Examples:
 
@@ -276,6 +290,10 @@ Format: `delete INDEX`
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
+Deleteing a person cannot be undone. Information about deleted person is irretrievable.
+</div>
 
 ### Pairing a student to volunteers, or a volunteer to students : `pair`
 
@@ -307,6 +325,10 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
+Clearing all entries cannot be undone. Information about deleted persons is irretrievable.
+</div>
+
 ### Exiting the program : `exit`
 
 Exits the program.
@@ -315,15 +337,16 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+VolunteeRoll data are saved in your computer automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+VolunteeRoll data are saved automatically using a file format called JSON `[JAR file location]/data/addressbook.json`. Knowing about JSON is _not_ necessary to use the app. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+VolunteeRoll now includes safeguards to protect your data from corruption and accidental loss.
+If the data file is edited incorrectly (for example, if it contains invalid JSON format or unsupported values), VolunteeRoll will automatically detect the issue, create a backup of the original file, and prevent the invalid file from overwriting existing data.
+This ensures that your previous data remains safe and recoverable.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
@@ -335,25 +358,25 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous VolunteeRoll home folder.
 
 **Q**: How can I check my Java version?<br>
 **A**: Run `java -version` in your terminal.
 
 **Q**: What’s the difference between `addstu` and `addvol`?<br>
-**A**: Only the **type** created. `addstu` creates a **Student**; `addvol` creates a **Volunteer**. All other fields and prefixes work the same.
+**A**: Only the **type** created. `addstu` creates a **Student**; `addvol` creates a **Volunteer**. All other fields and prefixes work the same. Note that pairings are only allowed between a student and a volunteer. In other words, you cannot pair two volunteers together. You also cannot pair two students together.
 
 **Q**: My name contains `s/o`, `O’`, or `Anne-Marie`. Is that allowed?<br>
-**A**: Yes. Names allow letters (any language), numbers, spaces, apostrophes, hyphens, periods, slashes, commas, and parentheses.
+**A**: Yes. Names allow letters (any language), numbers, spaces, apostrophes, hyphens, periods, slashes, commas, and parentheses, but they cannot contain prefixes (`n/`, `p/`, `e/`, `a/`, `t/`).
 
-**Q**: Why did my name get “cut off” when I typed something like `n/John a/Smith`?<br>
-**A**: Prefixes (`n/`, `p/`, `e/`, `a/`, `t/`) **start new fields**. If a name must include a prefix-like bit, insert a space (`a /` instead of `a/`) or write it in parentheses.
+**Q**: Why did my name get "cut off" when I typed something like `n/John a/Smith`?<br>
+**A**: Prefixes (`n/`, `p/`, `e/`, `a/`, `t/`) **start new fields**.
 
 **Q**: My phone number has `+65`, spaces, or dashes. Is it valid?<br>
 **A**: Yes. Phone numbers may start with `+` and include spaces or `-`, as long as they contain **≥ 3 digits** total.
 
-**Q**: What do indices refer to in the UI with two lists?<br>
-**A**: The index shown on each card is the **global index** in the master list (shared by both panes). Use that number for commands like `edit`, `delete`, `pair`, and `unpair`.
+**Q**: What do indexes refer to in the UI with two lists?<br>
+**A**: It is the number to use for commands like `edit`, `delete`, `pair`, and `unpair`.
 
 **Q**: Why didn’t my new person appear at the bottom of the list immediately?<br>
 **A**: The list auto-refreshes on changes. If you don’t see it (rare on some platforms), run `list` to refresh the view.
@@ -370,7 +393,7 @@ _Details coming soon ..._
 **Q**: Can I edit the JSON file directly?<br>
 **A**: Yes (advanced). Back it up first. If the format becomes invalid, the app will reset to an empty file on next run.
 
-**Q**: The app says “Invalid command format.” How do I see correct usage?<br>
+**Q**: The app says "Invalid command format." How do I see correct usage?<br>
 **A**: Run `help` or type the command name alone (e.g., `addstu`) to see the usage message in the result panel.
 
 **Q**: Do tags care about letter case?<br>
