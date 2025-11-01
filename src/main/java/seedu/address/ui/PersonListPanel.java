@@ -161,7 +161,7 @@ public class PersonListPanel extends UiPart<Region> {
             // indexes here are based on the master list to avoid breaking the pair function
             int globalIndex = masterList.indexOf(person) + 1;
             ObservableList<String> pairings = FXCollections.observableList(addressBook.getPairedPersons(person).stream()
-                    .map(pairing -> ((masterList.indexOf(pairing)==-1) ? "" : masterList.indexOf(pairing) + ". ")
+                    .map(pairing -> ((masterList.indexOf(pairing)==-1) ? "" : (masterList.indexOf(pairing)+1) + ". ")
                             + pairing.getName().toString() ).toList());
             setGraphic(new PersonCard(addressBook, pairings, person, globalIndex).getRoot());
         }
