@@ -101,19 +101,19 @@ Follow these steps to get VolunteeRoll running in minutes.
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extraneous parameters for commands that do not take in parameters (such as `list`, `exit` and `clear`) will be ignored.<br>
+  e.g. if the command specifies `list 123`, it will be interpreted as `list`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 
-| Field       | What’s allowed                                                                                                                                                                                                 | Examples                                     |
-|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the name. | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
-| `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                                     | `+65 9123-4567`, `9312 1534`, `911`          |
-| `e/EMAIL`   | Standard email formats.                                                                                                                                                                                        | `name@example.com`                           |
-| `a/ADDRESS` | Free text.  Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the address.                                                                                                                             | `123, Clementi Rd, #02-01`                   |
-| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching. Only alphabets or numerical digits allowed.                                                                                     | `t/math t/weekday`                           |
+| Field       | What’s allowed                                                                                                                                                                                                                                                      | Examples                                     |
+|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
+| `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the name.  Names must also start with a letter, mark or number | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
+| `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                                                                                          | `+65 9123-4567`, `9312 1534`, `911`          |
+| `e/EMAIL`   | Standard email formats.                                                                                                                                                                                                                                             | `name@example.com`                           |
+| `a/ADDRESS` | Free text.  Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the address.                                                                                                                                                                                  | `123, Clementi Rd, #02-01`                   |
+| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching. Only alphabets or numerical digits allowed.                                                                                                                                          | `t/math t/weekday`                           |
 
 </div>
 
@@ -128,7 +128,7 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * Unicode normalized (e.g., accented forms are compared fairly).
    * Collapses consecutive spaces and removes zero-width characters.
    * Treats s/o and s / o as equivalent (we normalize separators like this).
-   * Example: O’Malley, O'Malley, and o’malley compare equal for duplicate checks.
+   * Example: `O’Malley`, `O'Malley`, and `o’malley` compare equal for duplicate checks.
 2. Phone normalization
    * Ignores spaces, dashes, and a leading +.
    * Example: These three phone numbers are considered equivalent: +65 9123-4567, 6591234567, and 91234567 (country code matches).
