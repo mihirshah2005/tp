@@ -117,7 +117,7 @@ public class HelpCommand extends Command {
               <td><code>exit</code></td></tr>
 
           <tr><td>Help</td>
-              <td><code>help</code></td></tr>
+              <td><code>help [KEYWORD]</code></td></tr>
         </table>
 
         <p>For full command details and examples, visit:<br>
