@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -159,7 +160,10 @@ public class PersonListPanel extends UiPart<Region> {
 
             // indexes here are based on the master list to avoid breaking the pair function
             int globalIndex = masterList.indexOf(person) + 1;
-            setGraphic(new PersonCard(addressBook, person, globalIndex).getRoot());
+            ObservableList<String> pairings = FXCollections.observableList(addressBook.getPairedPersons(person).stream()
+                    .map(pairing -> ((masterList.indexOf(pairing)==-1) ? "" : masterList.indexOf(pairing) + ". ")
+                            + pairing.getName().toString() ).toList());
+            setGraphic(new PersonCard(addressBook, pairings, person, globalIndex).getRoot());
         }
     }
 }

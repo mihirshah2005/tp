@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 import javafx.collections.FXCollections;
@@ -30,7 +31,7 @@ public class PersonCard extends UiPart<Region> {
      */
 
     public final Person person;
-    private final ObservableList<Person> observablePairings;
+    private final ObservableList<String> observablePairings;
 
     @FXML
     private HBox cardPane;
@@ -54,10 +55,12 @@ public class PersonCard extends UiPart<Region> {
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
-    public PersonCard(ReadOnlyAddressBook addressBook, Person person, int displayedIndex) {
+    public PersonCard(ReadOnlyAddressBook addressBook, ObservableList<String> pairings, Person person, int displayedIndex) {
         super(FXML);
         this.person = person;
-        this.observablePairings = FXCollections.observableList(addressBook.getPairedPersons(person).stream().toList());
+//        this.observablePairings = FXCollections.observableList(addressBook.getPairedPersons(person).stream()
+//                .map(person -> addressBook.).toList());
+        this.observablePairings = pairings;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
@@ -76,7 +79,7 @@ public class PersonCard extends UiPart<Region> {
     private void renderPairings() {
         pairings.getChildren().clear();
         observablePairings.stream()
-                .sorted(Comparator.comparing(pairing -> pairing.getName().toString()))
-                .forEach(pairing -> pairings.getChildren().add(new Label(pairing.getName().toString())));
+                .sorted(Comparator.comparing(pairing -> pairing.split("\\.")[0]))
+                .forEach(pairing -> pairings.getChildren().add(new Label(pairing)));
     }
 }
