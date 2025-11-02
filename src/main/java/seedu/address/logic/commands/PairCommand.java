@@ -129,12 +129,12 @@ public class PairCommand extends Command {
         }
 
         model.setPerson(person, person); // update GUI
-        model.filterPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         successMessage.append(String.format(MESSAGE_EDIT_PERSON_SUCCESS, person.getName().toString(),
                 "{" + uniqueIndices.stream().map(
                                 index -> lastShownList.get(index).getName().toString())
                         .collect(Collectors.joining(", ")) + "}"));
+        model.filterPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(successMessage.toString());
     }
