@@ -10,7 +10,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindByTagCommand;
-import seedu.address.model.person.NameContainsTagPredicate;
+import seedu.address.model.person.PersonContainsTagPredicate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -30,15 +30,14 @@ public class FindByTagCommandParserTest {
     public void parse_invalidTagName_throwsParseException() {
         String invalidTag = "CS2103/T+CS2101";
         assert !Tag.isValidTagName(invalidTag);
-        assertParseFailure(parser, invalidTag,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindByTagCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, invalidTag, Tag.MESSAGE_CONSTRAINTS);
     }
 
     @Test
     public void parse_validArgs_returnsFindByTagCommand() {
         Tag expectedTag = new Tag(VALID_TAG_FRIEND);
         FindByTagCommand expectedCommand = new FindByTagCommand(
-                new NameContainsTagPredicate(Collections.singletonList(expectedTag)));
+                new PersonContainsTagPredicate(Collections.singleton(expectedTag)));
 
         assertParseSuccess(parser, VALID_TAG_FRIEND, expectedCommand);
         assertParseSuccess(parser, "    " + VALID_TAG_FRIEND, expectedCommand);

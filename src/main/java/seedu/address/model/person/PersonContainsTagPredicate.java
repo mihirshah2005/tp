@@ -2,31 +2,37 @@ package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
- * Tests that a {@code Person}'s tags includes the all the given tags.
+ * Tests that a {@code Person}'s tags includes any of the given tags.
  */
-public class NameContainsTagPredicate implements Predicate<Person> {
-    private final List<Tag> tags;
+public class PersonContainsTagPredicate implements Predicate<Person> {
+    private final Set<Tag> tags;
 
     /**
      * Constructs a {@code NameContainsTagPredicate}
      */
-    public NameContainsTagPredicate(List<Tag> tags) {
+    public PersonContainsTagPredicate(Set<Tag> tags) {
         requireNonNull(tags);
-        this.tags = List.copyOf(tags);
+        this.tags = Set.copyOf(tags);
         // Make a copy to ensure that modifying object passed into parameter does not
         // result in unexpected side effects in this predicate
     }
 
     @Override
     public boolean test(Person person) {
-        return person.getTags().containsAll(tags);
+        return tags.stream().anyMatch(tag -> person.getTags().contains(tag));
+    }
+
+    public Set<Tag> getTags() {
+        return Set.copyOf(tags);
+        // Make a copy to ensure that modifying the set returned does not
+        // result in unexpected side effects in this predicate
     }
 
     @Override
@@ -36,12 +42,12 @@ public class NameContainsTagPredicate implements Predicate<Person> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof NameContainsTagPredicate)) {
+        if (!(other instanceof PersonContainsTagPredicate)) {
             return false;
         }
 
-        NameContainsTagPredicate otherNameContainsTagPredicate = (NameContainsTagPredicate) other;
-        return tags.equals(otherNameContainsTagPredicate.tags);
+        PersonContainsTagPredicate otherPersonContainsTagPredicate = (PersonContainsTagPredicate) other;
+        return tags.equals(otherPersonContainsTagPredicate.tags);
     }
 
     @Override

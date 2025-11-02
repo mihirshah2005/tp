@@ -1,9 +1,8 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
+import java.util.stream.Stream;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -29,8 +28,8 @@ public class PersonCard extends UiPart<Region> {
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
      */
 
-    public final Person person;
-    private final ObservableList<Person> observablePairings;
+    public final PersonListPanel.IndexedPerson self;
+    private final Stream<PersonListPanel.IndexedPerson> indexedPartners;
 
     @FXML
     private HBox cardPane;
@@ -53,12 +52,19 @@ public class PersonCard extends UiPart<Region> {
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
+     *
+     * @param self The main person of this PersonCard herself to be displayed, in the form of an IndexedPerson
+     *             with her index and person object.
+     * @param indexedPartners A Stream of IndexedPersons (each with her index and person object)
      */
-    public PersonCard(ReadOnlyAddressBook addressBook, Person person, int displayedIndex) {
+    public PersonCard(ReadOnlyAddressBook addressBook, PersonListPanel.IndexedPerson self,
+                      Stream<PersonListPanel.IndexedPerson> indexedPartners) {
         super(FXML);
-        this.person = person;
-        this.observablePairings = FXCollections.observableList(addressBook.getPairedPersons(person).stream().toList());
-        id.setText(displayedIndex + ". ");
+        this.self = self;
+        this.indexedPartners = indexedPartners;
+
+        Person person = self.person();
+        id.setText(self.index() + ". ");
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
@@ -75,8 +81,16 @@ public class PersonCard extends UiPart<Region> {
 
     private void renderPairings() {
         pairings.getChildren().clear();
-        observablePairings.stream()
-                .sorted(Comparator.comparing(pairing -> pairing.getName().toString()))
-                .forEach(pairing -> pairings.getChildren().add(new Label(pairing.getName().toString())));
+        indexedPartners
+                .sorted(Comparator.comparing(PersonListPanel.IndexedPerson::index))
+                .forEach(indexedPartner -> {
+                    // Prefix: only insert "<index>." if pairing exists in currently displayed list, e.g.,
+                    // a student might appear in the list returned by `find`, but her paired volunteer doesn't
+                    String prefix = (indexedPartner.index() != -1) ? (indexedPartner.index() + 1) + ". " : "";
+
+                    // e.g., adds a label with "3. Alice", if Alice is a partner and currently displayed list contains
+                    // Alice in index 3, and simply "Alice" otherwise
+                    pairings.getChildren().add(new Label(prefix + indexedPartner.person().getName().toString()));
+                });
     }
 }

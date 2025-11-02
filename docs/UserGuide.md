@@ -3,7 +3,10 @@ layout: page
 title: VolunteeRoll - User Guide
 ---
 
-VolunteeRoll is a **desktop application designed to help volunteer coordinators, tutors, and student program managers efficiently manage student and volunteer information.**
+Many voluntary welfare organisation in Singapore run tuition programmes for underprivileged students who are unable to afford private tuition classes. 
+
+VolunteeRoll is a desktop application designed to help the coordinators of such voluntary tuition programmes efficiently manage student and volunteer information.
+
 It combines the speed of a **Command Line Interface (CLI) with the clarity of a modern Graphical User Interface (GUI)**, making it ideal for users who prefer typing commands to navigate and manage data quickly.
 
 ### VolunteeRoll allows users to:
@@ -107,19 +110,19 @@ Follow these steps to get VolunteeRoll running in minutes.
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extraneous parameters for commands that do not take in parameters (such as `list`, `exit` and `clear`) will be ignored.<br>
+  e.g. if the command specifies `list 123`, it will be interpreted as `list`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 
-| Field       | What’s allowed                                                                                                                                                                                                 | Examples                                     |
-|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the name. | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
-| `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                                     | `+65 9123-4567`, `9312 1534`, `911`          |
-| `e/EMAIL`   | Standard email formats.                                                                                                                                                                                        | `name@example.com`                           |
-| `a/ADDRESS` | Free text.  Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the address.                                                                                                                             | `123, Clementi Rd, #02-01`                   |
-| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching. Only alphabets or numerical digits allowed.                                                                                     | `t/math t/weekday`                           |
+| Field       | What’s allowed                                                                                                                                                                                                                                                      | Examples                                     |
+|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
+| `n/NAME`    | Letters (any language), numbers, spaces, apostrophes (`’` or `'`), hyphens (`-`), periods (`.`), slashes (`/`), commas (`,`), parentheses. Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the name.  Names must also start with a letter, mark or number | `O’Malley`, `Arun s / o Kumar`, `Anne-Marie` |
+| `p/PHONE`   | At least 3 digits. Optional leading `+`. Spaces and dashes allowed (ignored for matching).                                                                                                                                                                          | `+65 9123-4567`, `9312 1534`, `911`          |
+| `e/EMAIL`   | Standard email formats.                                                                                                                                                                                                                                             | `name@example.com`                           |
+| `a/ADDRESS` | Free text.  Avoid using any prefix sequences `n/ p/ e/ a/ t/`  inside the address.                                                                                                                                                                                  | `123, Clementi Rd, #02-01`                   |
+| `t/TAG`     | Single word per tag; repeat `t/` for multiple tags. Case-insensitive matching. Only alphabets or numerical digits allowed.                                                                                                                                          | `t/math t/weekday`                           |
 
 </div>
 
@@ -134,7 +137,7 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * Unicode normalized (e.g., accented forms are compared fairly).
    * Collapses consecutive spaces and removes zero-width characters.
    * Treats s/o and s / o as equivalent (we normalize separators like this).
-   * Example: O’Malley, O'Malley, and o’malley compare equal for duplicate checks.
+   * Example: `O’Malley`, `O'Malley`, and `o’malley` compare equal for duplicate checks.
 2. Phone normalization
    * Ignores spaces, dashes, and a leading +.
    * Example: These three phone numbers are considered equivalent: +65 9123-4567, 6591234567, and 91234567 (country code matches).
@@ -276,7 +279,8 @@ Format: `findtag TAG [MORE_TAGS]`
 
 * The search is case-insensitive. e.g `math` will match `Math` and `MATH`
 * Only tags are searched.
-* Only persons whose tags include **all** the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will not appear on the output list after running `findtag math science`.
+* Persons whose tags include **any** the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will be included in the output list after running `findtag math science`.
+* Persons will be sorted such that those with the most tags matching those you are searching for will be be shown at the top.
 
 Examples:
 
@@ -349,8 +353,9 @@ VolunteeRoll data are saved in your computer automatically after any command tha
 VolunteeRoll data are saved automatically using a file format called JSON `[JAR file location]/data/addressbook.json`. Knowing about JSON is _not_ necessary to use the app. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, VolunteeRoll will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the VolunteeRoll to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+VolunteeRoll now includes safeguards to protect your data from corruption and accidental loss.
+If the data file is edited incorrectly (for example, if it contains invalid JSON format or unsupported values), VolunteeRoll will automatically detect the issue, create a backup of the original file, and prevent the invalid file from overwriting existing data.
+This ensures that your previous data remains safe and recoverable.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
