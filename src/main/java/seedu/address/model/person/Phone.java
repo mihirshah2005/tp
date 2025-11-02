@@ -18,7 +18,8 @@ public class Phone {
      */
     public static final String MESSAGE_CONSTRAINTS =
             "Phone numbers must have at least 3 digits, may start with '+'"
-                    + ", and may include single spaces or single dashes.";
+                    + ", and may include single spaces or single dashes. (The special characters cannot be placed "
+                    + "consecutively, and each single dash/space must be in between numbers)";
     public static final String VALIDATION_REGEX = "^\\+?\\d(?:[ -]?\\d){2,}$";
     public final String value;
 
