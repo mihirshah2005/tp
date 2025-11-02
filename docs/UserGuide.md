@@ -1,25 +1,34 @@
 ---
 layout: page
-title: User Guide
+title: VolunteeRoll - User Guide
 ---
 
 VolunteeRoll is a **desktop application designed to help volunteer coordinators, tutors, and student program managers efficiently manage student and volunteer information.**
 It combines the speed of a **Command Line Interface (CLI) with the clarity of a modern Graphical User Interface (GUI)**, making it ideal for users who prefer typing commands to navigate and manage data quickly.
 
 ### VolunteeRoll allows users to:
+{: .no_toc}
+
 1. Store and organize student and volunteer contact information
 2. Match students with suitable volunteers based on shared tags or subjects
 3. Maintain a synchronized view of all pairings and unpairings
 4. Edit and update data instantly, with automatic saving
 
 ### Why use VolunteeRoll?
+{: .no_toc}
+
 If you’re managing tutoring programs, community service groups, or any volunteer-based initiative, VolunteeRoll helps you stay organized - without needing spreadsheets or complex databases.
 
 ### Who is this guide for?
+{: .no_toc}
+
 This guide is intended for:
 1. Volunteer coordinators or program leads who manage student–volunteer matching.
 2. Users who have basic familiarity with computers and can follow simple command-line instructions.
 3. Those who prefer fast, text-based interactions over traditional GUI-heavy tools.
+
+### Table of Contents : 
+{: .no_toc}
 
 * Table of Contents
 {:toc}
