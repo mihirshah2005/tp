@@ -403,7 +403,8 @@ _Details coming soon ..._
 3. **Name or details of Person are too long** , the app only shows the details until a number of characters and the rest will be displayed by "...". If you wish to view the full name, you can edit the person with an extra tag or any details you wish and copy their full details from the result display box.
 4. **It is inconvenient to remove a tag** from a person with multiple tags. Entering the edit command with all the remaining tags specified is the current method, which can be time-consuming.
 5. **There is no safeguard against accidentally calling the clear function.** There is no undo command as well.
-6. **There is no way to distinguish from default values currently.** In the unlikely event that the phone, email or address of a person coincides exactly with '000', 'default@email' or 'Default Address' respectively, that person's phone, email or address will be treated as not present.
+6. **The auto-scrolling feature might scroll near the added Student/Volunteer** instead of exactly to it and the fix for this is to just use the scroll bar to go to the details of the person.
+7. **There is no way to distinguish from default values currently.** In the unlikely event that the phone, email or address of a person coincides exactly with '000', 'default@email' or 'Default Address' respectively, that person's phone, email or address will be treated as not present.
 
 --------------------------------------------------------------------------------------------------------------------
 

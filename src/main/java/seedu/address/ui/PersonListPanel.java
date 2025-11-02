@@ -85,11 +85,16 @@ public class PersonListPanel extends UiPart<Region> {
 
         // prime scroll once the scene is ready; avoids first-update misses
         Platform.runLater(() -> {
+            studentListView.refresh();
+            volunteerListView.refresh();
+
             if (!students.isEmpty()) {
                 studentListView.scrollTo(students.size() - 1);
+                studentListView.getSelectionModel().select(students.size() - 1);
             }
             if (!volunteers.isEmpty()) {
                 volunteerListView.scrollTo(volunteers.size() - 1);
+                volunteerListView.getSelectionModel().select(volunteers.size() - 1);
             }
         });
     }
@@ -113,6 +118,7 @@ public class PersonListPanel extends UiPart<Region> {
             if (target != null && !list.isEmpty()) {
                 final int scrollIndex = Math.max(0, Math.min(target, list.size() - 1));
                 Platform.runLater(() -> view.scrollTo(scrollIndex));
+                view.getSelectionModel().select(scrollIndex);
             }
         });
     }
