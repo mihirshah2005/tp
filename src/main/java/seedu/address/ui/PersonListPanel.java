@@ -2,9 +2,9 @@ package seedu.address.ui;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -13,6 +13,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.index.Index;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
@@ -32,6 +33,9 @@ public class PersonListPanel extends UiPart<Region> {
     private final ObservableList<Person> masterList;
 
     private final ReadOnlyAddressBook addressBook;
+
+    /** Person with index and Person object, for displaying */
+    public record IndexedPerson(int index, Person person) {}
 
     /**
      * Creates a {@code PersonListPanel} that renders a split view for students and volunteers.
@@ -159,12 +163,10 @@ public class PersonListPanel extends UiPart<Region> {
             }
 
             // indexes here are based on the master list to avoid breaking the pair function
-            int globalIndex = masterList.indexOf(person) + 1;
-            ObservableList<String> pairings = FXCollections.observableList(addressBook.getPairedPersons(person).stream()
-                    .map(pairing -> ((masterList.indexOf(pairing) == -1) ? "" : (masterList.indexOf(pairing) + 1)
-                            + ". ") + pairing.getName().toString()
-                    ).toList());
-            setGraphic(new PersonCard(addressBook, pairings, person, globalIndex).getRoot());
+            int globalIndex = Index.fromZeroBased(idx).getOneBased();
+            Stream<IndexedPerson> indexedPartners = addressBook.getPairedPersons(person).stream()
+                    .map(pairing -> new IndexedPerson(masterList.indexOf(pairing), pairing));
+            setGraphic(new PersonCard(addressBook, new IndexedPerson(globalIndex, person), indexedPartners).getRoot());
         }
     }
 }
