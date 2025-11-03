@@ -52,7 +52,7 @@ Follow these steps to get VolunteeRoll running in minutes.
 4. **Run the application**
     * Open your terminal or command prompt.
     * Navigate (`cd`) into the folder containing the .jar file.
-    * Enter the following command: `java -jar addressbook.jar`
+    * Enter the following command (replace `[filename].jar` with respective filename): `java -jar [filename].jar`
 
 5. **Explore the interface** <br>
    Once launched, the app window appears with sample data loaded. You will see:

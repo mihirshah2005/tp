@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Developer Guide 
+title: Developer Guide
 ---
 * Table of Contents
 {:toc}
@@ -356,11 +356,12 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-    - Download the jar file and copy into an empty folder
+    - Download the .jar file and copy into an empty folder in which the app can create new files (**do not** use a folder with write protection).
 
-    - Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    - Enter the following command (replace `[filename].jar` with respective filename): `java -jar [filename].jar` <br>
+      Expected : Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-1. Saving window preferences
+2. Saving window preferences
 
     - Resize the window to an optimum size. Move the window to a different location. Close the window.
 
