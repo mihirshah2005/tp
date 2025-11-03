@@ -111,6 +111,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
+        //@@author
         personListPanel = new PersonListPanel(logic.getAddressBook(), logic.getProcessedPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
@@ -139,6 +140,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Opens the help window or focuses on it if it's already opened.
      */
+    //@@author LABDHH
     @FXML
     public void handleHelp() {
         if (helpWindow.isShowing()) {
@@ -166,6 +168,7 @@ public class MainWindow extends UiPart<Stage> {
         }
         helpWindow.loadSummaryText(message);
     }
+    //@@author
 
     void show() {
         primaryStage.show();
@@ -199,12 +202,14 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
+                //@@author LABDHH
                 String helpText = commandResult.getHelpContent();
                 // fallback if helpContent was not set
                 if (helpText == null || helpText.isBlank()) {
                     helpText = commandResult.getFeedbackToUser();
                 }
                 handleHelp(helpText);
+                //@@author
             }
 
             if (commandResult.isExit()) {
