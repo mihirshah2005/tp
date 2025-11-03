@@ -17,6 +17,8 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 
+//@@author c-j-lh:reused
+//ChatGPT-5 with minor modifications
 /**
  * An Immutable AddressBook that is serializable to JSON format.
  */

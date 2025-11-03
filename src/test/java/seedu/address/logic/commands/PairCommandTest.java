@@ -26,6 +26,8 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 
 
+//@@author c-j-lh:reused
+//ChatGPT-5 with modifications
 public class PairCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
