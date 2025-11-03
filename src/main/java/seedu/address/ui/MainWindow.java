@@ -148,7 +148,9 @@ public class MainWindow extends UiPart<Stage> {
         }
         HelpCommand helpCommand = new HelpCommand();
         handleHelp(helpCommand.getFullHelpHtml());
+        resultDisplay.setFeedbackToUser(HelpCommand.SHOWING_HELP_MESSAGE);
     }
+
     /**
      * Opens the help window and displays the given message.
      * If the help window is already open, brings it to focus instead.
@@ -158,6 +160,7 @@ public class MainWindow extends UiPart<Stage> {
     public void handleHelp(String message) {
         if (!helpWindow.isShowing()) {
             helpWindow.show();
+
         } else {
             helpWindow.focus();
         }
