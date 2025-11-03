@@ -217,26 +217,26 @@ The sequence diagram below shows how the `help` command is executed.
 * hate using the mouse
 * very efficient in using the CLI
 
-**Value proposition**: CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new tutees with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.
+**Value proposition**: CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new students with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​         | I want to …​                                                         | So that I can…​                                                                                              |
-|----------|-----------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `* * *`  | new user        | see usage instructions                                               | refer to instructions when I forget how to use the App                                                       |
-| `* * *`  | user            | add a new person                                                     |                                                                                                              |
-| `* * *`  | user            | find a person by name                                                | locate details of persons without having to go through the entire list                                       |
-| `* * *`  | tuition manager | easily retrieve contact information about a volunteer or student           | quickly contact them for urgent matters or emergencies                                                       |
+| Priority | As a …​         | I want to …​                                                               | So that I can…​                                                                                                    |
+|----------|-----------------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| `* * *`  | new user        | see usage instructions                                                     | refer to instructions when I forget how to use the App                                                             |
+| `* * *`  | user            | add a new person                                                           |                                                                                                                    |
+| `* * *`  | user            | find a person by name                                                      | locate details of persons without having to go through the entire list                                             |
+| `* * *`  | tuition manager | easily retrieve contact information about a volunteer or student           | quickly contact them for urgent matters or emergencies                                                             |
 | `* * *`  | volunteer manager   | add subjects that a volunteer is good at or that a student needs help with | easily pair up a student with a well-equipped volunteer                                                            |
 | `* * *`  | volunteer manager   | add volunteer-student pairings                                             | to keep track of volunteer-student pairings                                                                        |
 | `* * *`  | volunteer manager   | remove volunteer-student pairings                                          | to keep track of volunteer-student pairings when there are changes                                                 |
-| `* * *`  | tuition manager | remove or archive information about selected tutors or tutees        | view a less cluttered contact list without tutees who have graduated or tutors who have stopped volunteering |
-| `* *`    | careless user   | be reminded of duplicate names                                       | ensure not to accidentally add the same person twice                                                         |
-| `* *`    | volunteer manager   | filter tutors by both subject expertise                              | assign the most suitable volunteer without manual cross-checking                                                 |
-| `* *`    | volunteer manager   | keep track of subjects a student needs help in                         | prepare relevant study materials and find appropriate tutors to pair with                                    |
+| `* * *`  | tuition manager | remove or archive information about selected volunteers or students        | view a less cluttered contact list without students who have graduated or volunteers who have stopped volunteering |
+| `* *`    | careless user   | be reminded of duplicate names                                             | ensure not to accidentally add the same person twice                                                               |
+| `* *`    | volunteer manager   | filter volunteers by both subject expertise                                | assign the most suitable volunteer without manual cross-checking                                                   |
+| `* *`    | volunteer manager   | keep track of subjects a student needs help in                             | prepare relevant study materials and find appropriate volunteers to pair with                                      |
 
 ### Use cases
 
@@ -269,9 +269,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.	A tuition manager searches for a volunteer or student in the contact list
-2. The tuition manager selects their profile
-3. The tuition manager opens the details page to view their phone number and next-of-kin information for urgent communication
+1. A tuition manager searches for a volunteer or student in the contact list by name
+2. VolunteeRoll automatically lists all volunteers or students whose names match.
+3. The tuition manager scrolls the filtered list to find the correct volunteer or student.
+4. VolunteeRoll shows the details of that volunteer or student.
 
 Use case ends.
 
@@ -279,10 +280,10 @@ Use case ends.
 
 **MSS**
 
-1.	A volunteer manager searches for the person’s profile
-2. The volunteer manager selects “Edit Subjects”
-3. The volunteer manager chooses the relevant subject tags or creates new ones
-4. The volunteer manager saves the changes so the system updates pairing suggestions
+1. A volunteer manager searches for the person’s profile.
+2. The volunteer manager enters the edit command with that person's index and the relevant subject tags.
+3. VolunteeRoll updates that person's profile to show the relevant subject tags.
+4. The app automatically saves the data to the .json file.
 
 Use case ends.
 
@@ -290,15 +291,15 @@ Use case ends.
 
 **MSS**
 
-1.	An organisation member filters the contacts to find the relevant tutors or tutees
-2. The organisation member selects tutors and tutees
+1.	An organisation member filters the contacts to find the relevant volunteers or students
+2. The organisation member selects volunteers and students
 3. The organisation member clicks "Share Contact Info"
-4. The organisation member enters the colleage's details
+4. The organisation member enters the colleague's details
 5. The organisation member sends the selected information securely
 
 Use case ends.
 
-**Use case: Archive inactive tutors or tutees**
+**Use case: Archive inactive volunteers or students**
 
 **MSS**
 
@@ -309,7 +310,7 @@ Use case ends.
 
 Use case ends.
 
-**Use case: Filter tutors by subject and availability**
+**Use case: Filter volunteers by subject and availability**
 
 **MSS**
 
@@ -556,4 +557,4 @@ Volunteer agency coordinators running a social service organisation managing vol
 
 
 ### Value Proposition
-CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new tutees with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.
+CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new students with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.
