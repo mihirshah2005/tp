@@ -107,6 +107,7 @@ public class Name {
         //    (add space before/after s/o when joined to letters)
         n = n.replaceAll("(?<=\\p{L})s/o\\b", " s/o");
         n = n.replaceAll("\\bs/o(?=\\p{L})", "s/o ");
+        n = n.replaceAll("\\s*/\\s*", "/");
 
         // 6) Collapse whitespace again in case step 5 introduced double spaces
         n = n.trim().replaceAll("\\s+", " ");

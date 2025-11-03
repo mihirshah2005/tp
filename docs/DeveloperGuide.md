@@ -12,7 +12,7 @@ title: Developer Guide
 * Images of some developers taken from [Portrait placeholder.png](https://en.wikipedia.org/wiki/File:Portrait_placeholder.png), created by [Andomedium](https://en.wikipedia.org/wiki/User:Andomedium) and edited by [Jajobi](https://en.wikipedia.org/wiki/User:Jajobi), retrieved from [Wikipedia](https://en.wikipedia.org/), used under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
 * Used [JetBrains Full Line Code Completion plug-in](https://plugins.jetbrains.com/plugin/14823-full-line-code-completion).
 * Code for sorting list (such as adding `SortedList<…>` field to `ModelManager` and related methods in `Model`, `Logic`, and related classes) inspired by changes made in this [Pull Request for a sorting command](https://github.com/AY2526S1-CS2103T-T15-2/tp/pull/140/files) by GitHub user [AndrescuIII-too](https://github.com/AndrescuIII-too).
-* While enhancing the help feature, ChatGPT was primarily used to clarify concepts related to implementing basic HTML and CSS for the help command, as well as to refine several test cases following updates to the help and storage components.
+* While enhancing the help feature, ChatGPT was primarily used to clarify concepts related to implementing basic HTML and CSS and java regex for the help command, as well as to refine several test cases following updates to the help and storage components. It was also used to help with the backup storage implementation and to help with the re focusing of the minimised help window implementation.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -180,15 +180,11 @@ Changes at a glance:
 - `addstu` → `AddCommandParser` (student mode) → `new Student(...)`
 - `addvol` → `AddCommandParser` (volunteer mode) → `new Volunteer(...)`
 
-<img src="images/addstu_addvol_parse-addstu_addvol_parse_flow.png" width="550" />
-
 #### Execution flow
 - `LogicManager#execute` runs AddCommand which:
 - `Model#hasPerson(toAdd)` duplicate check
 - `Model#addPerson(toAdd)` mutates `AddressBook`
 - UI auto-updates from observable lists
-
-<img src="images/addstu_addvol_execute.png" width="550" />
 
 ### Help Command
 
@@ -221,26 +217,26 @@ The sequence diagram below shows how the `help` command is executed.
 * hate using the mouse
 * very efficient in using the CLI
 
-**Value proposition**: CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new tutees with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.
+**Value proposition**: CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new students with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​         | I want to …​                                                         | So that I can…​                                                                                              |
-|----------|-----------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `* * *`  | new user        | see usage instructions                                               | refer to instructions when I forget how to use the App                                                       |
-| `* * *`  | user            | add a new person                                                     |                                                                                                              |
-| `* * *`  | user            | find a person by name                                                | locate details of persons without having to go through the entire list                                       |
-| `* * *`  | tuition manager | easily retrieve contact information about a volunteer or student           | quickly contact them for urgent matters or emergencies                                                       |
+| Priority | As a …​         | I want to …​                                                               | So that I can…​                                                                                                    |
+|----------|-----------------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| `* * *`  | new user        | see usage instructions                                                     | refer to instructions when I forget how to use the App                                                             |
+| `* * *`  | user            | add a new person                                                           |                                                                                                                    |
+| `* * *`  | user            | find a person by name                                                      | locate details of persons without having to go through the entire list                                             |
+| `* * *`  | tuition manager | easily retrieve contact information about a volunteer or student           | quickly contact them for urgent matters or emergencies                                                             |
 | `* * *`  | volunteer manager   | add subjects that a volunteer is good at or that a student needs help with | easily pair up a student with a well-equipped volunteer                                                            |
 | `* * *`  | volunteer manager   | add volunteer-student pairings                                             | to keep track of volunteer-student pairings                                                                        |
 | `* * *`  | volunteer manager   | remove volunteer-student pairings                                          | to keep track of volunteer-student pairings when there are changes                                                 |
-| `* * *`  | tuition manager | remove or archive information about selected tutors or tutees        | view a less cluttered contact list without tutees who have graduated or tutors who have stopped volunteering |
-| `* *`    | careless user   | be reminded of duplicate names                                       | ensure not to accidentally add the same person twice                                                         |
-| `* *`    | volunteer manager   | filter tutors by both subject expertise                              | assign the most suitable volunteer without manual cross-checking                                                 |
-| `* *`    | volunteer manager   | keep track of subjects a student needs help in                         | prepare relevant study materials and find appropriate tutors to pair with                                    |
+| `* * *`  | tuition manager | remove or archive information about selected volunteers or students        | view a less cluttered contact list without students who have graduated or volunteers who have stopped volunteering |
+| `* *`    | careless user   | be reminded of duplicate names                                             | ensure not to accidentally add the same person twice                                                               |
+| `* *`    | volunteer manager   | filter volunteers by both subject expertise                                | assign the most suitable volunteer without manual cross-checking                                                   |
+| `* *`    | volunteer manager   | keep track of subjects a student needs help in                             | prepare relevant study materials and find appropriate volunteers to pair with                                      |
 
 ### Use cases
 
@@ -273,9 +269,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.	A tuition manager searches for a volunteer or student in the contact list
-2. The tuition manager selects their profile
-3. The tuition manager opens the details page to view their phone number and next-of-kin information for urgent communication
+1. A tuition manager searches for a volunteer or student in the contact list by name
+2. VolunteeRoll automatically lists all volunteers or students whose names match.
+3. The tuition manager scrolls the filtered list to find the correct volunteer or student.
+4. VolunteeRoll shows the details of that volunteer or student.
 
 Use case ends.
 
@@ -283,10 +280,10 @@ Use case ends.
 
 **MSS**
 
-1.	A volunteer manager searches for the person’s profile
-2. The volunteer manager selects “Edit Subjects”
-3. The volunteer manager chooses the relevant subject tags or creates new ones
-4. The volunteer manager saves the changes so the system updates pairing suggestions
+1. A volunteer manager searches for the person’s profile.
+2. The volunteer manager enters the edit command with that person's index and the relevant subject tags.
+3. VolunteeRoll updates that person's profile to show the relevant subject tags.
+4. The app automatically saves the data to the .json file.
 
 Use case ends.
 
@@ -294,15 +291,15 @@ Use case ends.
 
 **MSS**
 
-1.	An organisation member filters the contacts to find the relevant tutors or tutees
-2. The organisation member selects tutors and tutees
+1.	An organisation member filters the contacts to find the relevant volunteers or students
+2. The organisation member selects volunteers and students
 3. The organisation member clicks "Share Contact Info"
-4. The organisation member enters the colleage's details
+4. The organisation member enters the colleague's details
 5. The organisation member sends the selected information securely
 
 Use case ends.
 
-**Use case: Archive inactive tutors or tutees**
+**Use case: Archive inactive volunteers or students**
 
 **MSS**
 
@@ -313,7 +310,7 @@ Use case ends.
 
 Use case ends.
 
-**Use case: Filter tutors by subject and availability**
+**Use case: Filter volunteers by subject and availability**
 
 **MSS**
 
@@ -360,54 +357,143 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+    - Download the .jar file and copy into an empty folder in which the app can create new files (**do not** use a folder with write protection).
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    - Enter the following command (replace `[filename].jar` with respective filename): `java -jar [filename].jar` <br>
+      Expected : Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-1. Saving window preferences
+2. Saving window preferences
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+    - Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+    -  Re-launch the app by using the `java -jar [filename].jar` command.<br>
        Expected: The most recent window size and location is retained.
+
+### **Adding a Student**
+
+1. **Test Case: Add a student with full details**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 t/friend`
+    - **Expected Outcome:** A new student named John Doe with the provided contact information is added to the student list. The contact appears in the result display with the correct details.
+
+2. **Test Case: Add a student with missing phone number**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addstu n/Anna Lee e/anna@example.com a/Elm street, #05-01 t/student`
+    - **Expected Outcome:** The student Anna Lee is added with only the email and address provided and default phone number is added.
+
+3. **Test Case: Add a student with multiple tags**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addstu n/James Ho p/22224444 e/jamesho@example.com a/123 Clementi Rd t/friend t/classmate t/weekend`
+    - **Expected Outcome:** The student James Ho is added with the provided tags (friend, classmate, weekend). The tags will appear in random order in the UI.
+
+### **Adding a Volunteer**
+
+1. **Test Case: Add a volunteer with full details**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02 t/mentor t/weekend`
+    - **Expected Outcome:** A new volunteer named Jane Roe is added with the provided contact information and tags. The contact appears in the volunteer list with the correct details.
+
+2. **Test Case: Add a volunteer with missing email**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addvol n/Alex Yeoh p/93334444 a/45, River Valley Rd, #02-03 t/mentor`
+    - **Expected Outcome:** The volunteer Alex Yeoh is added with the provided phone number, address, and tag with default email address.
+
+### **Editing a Student or Volunteer**
+
+1. **Test Case: Edit the details of a student**
+    - **Prerequisites:** A student exists in the list (e.g., John Doe at index 1).
+    - **Steps:**
+        1. Enter the command: `edit 1 n/Johnathan Doe p/99887766 e/johnathan@example.com a/John street, block 124, #01-02`
+    - **Expected Outcome:** The details of the first student (John Doe) are updated to the new name, phone number, email, and address. The updated contact appears in the list.
+
+2. **Test Case: Edit a volunteer's tags**
+    - **Prerequisites:** A volunteer exists in the list (e.g., Jane Roe at index 2).
+    - **Steps:**
+        1. Enter the command: `edit 2 t/mentor t/weekend t/volunteer`
+    - **Expected Outcome:** The volunteer's tags are updated. The previous tags are replaced with "mentor," "weekend," and "volunteer."
+
+3. **Test Case: Remove all tags from a student**
+    - **Prerequisites:** A student exists in the list with tags at index 1.
+    - **Steps:**
+        1. Enter the command: `edit 1 t/`
+    - **Expected Outcome:** All tags for the specified student are removed, and the tags field should be empty in the student details.
+
+### **Pairing a Student with a Volunteer**
+
+1. **Test Case: Pair a student with a volunteer**
+    - **Prerequisites:** A student and a volunteer exist in the list (e.g., John Doe at index 1 and Jane Roe at index 2).
+    - **Steps:**
+        1. Enter the command: `pair 1 2`
+    - **Expected Outcome:** The student (John Doe) is paired with the volunteer (Jane Roe). The pairing is displayed correctly as a tag at the bottom of person details, showing both the student and volunteer as a matched pair.
+
+2. **Test Case: Pair multiple students with multiple volunteers**
+    - **Prerequisites:** Multiple students and volunteers exist in the list (e.g., John Doe at index 1, Jane Roe at index 2, Alex Yeoh at index 3).
+    - **Steps:**
+        1. Enter the command: `pair 1 2 3`
+    - **Expected Outcome:** Student John Doe is paired to volunteers at index 2 and 3. The pairing should reflect the multiple student-volunteer relationships.
+
+3. **Test Case: Try pairing two students together**
+    - **Prerequisites:** Two students exist in the list (e.g., John Doe at index 1 and Anna Lee at index 2).
+    - **Steps:**
+        1. Enter the command: `pair 1 2`
+    - **Expected Outcome:** The system should reject this pairing and display an error message since students cannot be paired with other students.
+
+4. **Test Case: Pair with an invalid index**
+    - **Prerequisites:** A student and a volunteer exist in the list.
+    - **Steps:**
+        1. Enter the command: `pair 1 999`
+    - **Expected Outcome:** The system should display an error message indicating that the specified index is invalid.
+
+### **Unpairing a Student from a Volunteer**
+
+1. **Test Case: Unpair a student from a volunteer**
+    - **Prerequisites:** A student and a volunteer are paired (e.g., John Doe at index 1 and Jane Roe at index 2).
+    - **Steps:**
+        1. Enter the command: `unpair 1 2`
+    - **Expected Outcome:** The pairing between John Doe and Jane Roe is removed. Both should no longer be shown as paired in the system.
 
 ### Deleting a person
 
 1. Deleting a person while all persons are being shown
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+    - Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
-   1. Test case: `delete 1`<br>
+    - Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
-   1. Test case: `delete 0`<br>
+    - Test case: `delete 0`<br>
       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+    - Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
 ### Saving data
 
 1. Dealing with missing data files
 
-   1. To simulate a missing file, delete data/addressbook.json.
-   2. Start the app. Expected: Shows the GUI with 3 default students and 3 default volunteers.
-   3. Enter the clear command. Expected: GUI shows 0 students and 0 volunteers.
-   4. Enter the addstu command. Expected: GUI shows 1 student.
+    - To simulate a missing file, delete data/addressbook.json.
+    - Start the app. Expected: Shows the GUI with 3 default students and 3 default volunteers. 
+    - Enter the clear command. Expected: GUI shows 0 students and 0 volunteers. 
+    - Enter the addstu command. Expected: GUI shows 1 student.
 
 2. Dealing with corrupted data files
 
    1. Prerequisites: Have multiple persons in data/addressbook.json, and the syntax is valid.
    2. To simulate a corrupted data file, make the phone number of the first student two digits long so that it is invalid.
-   3. Start the app. Expected: All the other persons are shown except the invalid person.
+   3. Start the app. Expected: All the other persons are shown.
    4. Add a student. Expected: Student is added to the list.
-   5. Close the app. Expected: The invalid person entry has been removed from the json file.
+   5. Close the app.
 
-
+If the data in addressbook.json becomes corrupted, for example by removing a bracket or making a valid entry invalid, the application now uses a backup mechanism to preserve previously valid data. When the application starts, it first attempts to load data from addressbook.json. If the file is valid, the data is loaded normally. However, if the file is corrupted or unreadable, the application automatically retrieves the most recent valid data from a backup file named addressbook_backup.json. This backup file serves as a safeguard that stores the last known valid state of the address book and is only updated when a valid entry is added or removed from the main addressbook.json file. This ensures that even if the primary data file becomes damaged due to manual editing or unexpected corruption, the user’s data remains recoverable. In other words, the main file reflects ongoing user changes, while the backup file is only refreshed upon successful, valid saves, preventing it from inheriting any corrupted state. As a result, the storage system becomes more fault-tolerant and reliable, allowing the application to recover seamlessly from corruption without data loss.
 
 ### Target User
 Volunteer agency coordinators running a social service organisation managing volunteers who provide free tuition to underprivileged teenagers. Target users are very efficient in using the CLI and hate using the mouse.
 
 
 ### Value Proposition
-CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new tutees with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.
+CLI-based contact book to manage volunteer tutors. Tag people by skills, area, and availability. Easily find volunteers living nearby new students with appropriate skills and availability. Help easily track attendance to generate reports on volunteer hours.

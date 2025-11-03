@@ -20,6 +20,9 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 
+// Some below wrongly attributed to recursive-rc due to method renaming
+// Should simply be considered base AB3 code
+//@@author
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */

@@ -83,6 +83,8 @@ public class LogicManagerTest {
     }
 
     @Test
+    // Code wrongly attributed to recursive-rc due to simple method renaming
+    //@@author
     public void getProcessedPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> logic.getProcessedPersonList().remove(0));
     }
@@ -165,9 +167,11 @@ public class LogicManagerTest {
         logic = new LogicManager(model, storage);
 
         // Triggers the saveAddressBook method by executing an add command
+        //@@author bentandj
         String addCommand = AddCommand.COMMAND_WORD_VOLUNTEER + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + TAG_DESC_FRIEND;
         Person expectedPerson = new Person.PersonBuilder(AMY).build();
+        //@@author
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);

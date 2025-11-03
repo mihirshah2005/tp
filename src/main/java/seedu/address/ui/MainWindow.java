@@ -111,6 +111,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
+        //@@author
         personListPanel = new PersonListPanel(logic.getAddressBook(), logic.getProcessedPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
@@ -139,6 +140,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Opens the help window or focuses on it if it's already opened.
      */
+    //@@author LABDHH
     @FXML
     public void handleHelp() {
         if (helpWindow.isShowing()) {
@@ -148,7 +150,9 @@ public class MainWindow extends UiPart<Stage> {
         }
         HelpCommand helpCommand = new HelpCommand();
         handleHelp(helpCommand.getFullHelpHtml());
+        resultDisplay.setFeedbackToUser(HelpCommand.SHOWING_HELP_MESSAGE);
     }
+
     /**
      * Opens the help window and displays the given message.
      * If the help window is already open, brings it to focus instead.
@@ -158,11 +162,13 @@ public class MainWindow extends UiPart<Stage> {
     public void handleHelp(String message) {
         if (!helpWindow.isShowing()) {
             helpWindow.show();
+
         } else {
             helpWindow.focus();
         }
         helpWindow.loadSummaryText(message);
     }
+    //@@author
 
     void show() {
         primaryStage.show();
@@ -196,12 +202,14 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
+                //@@author LABDHH
                 String helpText = commandResult.getHelpContent();
                 // fallback if helpContent was not set
                 if (helpText == null || helpText.isBlank()) {
                     helpText = commandResult.getFeedbackToUser();
                 }
                 handleHelp(helpText);
+                //@@author
             }
 
             if (commandResult.isExit()) {
