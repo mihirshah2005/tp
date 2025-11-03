@@ -147,10 +147,10 @@ VolunteeRoll prevents accidental duplicates using the following rules:
      * Both the phone and email are default values, or
      * The phone numbers are the same (and not default), or
      * The email addresses are the same (and not default).
-   * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone/email - allowed.
+   * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone and email - allowed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
-If you legitimately manage two people with the same normalized name, make sure their phone or email differs.
+If you legitimately manage two people with the same normalized name, make sure their phone and email differs.
 </div>
 
 </div>
@@ -302,7 +302,7 @@ Examples:
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
-Deleteing a person cannot be undone. Information about deleted person is irretrievable.
+Deleting a person cannot be undone. Information about deleted person is irretrievable.
 </div>
 
 ### Pairing a student to volunteers, or a volunteer to students : `pair`
@@ -414,12 +414,11 @@ _Details coming soon ..._
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-3. **Name or details of Person are too long** , the app only shows the details until a number of characters and the rest will be displayed by "...". If you wish to view the full name, you can edit the person with an extra tag or any details you wish and copy their full details from the result display box.
-4. **It is inconvenient to remove a tag** from a person with multiple tags. Entering the edit command with all the remaining tags specified is the current method, which can be time-consuming.
-5. **There is no safeguard against accidentally calling the clear function.** There is no undo command as well.
-6. **The auto-scrolling feature might scroll near the added Student/Volunteer** instead of exactly to it and the fix for this is to just use the scroll bar to go to the details of the person.
-7. **There is no way to distinguish from default values currently.** In the unlikely event that the phone, email or address of a person coincides exactly with '000', 'default@email' or 'Default Address' respectively, that person's phone, email or address will be treated as not present.
+2. **Name or details of Person are too long** , the app only shows the details until a number of characters and the rest will be displayed by "...". If you wish to view the full name, you can edit the person with an extra tag or any details you wish and copy their full details from the result display box.
+3. **It is inconvenient to remove a tag** from a person with multiple tags. Entering the edit command with all the remaining tags specified is the current method, which can be time-consuming.
+4. **There is no safeguard against accidentally calling the clear function.** There is no undo command as well.
+5. **The auto-scrolling feature might scroll near the added Student/Volunteer** instead of exactly to it and the fix for this is to just use the scroll bar to go to the details of the person.
+6. **There is no way to distinguish from default values currently.** In the unlikely event that the phone, email or address of a person coincides exactly with '000', 'default@email' or 'Default Address' respectively, that person's phone, email or address will be treated as not present.
 
 --------------------------------------------------------------------------------------------------------------------
 
