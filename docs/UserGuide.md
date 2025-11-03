@@ -10,19 +10,28 @@ VolunteeRoll is a desktop application designed to help the coordinators of such 
 It combines the speed of a **Command Line Interface (CLI) with the clarity of a modern Graphical User Interface (GUI)**, making it ideal for users who prefer typing commands to navigate and manage data quickly.
 
 ### VolunteeRoll allows users to:
+{: .no_toc}
+
 1. Store and organize student and volunteer contact information
 2. Match students with suitable volunteers based on shared tags or subjects
 3. Maintain a synchronized view of all pairings and unpairings
 4. Edit and update data instantly, with automatic saving
 
 ### Why use VolunteeRoll?
+{: .no_toc}
+
 If you’re managing tutoring programs, community service groups, or any volunteer-based initiative, VolunteeRoll helps you stay organized - without needing spreadsheets or complex databases.
 
 ### Who is this guide for?
+{: .no_toc}
+
 This guide is intended for:
 1. Volunteer coordinators or program leads who manage student–volunteer matching.
 2. Users who have basic familiarity with computers and can follow simple command-line instructions.
 3. Those who prefer fast, text-based interactions over traditional GUI-heavy tools.
+
+### Table of Contents : 
+{: .no_toc}
 
 * Table of Contents
 {:toc}
@@ -43,7 +52,7 @@ Follow these steps to get VolunteeRoll running in minutes.
 4. **Run the application**
     * Open your terminal or command prompt.
     * Navigate (`cd`) into the folder containing the .jar file.
-    * Enter the following command: `java -jar addressbook.jar`
+    * Enter the following command (replace `[filename].jar` with respective filename): `java -jar [filename].jar`
 
 5. **Explore the interface** <br>
    Once launched, the app window appears with sample data loaded. You will see:
@@ -128,39 +137,40 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * Unicode normalized (e.g., accented forms are compared fairly).
    * Collapses consecutive spaces and removes zero-width characters.
    * Treats s/o and s / o as equivalent (we normalize separators like this).
-   * Example: `O’Malley`, `O'Malley`, and `o’malley` compare equal for duplicate checks.
+   * Example: `O’Malley` and `o’malley` compare equal for duplicate checks.
 2. Phone normalization
    * Ignores spaces, dashes, and a leading +.
-   * Example: These three phone numbers are considered equivalent: +65 9123-4567, 6591234567, and 91234567 (country code matches).
+   * Example: These three phone numbers are considered equivalent: +65 9123-4567, 6591234567, and 65 91234567.
 3. Duplicate decision
    * If the normalized names match, and any of the following conditions hold true,
      the person is considered a duplicate and the entry will be rejected:
      * Both the phone and email are default values, or
      * The phone numbers are the same (and not default), or
      * The email addresses are the same (and not default).
-   * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone/email - allowed.
+   * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone and email - allowed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
-If you legitimately manage two people with the same normalized name, make sure their phone or email differs.
+If you legitimately manage two people with the same normalized name, make sure their phone and email differ.
 </div>
 
 </div>
 
-### Viewing help : `help`
+### Viewing help : 
 
 Opens a popup window containing a list of available commands and their usage formats.
 This feature helps users quickly navigate and recall command syntax without leaving the main interface.
 
-Format: help [KEYWORD]
+Format: `help [KEYWORD]`
 
-*  Typing help without arguments displays all available commands along with their summaries and usage examples.	
-*  Typing help [keyword] shows the summary and example for the specific command [keyword], for eg- help addstu
-*  Typing help [x] displays all commands that start with “x” (e.g.,help a gives  addstu, addvol, etc.).
+
+*  Typing `help` without arguments displays all available commands along with their summaries and usage examples.	
+*  Typing `help [keyword]` shows the summary and example for the specific command. For example, help addstu displays information about the addstu command.
+*  Typing `help [PREFIX]` displays all commands that start with the specified prefix.For example, help a lists commands such as addstu, addvol.
 
 **Tip:** You can resize or scroll through the Help window to view all commands.
 
 
-Format: `help`
+
 
 
 ### Adding a student: `addstu`
@@ -171,7 +181,7 @@ Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
 1. A student can have any number of tags (including 0). <br>
-2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
+2. Phone number may include a leading + and single dashes or single spaces that are not consecutively seen (e.g., +65 9123-4567).
 </div>
 
 **Examples:**
@@ -197,7 +207,7 @@ Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
 1. A Volunteer can have any number of tags (including 0).<br>
-2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
+2. Phone number may include a leading + and single dashes or single spaces that are not consecutively seen (e.g., +65 9123-4567).
 </div>
 
 **Examples:**
@@ -270,7 +280,7 @@ Format: `findtag TAG [MORE_TAGS]`
 
 * The search is case-insensitive. e.g `math` will match `Math` and `MATH`
 * Only tags are searched.
-* Persons whose tags include **any** the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will be included in the output list after running `findtag math science`.
+* Persons whose tags include **any** of the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will be included in the output list after running `findtag math science`.
 * Persons will be sorted such that those with the most tags matching those you are searching for will be be shown at the top.
 
 Examples:
@@ -292,7 +302,7 @@ Examples:
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**<br>
-Deleteing a person cannot be undone. Information about deleted person is irretrievable.
+Deleting a person cannot be undone. Information about deleted person is irretrievable.
 </div>
 
 ### Pairing a student to volunteers, or a volunteer to students : `pair`
@@ -373,7 +383,7 @@ _Details coming soon ..._
 **A**: Prefixes (`n/`, `p/`, `e/`, `a/`, `t/`) **start new fields**.
 
 **Q**: My phone number has `+65`, spaces, or dashes. Is it valid?<br>
-**A**: Yes. Phone numbers may start with `+` and include spaces or `-`, as long as they contain **≥ 3 digits** total.
+**A**: Yes. Phone numbers may start with `+` and include spaces or `-`, as long as they contain **≥ 3 digits** total and the special characters do not appear consecutively.
 
 **Q**: What do indexes refer to in the UI with two lists?<br>
 **A**: It is the number to use for commands like `edit`, `delete`, `pair`, and `unpair`.
@@ -382,7 +392,7 @@ _Details coming soon ..._
 **A**: The list auto-refreshes on changes. If you don’t see it (rare on some platforms), run `list` to refresh the view.
 
 **Q**: How do I find by tag vs by name?<br>
-**A**: Use `find` for names (`find alex david`) and `findtag` for tags (`findtag math weekend`). `findtag` returns only persons containing **all** searched tags.
+**A**: Use `find` for names (`find alex david`) and `findtag` for tags (`findtag math weekend`). `findtag` returns only persons containing **any** searched tags.
 
 **Q**: Can I add multiple tags?<br>
 **A**: Yes. Repeat the prefix: `t/math t/sec3 t/weekend`.
@@ -391,7 +401,7 @@ _Details coming soon ..._
 **A**: Automatically to `[JAR location]/data/addressbook.json` after every change. No manual save needed.
 
 **Q**: Can I edit the JSON file directly?<br>
-**A**: Yes (advanced). Back it up first. If the format becomes invalid, the app will reset to an empty file on next run.
+**A**: Yes (advanced). Back it up first (the app backs up the file, but you are encouraged to do so too). If the format becomes invalid, the app will use the backup file on the next run.
 
 **Q**: The app says "Invalid command format." How do I see correct usage?<br>
 **A**: Run `help` or type the command name alone (e.g., `addstu`) to see the usage message in the result panel.
@@ -404,10 +414,10 @@ _Details coming soon ..._
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-3. **Name or details of Person are too long** , the app only shows the details until a number of characters and the rest will be displayed by "...". If you wish to view the full name, you can edit the person with an extra tag or any details you wish and copy their full details from the result display box.
-4. **It is inconvenient to remove a tag** from a person with multiple tags. Entering the edit command with all the remaining tags specified is the current method, which can be time-consuming.
-5. **There is no safeguard against accidentally calling the clear function.** There is no undo command as well.
+2. **Name or details of Person are too long** , the app only shows the details until a number of characters and the rest will be displayed by "...". If you wish to view the full name, you can edit the person with an extra tag or any details you wish and copy their full details from the result display box.
+3. **It is inconvenient to remove a tag** from a person with multiple tags. Entering the edit command with all the remaining tags specified is the current method, which can be time-consuming.
+4. **There is no safeguard against accidentally calling the clear function.** There is no undo command as well.
+5. **The auto-scrolling feature might scroll near the added Student/Volunteer** instead of exactly to it and the fix for this is to just use the scroll bar to go to the details of the person.
 6. **There is no way to distinguish from default values currently.** In the unlikely event that the phone, email or address of a person coincides exactly with '000', 'default@email' or 'Default Address' respectively, that person's phone, email or address will be treated as not present.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -427,4 +437,4 @@ Action | Format, Examples
 **Unpair** | `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `unpair 2 1 3`
 **Exit** | `exit`
 **List** | `list`
-**Help** | `help`
+**Help** | `help [KEYWORD]`
