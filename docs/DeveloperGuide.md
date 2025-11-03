@@ -490,6 +490,67 @@ testers are expected to do more *exploratory* testing.
 
 If the data in addressbook.json becomes corrupted, for example by removing a bracket or making a valid entry invalid, the application now uses a backup mechanism to preserve previously valid data. When the application starts, it first attempts to load data from addressbook.json. If the file is valid, the data is loaded normally. However, if the file is corrupted or unreadable, the application automatically retrieves the most recent valid data from a backup file named addressbook_backup.json. This backup file serves as a safeguard that stores the last known valid state of the address book and is only updated when a valid entry is added or removed from the main addressbook.json file. This ensures that even if the primary data file becomes damaged due to manual editing or unexpected corruption, the user’s data remains recoverable. In other words, the main file reflects ongoing user changes, while the backup file is only refreshed upon successful, valid saves, preventing it from inheriting any corrupted state. As a result, the storage system becomes more fault-tolerant and reliable, allowing the application to recover seamlessly from corruption without data loss.
 
+### Planned Enhancements
+*Team Size: 5*
+
+The following planned enhancements are proposed to address known feature flaws in the application. These changes will be implemented in future versions after the PE phase.
+
+1. **Streamline Tag Removal Process**<br>
+   **Issue**: Currently, users must specify all remaining tags in the edit command when removing a tag from a person with multiple tags, which is time-consuming.<br>
+   **Enhancement**: A new command `delete [index] t/[tag name]` will be introduced to allow users to remove specific tags directly without needing to specify the others.<br>
+   **Expected Result**: Users can remove a specific tag by simply entering the person's index and the tag name they wish to delete.<br>
+   **Example**:<br>
+   `delete 13 t/homework`<br>
+   This command will remove the "homework" tag from the person with index 13.
+
+2. **Add Safeguards for the Clear Function**<br>
+   **Issue**: The clear function lacks safeguards, and there is no undo feature to recover from accidental use.<br>
+   **Enhancement**: A confirmation prompt will be added when the clear function is triggered, asking users to confirm their action. Additionally, an undo feature will be introduced to allow users to recover data after clearing.<br>
+   **Expected Result**: Before clearing, users will be asked to confirm, and they will be able to undo the action if performed by mistake.<br>
+
+3. **Use Semi-Permanent IDs for Students and Volunteers**<br>
+   **Issue**: The current indexing system causes indexes to change frequently based on the list display, leading to confusion.<br>
+   **Enhancement**: Semi-permanent IDs will be assigned to each student and volunteer. These IDs will remain consistent even if the list changes.<br>
+   **Expected Result**: The ID displayed for a person will be consistent (e.g., `s13` for student 13, `v15` for volunteer 15) regardless of list order.<br>
+   **Example**:<br>
+   `Student ID: s13`<br>
+   `Volunteer ID: v15`
+
+4. **Fix GUI Off-Screen Issue When Switching Screens**<br>
+   **Issue**: When switching between multiple screens, the GUI may open off-screen when returning to the primary screen.<br>
+   **Enhancement**: The application will be updated to detect when it is opened off-screen and automatically reposition the window to a visible location. If this issue occurs, users will also be prompted to delete the `preferences.json` file.<br>
+   **Expected Result**: The application will correctly open within the visible screen area, even after switching between multiple screens.<br>
+   **Example**:<br>
+   Upon opening the app after screen switching, it will be positioned on the primary screen automatically.
+
+5. **Display Full Name and Details for Long Entries**<br>
+   **Issue**: Long names and details are truncated with ellipses ( "..." ), making it difficult to view complete information.<br>
+   **Enhancement**: A method will be implemented to display the full name and details by either editing the record or viewing the full details through the result display box when the Person is selected.<br>
+   **Expected Result**: Users will be able to access and view complete information for any person, even if their details exceed the current character limit.<br>
+   **Example**:<br>
+   Full name and details can be viewed in the result display box after editing.
+
+6. **Implement Undo Function for Clear Action**<br>
+   **Issue**: There is no undo feature for the clear function, which risks accidental data loss.<br>
+   **Enhancement**: An undo option will be added to allow users to recover data after using the clear function.<br>
+   **Expected Result**: After clearing data, users will be able to press "Undo" to recover the cleared information.<br>
+   **Example**:<br>
+   `Clear` → A prompt will appear to confirm, and if mistakenly used, the user can press "Undo" to revert the change.
+
+7. **Enhance Auto-Scrolling Functionality**<br>
+   **Issue**: The auto-scrolling feature sometimes scrolls to a location near the newly added entry instead of exactly to it.<br>
+   **Enhancement**: The auto-scrolling function will be improved to ensure that the screen scrolls directly to the newly added student or volunteer.<br>
+   **Expected Result**: The view will automatically center on the added person, ensuring they are immediately visible.<br>
+   **Example**:<br>
+   After adding a new volunteer, the screen will scroll to and display that volunteer in the center.
+
+8. **Distinguish Default Values from Real Data**<br>
+   **Issue**: Default values for phone numbers, emails, or addresses (e.g., '000', 'default@email', 'Default Address') are indistinguishable from real user data.<br>
+   **Enhancement**: A mechanism will be introduced to mark and highlight default values, ensuring they are not confused with actual data.<br>
+   **Expected Result**: Default values will be clearly flagged or displayed differently from actual user data.<br>
+   **Example**:<br>
+   `Phone: 000` will be visually marked as a default value, distinguishing it from real phone numbers.
+
 ### Target User
 Volunteer agency coordinators running a social service organisation managing volunteers who provide free tuition to underprivileged teenagers. Target users are very efficient in using the CLI and hate using the mouse.
 
