@@ -438,4 +438,4 @@ Action | Format, Examples
 **Unpair** | `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`<br> e.g., `unpair 2 1 3`
 **Exit** | `exit`
 **List** | `list`
-**Help** | `help`
+**Help** | `help [KEYWORD]`
