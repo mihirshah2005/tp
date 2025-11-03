@@ -180,15 +180,11 @@ Changes at a glance:
 - `addstu` → `AddCommandParser` (student mode) → `new Student(...)`
 - `addvol` → `AddCommandParser` (volunteer mode) → `new Volunteer(...)`
 
-<img src="images/addstu_addvol_parse-addstu_addvol_parse_flow.png" width="550" />
-
 #### Execution flow
 - `LogicManager#execute` runs AddCommand which:
 - `Model#hasPerson(toAdd)` duplicate check
 - `Model#addPerson(toAdd)` mutates `AddressBook`
 - UI auto-updates from observable lists
-
-<img src="images/addstu_addvol_execute.png" width="550" />
 
 ### Help Command
 
@@ -360,40 +356,129 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+    - Download the .jar file and copy into an empty folder in which the app can create new files (**do not** use a folder with write protection).
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    - Enter the following command (replace `[filename].jar` with respective filename): `java -jar [filename].jar` <br>
+      Expected : Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-1. Saving window preferences
+2. Saving window preferences
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+    - Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+    -  Re-launch the app by using the `java -jar [filename].jar` command.<br>
        Expected: The most recent window size and location is retained.
+
+### **Adding a Student**
+
+1. **Test Case: Add a student with full details**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addstu n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 t/friend`
+    - **Expected Outcome:** A new student named John Doe with the provided contact information is added to the student list. The contact appears in the result display with the correct details.
+
+2. **Test Case: Add a student with missing phone number**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addstu n/Anna Lee e/anna@example.com a/Elm street, #05-01 t/student`
+    - **Expected Outcome:** The student Anna Lee is added with only the email and address provided and default phone number is added.
+
+3. **Test Case: Add a student with multiple tags**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addstu n/James Ho p/22224444 e/jamesho@example.com a/123 Clementi Rd t/friend t/classmate t/weekend`
+    - **Expected Outcome:** The student James Ho is added with the provided tags (friend, classmate, weekend). The tags will appear in random order in the UI.
+
+### **Adding a Volunteer**
+
+1. **Test Case: Add a volunteer with full details**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addvol n/Jane Roe p/91234567 e/janeroe@example.com a/321, River Rd, #02-02 t/mentor t/weekend`
+    - **Expected Outcome:** A new volunteer named Jane Roe is added with the provided contact information and tags. The contact appears in the volunteer list with the correct details.
+
+2. **Test Case: Add a volunteer with missing email**
+    - **Prerequisites:** The app should be open and GUI visible.
+    - **Steps:**
+        1. Enter the command: `addvol n/Alex Yeoh p/93334444 a/45, River Valley Rd, #02-03 t/mentor`
+    - **Expected Outcome:** The volunteer Alex Yeoh is added with the provided phone number, address, and tag with default email address.
+
+### **Editing a Student or Volunteer**
+
+1. **Test Case: Edit the details of a student**
+    - **Prerequisites:** A student exists in the list (e.g., John Doe at index 1).
+    - **Steps:**
+        1. Enter the command: `edit 1 n/Johnathan Doe p/99887766 e/johnathan@example.com a/John street, block 124, #01-02`
+    - **Expected Outcome:** The details of the first student (John Doe) are updated to the new name, phone number, email, and address. The updated contact appears in the list.
+
+2. **Test Case: Edit a volunteer's tags**
+    - **Prerequisites:** A volunteer exists in the list (e.g., Jane Roe at index 2).
+    - **Steps:**
+        1. Enter the command: `edit 2 t/mentor t/weekend t/volunteer`
+    - **Expected Outcome:** The volunteer's tags are updated. The previous tags are replaced with "mentor," "weekend," and "volunteer."
+
+3. **Test Case: Remove all tags from a student**
+    - **Prerequisites:** A student exists in the list with tags at index 1.
+    - **Steps:**
+        1. Enter the command: `edit 1 t/`
+    - **Expected Outcome:** All tags for the specified student are removed, and the tags field should be empty in the student details.
+
+### **Pairing a Student with a Volunteer**
+
+1. **Test Case: Pair a student with a volunteer**
+    - **Prerequisites:** A student and a volunteer exist in the list (e.g., John Doe at index 1 and Jane Roe at index 2).
+    - **Steps:**
+        1. Enter the command: `pair 1 2`
+    - **Expected Outcome:** The student (John Doe) is paired with the volunteer (Jane Roe). The pairing is displayed correctly as a tag at the bottom of person details, showing both the student and volunteer as a matched pair.
+
+2. **Test Case: Pair multiple students with multiple volunteers**
+    - **Prerequisites:** Multiple students and volunteers exist in the list (e.g., John Doe at index 1, Jane Roe at index 2, Alex Yeoh at index 3).
+    - **Steps:**
+        1. Enter the command: `pair 1 2 3`
+    - **Expected Outcome:** Student John Doe is paired to volunteers at index 2 and 3. The pairing should reflect the multiple student-volunteer relationships.
+
+3. **Test Case: Try pairing two students together**
+    - **Prerequisites:** Two students exist in the list (e.g., John Doe at index 1 and Anna Lee at index 2).
+    - **Steps:**
+        1. Enter the command: `pair 1 2`
+    - **Expected Outcome:** The system should reject this pairing and display an error message since students cannot be paired with other students.
+
+4. **Test Case: Pair with an invalid index**
+    - **Prerequisites:** A student and a volunteer exist in the list.
+    - **Steps:**
+        1. Enter the command: `pair 1 999`
+    - **Expected Outcome:** The system should display an error message indicating that the specified index is invalid.
+
+### **Unpairing a Student from a Volunteer**
+
+1. **Test Case: Unpair a student from a volunteer**
+    - **Prerequisites:** A student and a volunteer are paired (e.g., John Doe at index 1 and Jane Roe at index 2).
+    - **Steps:**
+        1. Enter the command: `unpair 1 2`
+    - **Expected Outcome:** The pairing between John Doe and Jane Roe is removed. Both should no longer be shown as paired in the system.
 
 ### Deleting a person
 
 1. Deleting a person while all persons are being shown
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+    - Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
-   1. Test case: `delete 1`<br>
+    - Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
-   1. Test case: `delete 0`<br>
+    - Test case: `delete 0`<br>
       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+    - Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
 ### Saving data
 
 1. Dealing with missing data files
 
-   1. To simulate a missing file, delete data/addressbook.json.
-   2. Start the app. Expected: Shows the GUI with 3 default students and 3 default volunteers.
-   3. Enter the clear command. Expected: GUI shows 0 students and 0 volunteers.
-   4. Enter the addstu command. Expected: GUI shows 1 student.
+    - To simulate a missing file, delete data/addressbook.json.
+    - Start the app. Expected: Shows the GUI with 3 default students and 3 default volunteers. 
+    - Enter the clear command. Expected: GUI shows 0 students and 0 volunteers. 
+    - Enter the addstu command. Expected: GUI shows 1 student.
 
 2. Dealing with corrupted data files
 
