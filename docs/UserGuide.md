@@ -150,7 +150,7 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * Practical effect: same person with same contact info ⇒ duplicate; same name but different phone and email - allowed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
-If you legitimately manage two people with the same normalized name, make sure their phone and email differs.
+If you legitimately manage two people with the same normalized name, make sure their phone and email differ.
 </div>
 
 </div>
