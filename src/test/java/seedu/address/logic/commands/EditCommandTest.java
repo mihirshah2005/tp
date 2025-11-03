@@ -27,6 +27,8 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
+// Some lines of code below incorrectly attributed to recursive-rc due to method renaming
+//@@author
 /**
  * Contains integration tests (interaction with the Model) and unit tests for EditCommand.
  */

@@ -102,6 +102,9 @@ public class CommandTestUtil {
         assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
     }
 
+    // Code below wrongly attributed to recursive-rc due to method renaming
+    // Should simply be considered base AB3 code
+    //@@author
     /**
      * Executes the given {@code command}, confirms that <br>
      * - a {@code CommandException} is thrown <br>
