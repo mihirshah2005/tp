@@ -1,6 +1,6 @@
 ---
 layout: page
-title: User Guide
+title: VolunteeRoll - User Guide
 ---
 
 Many voluntary welfare organisation in Singapore run tuition programmes for underprivileged students who are unable to afford private tuition classes. 
@@ -10,19 +10,28 @@ VolunteeRoll is a desktop application designed to help the coordinators of such 
 It combines the speed of a **Command Line Interface (CLI) with the clarity of a modern Graphical User Interface (GUI)**, making it ideal for users who prefer typing commands to navigate and manage data quickly.
 
 ### VolunteeRoll allows users to:
+{: .no_toc}
+
 1. Store and organize student and volunteer contact information
 2. Match students with suitable volunteers based on shared tags or subjects
 3. Maintain a synchronized view of all pairings and unpairings
 4. Edit and update data instantly, with automatic saving
 
 ### Why use VolunteeRoll?
+{: .no_toc}
+
 If you’re managing tutoring programs, community service groups, or any volunteer-based initiative, VolunteeRoll helps you stay organized - without needing spreadsheets or complex databases.
 
 ### Who is this guide for?
+{: .no_toc}
+
 This guide is intended for:
 1. Volunteer coordinators or program leads who manage student–volunteer matching.
 2. Users who have basic familiarity with computers and can follow simple command-line instructions.
 3. Those who prefer fast, text-based interactions over traditional GUI-heavy tools.
+
+### Table of Contents : 
+{: .no_toc}
 
 * Table of Contents
 {:toc}
@@ -408,7 +417,8 @@ _Details coming soon ..._
 3. **Name or details of Person are too long** , the app only shows the details until a number of characters and the rest will be displayed by "...". If you wish to view the full name, you can edit the person with an extra tag or any details you wish and copy their full details from the result display box.
 4. **It is inconvenient to remove a tag** from a person with multiple tags. Entering the edit command with all the remaining tags specified is the current method, which can be time-consuming.
 5. **There is no safeguard against accidentally calling the clear function.** There is no undo command as well.
-6. **There is no way to distinguish from default values currently.** In the unlikely event that the phone, email or address of a person coincides exactly with '000', 'default@email' or 'Default Address' respectively, that person's phone, email or address will be treated as not present.
+6. **The auto-scrolling feature might scroll near the added Student/Volunteer** instead of exactly to it and the fix for this is to just use the scroll bar to go to the details of the person.
+7. **There is no way to distinguish from default values currently.** In the unlikely event that the phone, email or address of a person coincides exactly with '000', 'default@email' or 'Default Address' respectively, that person's phone, email or address will be treated as not present.
 
 --------------------------------------------------------------------------------------------------------------------
 
