@@ -137,10 +137,10 @@ VolunteeRoll prevents accidental duplicates using the following rules:
    * Unicode normalized (e.g., accented forms are compared fairly).
    * Collapses consecutive spaces and removes zero-width characters.
    * Treats s/o and s / o as equivalent (we normalize separators like this).
-   * Example: `O’Malley`, `O'Malley`, and `o’malley` compare equal for duplicate checks.
+   * Example: `O’Malley` and `o’malley` compare equal for duplicate checks.
 2. Phone normalization
    * Ignores spaces, dashes, and a leading +.
-   * Example: These three phone numbers are considered equivalent: +65 9123-4567, 6591234567, and 91234567 (country code matches).
+   * Example: These three phone numbers are considered equivalent: +65 9123-4567, 6591234567, and 65 91234567.
 3. Duplicate decision
    * If the normalized names match, and any of the following conditions hold true,
      the person is considered a duplicate and the entry will be rejected:
@@ -180,7 +180,7 @@ Format: `addstu n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
 1. A student can have any number of tags (including 0). <br>
-2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
+2. Phone number may include a leading + and single dashes or single spaces that are not consecutively seen (e.g., +65 9123-4567).
 </div>
 
 **Examples:**
@@ -206,7 +206,7 @@ Format: `addvol n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
 1. A Volunteer can have any number of tags (including 0).<br>
-2. Phone may include spaces, dashes, or a leading + (e.g., +65 9123-4567).
+2. Phone number may include a leading + and single dashes or single spaces that are not consecutively seen (e.g., +65 9123-4567).
 </div>
 
 **Examples:**
@@ -382,7 +382,7 @@ _Details coming soon ..._
 **A**: Prefixes (`n/`, `p/`, `e/`, `a/`, `t/`) **start new fields**.
 
 **Q**: My phone number has `+65`, spaces, or dashes. Is it valid?<br>
-**A**: Yes. Phone numbers may start with `+` and include spaces or `-`, as long as they contain **≥ 3 digits** total.
+**A**: Yes. Phone numbers may start with `+` and include spaces or `-`, as long as they contain **≥ 3 digits** total and the special characters do not appear consecutively.
 
 **Q**: What do indexes refer to in the UI with two lists?<br>
 **A**: It is the number to use for commands like `edit`, `delete`, `pair`, and `unpair`.
@@ -400,7 +400,7 @@ _Details coming soon ..._
 **A**: Automatically to `[JAR location]/data/addressbook.json` after every change. No manual save needed.
 
 **Q**: Can I edit the JSON file directly?<br>
-**A**: Yes (advanced). Back it up first. If the format becomes invalid, the app will reset to an empty file on next run.
+**A**: Yes (advanced). Back it up first (the app backs up the file, but you are encouraged to do so too). If the format becomes invalid, the app will use the backup file on the next run.
 
 **Q**: The app says "Invalid command format." How do I see correct usage?<br>
 **A**: Run `help` or type the command name alone (e.g., `addstu`) to see the usage message in the result panel.
