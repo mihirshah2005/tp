@@ -25,7 +25,9 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 
-
+// Some below wrongly attributed to recursive-rc due to method renaming
+// All code should be attributed to c-j-lh
+//@@author c-j-lh
 public class PairCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
