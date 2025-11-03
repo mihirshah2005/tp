@@ -306,6 +306,23 @@ Deleting a person cannot be undone. Information about deleted person is irretrie
 </div>
 
 ### Pairing a student to volunteers, or a volunteer to students : `pair`
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
+Notes on pairing and unpairing: 
+1. The currently displayed list might show a person's partner without their index (e.g.,
+as "Irfan Ibrahim" instead of "6. Irfan Ibrahim" after running 
+`find` or `findtag` if Irfan Ibrahim is not in the result of `find`/`findtag`),
+You can use the `list` command to refresh the list so that Irfan Ibrahim is assigned an
+index again, and you can unpair them using the `unpair` command.
+
+2. If there are many students and volunteers in the application and you cannot
+   find a person's partners in the currently displayed list (so that you can get their
+   indices and unpair them), you can run `find PERSON PARTNER` to unpair them. Similarly,
+   to easily pair two people whose indices you might not know, you can also run `find 1ST_PERSON 2nd_PERSON`
+   before running `pair 1ST_PERSON'S_INDEX 2ND_PERSON'S_INDEX` to pair them.
+
+E.g., if you want to unpair Alex Yeoh and Bernice Yu, you can run `find Alex Bernice`
+to get their indices, and then run `unpair ALEX'S_INDEX BERNICE'S_INDEX` to unpair them.
+</div>
 
 Pairs the specified person to other existing persons in the address book.
 
