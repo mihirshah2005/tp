@@ -1,6 +1,6 @@
 ---
 layout: page
-title: VolunteeRoll - User Guide
+title: User Guide
 ---
 
 Many voluntary welfare organisation in Singapore run tuition programmes for underprivileged students who are unable to afford private tuition classes. 
