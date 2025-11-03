@@ -180,15 +180,11 @@ Changes at a glance:
 - `addstu` → `AddCommandParser` (student mode) → `new Student(...)`
 - `addvol` → `AddCommandParser` (volunteer mode) → `new Volunteer(...)`
 
-<img src="images/addstu_addvol_parse-addstu_addvol_parse_flow.png" width="550" />
-
 #### Execution flow
 - `LogicManager#execute` runs AddCommand which:
 - `Model#hasPerson(toAdd)` duplicate check
 - `Model#addPerson(toAdd)` mutates `AddressBook`
 - UI auto-updates from observable lists
-
-<img src="images/addstu_addvol_execute.png" width="550" />
 
 ### Help Command
 
