@@ -306,22 +306,18 @@ Deleting a person cannot be undone. Information about deleted person is irretrie
 </div>
 
 ### Pairing a student to volunteers, or a volunteer to students : `pair`
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
-Notes on pairing and unpairing: 
-1. The currently displayed list might show a person's partner without their index (e.g.,
-as "Irfan Ibrahim" instead of "6. Irfan Ibrahim" after running 
-`find` or `findtag` if Irfan Ibrahim is not in the result of `find`/`findtag`),
-You can use the `list` command to refresh the list so that Irfan Ibrahim is assigned an
-index again, and you can unpair them using the `unpair` command.
+<div markdown="span" class="alert alert-primary">:bulb: Tip:<br> <strong>Pairing & unpairing notes</strong><br><br>
 
-2. If there are many students and volunteers in the application and you cannot
-   find a person's partners in the currently displayed list (so that you can get their
-   indices and unpair them), you can run `find PERSON PARTNER` to unpair them. Similarly,
-   to easily pair two people whose indices you might not know, you can also run `find 1ST_PERSON 2nd_PERSON`
-   before running `pair 1ST_PERSON'S_INDEX 2ND_PERSON'S_INDEX` to pair them.
+1. After running `find` or `findtag`, a partner’s name may appear without an index (e.g. "Irfan Ibrahim" instead of 
+"6. Irfan Ibrahim") if they aren’t in the current results. Run `list` to restore indices, then use `unpair` with the 
+refreshed indices.<br><br>
+2. Can’t spot both partners on the screen to grab their indices? Search by names first, then act by indices:<br>
+• To unpair: run `find PERSON PARTNER` to get both indices, then `unpair PERSON_INDEX PARTNER_INDEX`.<br>
+• To pair: run `find 1ST_PERSON 2ND_PERSON` to get both indices, then `pair 1ST_INDEX 2ND_INDEX`.<br><br>
 
-E.g., if you want to unpair Alex Yeoh and Bernice Yu, you can run `find Alex Bernice`
-to get their indices, and then run `unpair ALEX'S_INDEX BERNICE'S_INDEX` to unpair them.
+<b>Example</b>: To unpair Alex Yeoh and Bernice Yu:<br>
+`find Alex Bernice` → note their indices → `unpair ALEX_INDEX BERNICE_INDEX`.
+
 </div>
 
 Pairs the specified person to other existing persons in the address book.
