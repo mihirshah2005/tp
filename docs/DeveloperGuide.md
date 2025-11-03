@@ -12,7 +12,7 @@ title: Developer Guide
 * Images of some developers taken from [Portrait placeholder.png](https://en.wikipedia.org/wiki/File:Portrait_placeholder.png), created by [Andomedium](https://en.wikipedia.org/wiki/User:Andomedium) and edited by [Jajobi](https://en.wikipedia.org/wiki/User:Jajobi), retrieved from [Wikipedia](https://en.wikipedia.org/), used under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
 * Used [JetBrains Full Line Code Completion plug-in](https://plugins.jetbrains.com/plugin/14823-full-line-code-completion).
 * Code for sorting list (such as adding `SortedList<…>` field to `ModelManager` and related methods in `Model`, `Logic`, and related classes) inspired by changes made in this [Pull Request for a sorting command](https://github.com/AY2526S1-CS2103T-T15-2/tp/pull/140/files) by GitHub user [AndrescuIII-too](https://github.com/AndrescuIII-too).
-* While enhancing the help feature, ChatGPT was primarily used to clarify concepts related to implementing basic HTML and CSS for the help command, as well as to refine several test cases following updates to the help and storage components.
+* While enhancing the help feature, ChatGPT was primarily used to clarify concepts related to implementing basic HTML and CSS and java regex for the help command, as well as to refine several test cases following updates to the help and storage components. It was also used to help with the backup storage implementation and to help with the re focusing of the minimised help window implementation.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -399,11 +399,11 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: Have multiple persons in data/addressbook.json, and the syntax is valid.
    2. To simulate a corrupted data file, make the phone number of the first student two digits long so that it is invalid.
-   3. Start the app. Expected: All the other persons are shown except the invalid person.
+   3. Start the app. Expected: All the other persons are shown.
    4. Add a student. Expected: Student is added to the list.
-   5. Close the app. Expected: The invalid person entry has been removed from the json file.
+   5. Close the app.
 
-
+If the data in addressbook.json becomes corrupted, for example by removing a bracket or making a valid entry invalid, the application now uses a backup mechanism to preserve previously valid data. When the application starts, it first attempts to load data from addressbook.json. If the file is valid, the data is loaded normally. However, if the file is corrupted or unreadable, the application automatically retrieves the most recent valid data from a backup file named addressbook_backup.json. This backup file serves as a safeguard that stores the last known valid state of the address book and is only updated when a valid entry is added or removed from the main addressbook.json file. This ensures that even if the primary data file becomes damaged due to manual editing or unexpected corruption, the user’s data remains recoverable. In other words, the main file reflects ongoing user changes, while the backup file is only refreshed upon successful, valid saves, preventing it from inheriting any corrupted state. As a result, the storage system becomes more fault-tolerant and reliable, allowing the application to recover seamlessly from corruption without data loss.
 
 ### Target User
 Volunteer agency coordinators running a social service organisation managing volunteers who provide free tuition to underprivileged teenagers. Target users are very efficient in using the CLI and hate using the mouse.

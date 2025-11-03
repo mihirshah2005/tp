@@ -155,21 +155,22 @@ If you legitimately manage two people with the same normalized name, make sure t
 
 </div>
 
-### Viewing help : `help`
+### Viewing help : 
 
 Opens a popup window containing a list of available commands and their usage formats.
 This feature helps users quickly navigate and recall command syntax without leaving the main interface.
 
-Format: help [KEYWORD]
+Format: `help [KEYWORD]`
 
-*  Typing help without arguments displays all available commands along with their summaries and usage examples.	
-*  Typing help [keyword] shows the summary and example for the specific command [keyword], for eg- help addstu
-*  Typing help [x] displays all commands that start with “x” (e.g.,help a gives  addstu, addvol, etc.).
+
+*  Typing `help` without arguments displays all available commands along with their summaries and usage examples.	
+*  Typing `help [keyword]` shows the summary and example for the specific command. For example, help addstu displays information about the addstu command.
+*  Typing `help [PREFIX]` displays all commands that start with the specified prefix.For example, help a lists commands such as addstu, addvol.
 
 **Tip:** You can resize or scroll through the Help window to view all commands.
 
 
-Format: `help`
+
 
 
 ### Adding a student: `addstu`
