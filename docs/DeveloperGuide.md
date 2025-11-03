@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Developer Guide
+title: VolunteeRoll - Developer Guide 
 ---
 * Table of Contents
 {:toc}

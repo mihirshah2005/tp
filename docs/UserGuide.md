@@ -279,7 +279,7 @@ Format: `findtag TAG [MORE_TAGS]`
 
 * The search is case-insensitive. e.g `math` will match `Math` and `MATH`
 * Only tags are searched.
-* Persons whose tags include **any** the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will be included in the output list after running `findtag math science`.
+* Persons whose tags include **any** of the tags searched for will be returned. For example, if Jane Doe is tagged with `math` and not `science`, then she will be included in the output list after running `findtag math science`.
 * Persons will be sorted such that those with the most tags matching those you are searching for will be be shown at the top.
 
 Examples:
@@ -391,7 +391,7 @@ _Details coming soon ..._
 **A**: The list auto-refreshes on changes. If you don’t see it (rare on some platforms), run `list` to refresh the view.
 
 **Q**: How do I find by tag vs by name?<br>
-**A**: Use `find` for names (`find alex david`) and `findtag` for tags (`findtag math weekend`). `findtag` returns only persons containing **all** searched tags.
+**A**: Use `find` for names (`find alex david`) and `findtag` for tags (`findtag math weekend`). `findtag` returns only persons containing **any** searched tags.
 
 **Q**: Can I add multiple tags?<br>
 **A**: Yes. Repeat the prefix: `t/math t/sec3 t/weekend`.
