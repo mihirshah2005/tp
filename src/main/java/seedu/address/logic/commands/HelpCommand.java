@@ -12,10 +12,8 @@ public class HelpCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows program usage instructions.\n"
             + "Example: " + COMMAND_WORD;
 
-    public static final String SHOWING_HELP_MESSAGE = "Opened help window with summary.";
-    public static final String MESSAGE_ALREADY_OPEN =
-            "The help window is already open. If it cannot be found, "
-                    + "check if it is minimised or at the edge of the screen.";
+    public static final String SHOWING_HELP_MESSAGE = "Opened help window with command summary.";
+    public static final String MESSAGE_ALREADY_OPEN = "Help window was minimised. Restored to view.";
 
     private final String commandWord;
     public HelpCommand() {

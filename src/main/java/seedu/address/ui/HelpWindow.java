@@ -39,9 +39,17 @@ public class HelpWindow extends UiPart<Stage> {
      * Shows the Help window and centers it on the screen.
      */
     public void show() {
-        getRoot().setResizable(true);
-        getRoot().show();
-        getRoot().centerOnScreen();
+        Stage root = getRoot();
+        if (root.isIconified()) {
+            root.setIconified(false);
+        }
+        if (!root.isShowing()) {
+            root.setResizable(true);
+            root.show();
+            root.centerOnScreen();
+        }
+        root.toFront();
+        root.requestFocus();
     }
 
     public boolean isShowing() {
@@ -52,8 +60,19 @@ public class HelpWindow extends UiPart<Stage> {
         getRoot().hide();
     }
 
+    /**
+     * Brings the main application window to the front and requests focus.
+     * <p>
+     * If the window is currently minimized (iconified), this method restores it
+     * before bringing it to the front and setting the keyboard focus.
+     */
     public void focus() {
-        getRoot().requestFocus();
+        Stage root = getRoot();
+        if (root.isIconified()) {
+            root.setIconified(false);
+        }
+        root.toFront();
+        root.requestFocus();
     }
 
     /**

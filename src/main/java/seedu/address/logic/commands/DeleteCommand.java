@@ -34,6 +34,7 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        //@@author
         List<Person> lastShownList = model.getProcessedPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {

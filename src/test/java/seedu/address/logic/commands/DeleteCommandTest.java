@@ -28,6 +28,9 @@ public class DeleteCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
+    // Some below wrongly attributed to recursive-rc due to method renaming
+    // Should simply be considered base AB3 code
+    //@@author
     @Test
     public void execute_validIndexUnfilteredList_success() {
         Person personToDelete = model.getProcessedPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
@@ -111,6 +114,7 @@ public class DeleteCommandTest {
         assertEquals(expected, deleteCommand.toString());
     }
 
+    //@@author c-j-lh
     /**
      * Updates {@code model}'s filtered list to show no one.
      */
@@ -120,6 +124,7 @@ public class DeleteCommandTest {
         assertEquals(model.getProcessedPersonList().size(), model.getAddressBook().getPersonList().size());
     }
 
+    //@@author
     /**
      * Updates {@code model}'s filtered list to show no one.
      */
