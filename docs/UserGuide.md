@@ -331,7 +331,7 @@ Format: `pair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX`
 Examples:
 * `list` followed by `pair 2 1 3` pairs the 2nd person in the address book to the 1st and 3rd persons.
 
-![pairing example'](images/pairing.png)
+![pairing example](images/pairing.png)
 
 ### Unpairing a student from volunteers, or a volunteer from students : `unpair`
 
@@ -345,7 +345,7 @@ Format: `unpair INDEX 1ST_PARTNER_INDEX 2ND_PARTNER_INDEX ... LAST_PARTNER_INDEX
 Examples:
 * `list` followed by `unpair 2 1 3` unpairs the 2nd person in the address book to the 1st and 3rd persons.
 
-![pairing example'](images/unpair.png)
+![unpairing example](images/unpair.png)
 
 ### Clearing all entries : `clear`
 
